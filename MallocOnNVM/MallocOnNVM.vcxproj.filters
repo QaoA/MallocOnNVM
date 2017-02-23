@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{339714b1-e131-4145-a96d-c275d76f0807}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header files">
+      <UniqueIdentifier>{8dfa7642-4ea3-476b-bf76-1a03da3f7901}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource files">
+      <UniqueIdentifier>{0016d045-804a-47c7-8bb8-975eabcc2062}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Make files">
+      <UniqueIdentifier>{3421535a-9554-47f8-bd8f-66641ee297cf}</UniqueIdentifier>
+      <Extensions>*.mak</Extensions>
+    </Filter>
+    <Filter Include="Header files\Lock">
+      <UniqueIdentifier>{e0a45d29-d1c3-4213-bf25-e5b1d626fdf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Lock">
+      <UniqueIdentifier>{0690db47-61c1-4844-a165-1df9ffde18f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Metadata">
+      <UniqueIdentifier>{7401595c-0f17-489b-851a-eec627fd5925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Metadata">
+      <UniqueIdentifier>{50c5b7f4-15c8-46dc-8ff6-443f148a81ef}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+    <None Include="debug.mak">
+      <Filter>Make files</Filter>
+    </None>
+    <None Include="release.mak">
+      <Filter>Make files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="SLList.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLNVMMemoryMapManager.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLMutex.cpp">
+      <Filter>Source files\Lock</Filter>
+    </ClCompile>
+    <ClCompile Include="CLCriticalSection.cpp">
+      <Filter>Source files\Lock</Filter>
+    </ClCompile>
+    <ClCompile Include="CLSpinLock.cpp">
+      <Filter>Source files\Lock</Filter>
+    </ClCompile>
+    <ClCompile Include="CLExtent.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLBlockArea.cpp">
+      <Filter>Source files\Metadata</Filter>
+    </ClCompile>
+    <ClCompile Include="CLExtentManager.cpp">
+      <Filter>Source files\Metadata</Filter>
+    </ClCompile>
+    <ClCompile Include="CLGlobalBlockAreaManager.cpp">
+      <Filter>Source files\Metadata</Filter>
+    </ClCompile>
+    <ClCompile Include="CLMetaDataManager.cpp">
+      <Filter>Source files\Metadata</Filter>
+    </ClCompile>
+    <ClCompile Include="CLPerArenaBlockManager.cpp">
+      <Filter>Source files\Metadata</Filter>
+    </ClCompile>
+    <ClCompile Include="SLNVMBlock.cpp">
+      <Filter>Source files\Metadata</Filter>
+    </ClCompile>
+    <ClCompile Include="SLNVMBlockArea.cpp">
+      <Filter>Source files\Metadata</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SizeDefine.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="SLList.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLNVMMemoryMapManager.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLCriticalSection.h">
+      <Filter>Header files\Lock</Filter>
+    </ClInclude>
+    <ClInclude Include="CLSpinLock.h">
+      <Filter>Header files\Lock</Filter>
+    </ClInclude>
+    <ClInclude Include="ILLock.h">
+      <Filter>Header files\Lock</Filter>
+    </ClInclude>
+    <ClInclude Include="CLMutex.h">
+      <Filter>Header files\Lock</Filter>
+    </ClInclude>
+    <ClInclude Include="CLExtent.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLBlockArea.h">
+      <Filter>Header files\Metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="CLExtentManager.h">
+      <Filter>Header files\Metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="CLGlobalBlockAreaManager.h">
+      <Filter>Header files\Metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="CLMetaDataManager.h">
+      <Filter>Header files\Metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="CLPerArenaBlockManager.h">
+      <Filter>Header files\Metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="SLNVMBlock.h">
+      <Filter>Header files\Metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="SLNVMBlockArea.h">
+      <Filter>Header files\Metadata</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
