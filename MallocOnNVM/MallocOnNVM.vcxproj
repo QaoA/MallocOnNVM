@@ -62,6 +62,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CLBlockArea.cpp" />
+    <ClCompile Include="CLExtentList.cpp" />
     <ClCompile Include="CLExtentManager.cpp" />
     <ClCompile Include="CLGlobalBlockAreaManager.cpp" />
     <ClCompile Include="CLCriticalSection.cpp" />
@@ -69,8 +70,11 @@
     <ClCompile Include="CLMutex.cpp" />
     <ClCompile Include="CLMetaDataManager.cpp" />
     <ClCompile Include="CLNVMMemoryMapManager.cpp" />
+    <ClCompile Include="CLPagesManager.cpp" />
     <ClCompile Include="CLPerArenaBlockManager.cpp" />
+    <ClCompile Include="CLSmallExtentManager.cpp" />
     <ClCompile Include="CLSpinLock.cpp" />
+    <ClCompile Include="CLSystemException.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SLList.cpp" />
     <ClCompile Include="SLNVMBlock.cpp" />
@@ -83,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLBlockArea.h" />
+    <ClInclude Include="CLExtentList.h" />
     <ClInclude Include="CLExtentManager.h" />
     <ClInclude Include="CLGlobalBlockAreaManager.h" />
     <ClInclude Include="CLCriticalSection.h" />
@@ -90,8 +95,11 @@
     <ClInclude Include="CLMutex.h" />
     <ClInclude Include="CLMetaDataManager.h" />
     <ClInclude Include="CLNVMMemoryMapManager.h" />
+    <ClInclude Include="CLPagesManager.h" />
     <ClInclude Include="CLPerArenaBlockManager.h" />
+    <ClInclude Include="CLSmallExtentManager.h" />
     <ClInclude Include="CLSpinLock.h" />
+    <ClInclude Include="CLSystemException.h" />
     <ClInclude Include="ILLock.h" />
     <ClInclude Include="SizeDefine.h" />
     <ClInclude Include="SLList.h" />

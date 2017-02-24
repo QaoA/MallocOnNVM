@@ -33,6 +33,12 @@ void SLList::LinkToList(SLList * pPrevious)
 	pPrevious->m_pNext = this;
 }
 
+void SLList::AppendToList(SLList * pPrevious)
+{
+	InitWithKnownNode(pPrevious);
+	LinkToList(m_pPrevious);
+}
+
 void SLList::Remove()
 {
 	SLList * pPrevious = this->m_pPrevious;

@@ -2,6 +2,7 @@
 #define __EXTENT_H__
 
 #include <cstddef>
+#include "SLList.h"
 
 struct SLNVMBlock;
 class CLBlockArea;
@@ -15,22 +16,23 @@ public:
 public:
 	void SetOccupied(SLNVMBlock * pNVMBlock,CLBlockArea * pBlockOwner);
 	void SetRelease();
+	void Init(void * pNVMAddress, size_t size, CLExtent * pPreviousExtent);
 	bool IsOccupied();
 	CLBlockArea * GetBlockOwner();
 	SLNVMBlock * GetNVMBlock();
+	size_t GetSize();
 
 public:
-	CLExtent * Split(size_t anotherExtentSize);
+	CLExtent * Split(CLExtent * pNewExtent,size_t anotherExtentSize);
 	bool Merge(CLExtent * pAnotherExtent);
 
 private:
-	struct SLAdjacentList
-	{
-		SLAdjacentList();
-		SLAdjacentList(CLExtent * pPrevious, CLExtent * pNext);
-		CLExtent * m_pPreviousExtent;
-		CLExtent * m_pNextExtent;
-	}m_adjacentList;
+	bool CanSplit(size_t anotherExtentSize);
+	bool CanMerge(CLExtent * pAnotherExtent);
+	void SetAddress(void * pNVMAddress, size_t size);
+
+private:
+	SLList m_adjacentList;
 	void * m_pNVMAddress;
 	size_t m_size;
 	SLNVMBlock * m_pNVMBlock;

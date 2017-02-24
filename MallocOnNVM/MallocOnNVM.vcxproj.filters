@@ -29,6 +29,12 @@
     <Filter Include="Source files\Metadata">
       <UniqueIdentifier>{50c5b7f4-15c8-46dc-8ff6-443f148a81ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header files\Exception">
+      <UniqueIdentifier>{bb967b9d-858d-49d0-86f1-0fa32dcbe867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Exception">
+      <UniqueIdentifier>{8fca17d1-e048-4434-b572-890dd299e284}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -82,6 +88,18 @@
     <ClCompile Include="SLNVMBlockArea.cpp">
       <Filter>Source files\Metadata</Filter>
     </ClCompile>
+    <ClCompile Include="CLExtentList.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLSmallExtentManager.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLSystemException.cpp">
+      <Filter>Source files\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="CLPagesManager.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SizeDefine.h">
@@ -128,6 +146,18 @@
     </ClInclude>
     <ClInclude Include="SLNVMBlockArea.h">
       <Filter>Header files\Metadata</Filter>
+    </ClInclude>
+    <ClInclude Include="CLExtentList.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLSmallExtentManager.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLSystemException.h">
+      <Filter>Header files\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="CLPagesManager.h">
+      <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

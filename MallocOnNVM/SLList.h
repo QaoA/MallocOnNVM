@@ -11,6 +11,7 @@ public:
 	void InitDefault();
 	void InitWithKnownNode(SLList * pPrevious);
 	void LinkToList(SLList * pPrevious);
+	void AppendToList(SLList * pPrevious);
 	void Remove();
 
 public:
