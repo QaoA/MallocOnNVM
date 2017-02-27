@@ -1,9 +1,11 @@
 #include <iostream>
 #include "CLMetaDataManager.h"
+#include "CLSmallExtentManager.h"
 
 using namespace std;
 
-CLMetaDataManager m;
+CLSmallExtentManager sem;
+CLMetaDataManager mdm;
 
 int main(int argc, char *argv[])
 {

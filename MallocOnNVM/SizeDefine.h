@@ -3,7 +3,7 @@
 
 static const unsigned int PAGE_SIZE = 4096;
 
-static const void * MMAP_BASE_ADDRESS = nullptr;
+static const void * MMAP_BASE_ADDRESS = reinterpret_cast<void *>(0x00007ffff7edc000);
 static const unsigned long MMAP_SIZE = 1 << 20;
 
 static const unsigned int SMALL_MAX_SIZE = PAGE_SIZE;

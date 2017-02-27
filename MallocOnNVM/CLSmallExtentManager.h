@@ -16,6 +16,7 @@ public:
 
 public:
 	CLExtent * GetAvailableExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager);
+	void FreeExtent(CLExtent * pExtent);
 
 private:
 	void SetCurrentExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager);

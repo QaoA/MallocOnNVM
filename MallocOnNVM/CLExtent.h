@@ -37,6 +37,7 @@ private:
 	size_t m_size;
 	SLNVMBlock * m_pNVMBlock;
 	CLBlockArea * m_pNVMBlockOwner;
+	unsigned int m_arenaId;
 };
 
 #endif

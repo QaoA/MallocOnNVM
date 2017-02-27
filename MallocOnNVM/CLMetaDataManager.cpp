@@ -24,6 +24,12 @@ CLExtent * CLMetaDataManager::AllocANVMBlockForExtent(CLExtent * pExtent)
 	return m_blockManager.AllocBlockForExtent(pExtent);
 }
 
+void CLMetaDataManager::FreeExtent(CLExtent * pExtent)
+{
+	assert(pExtent);
+	m_extentManager.FreeExtent(pExtent);
+}
+
 void CLMetaDataManager::FreeNVMBlockForExtent(CLExtent * pExtent)
 {
 	assert(pExtent);

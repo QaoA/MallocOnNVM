@@ -7,7 +7,8 @@ m_adjacentList(),
 m_pNVMAddress(nullptr),
 m_size(0),
 m_pNVMBlock(nullptr),
-m_pNVMBlockOwner(nullptr)
+m_pNVMBlockOwner(nullptr),
+m_arenaId(0)
 {
 }
 

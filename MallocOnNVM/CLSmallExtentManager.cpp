@@ -18,7 +18,7 @@ CLExtent * CLSmallExtentManager::GetAvailableExtent(size_t expectedSize, CLMetaD
 {
 	assert(pMetadataManager && expectedSize <= SMALL_MAX_SIZE);
 	expectedSize = AlignSize(expectedSize);
-	if (m_pCurrentExtent == nullptr)
+	if (m_pCurrentExtent == nullptr || m_pCurrentExtent->GetSize() < expectedSize)
 	{
 		SetCurrentExtent(expectedSize,pMetadataManager);
 	}
@@ -45,6 +45,13 @@ CLExtent * CLSmallExtentManager::GetAvailableExtent(size_t expectedSize, CLMetaD
 		m_pCurrentExtent = nullptr;
 	}
 	return pReturnExtent;
+}
+
+void CLSmallExtentManager::FreeExtent(CLExtent * pExtent)
+{
+	//尝试合并前后两个，合并时判断
+	assert(pExtent);
+
 }
 
 void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager)

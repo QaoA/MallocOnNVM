@@ -19,4 +19,7 @@ public:
 	SLList * m_pNext;
 };
 
+#define GetOffset(ContainerType,fieldName) reinterpret_cast<unsigned long>(&(reinterpret_cast<ContainerType *>(0)->fieldName))
+#define GetContainer(ContainerType,fieldName,pAddress) reinterpret_cast<ContainerType *>(reinterpret_cast<unsigned long>(pAddress) - GetOffset(ContainerType,fieldName))
+
 #endif
