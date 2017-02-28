@@ -46,3 +46,13 @@ void SLList::Remove()
 	pPrevious->m_pNext = pNext;
 	pNext->m_pPrevious = pPrevious;
 }
+
+SLList * SLList::GetNext()
+{
+	return m_pNext;
+}
+
+SLList * SLList::GetPrevious()
+{
+	return m_pPrevious;
+}

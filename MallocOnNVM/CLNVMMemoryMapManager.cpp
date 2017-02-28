@@ -56,7 +56,6 @@ void * CLNVMMemoryMapManager::MapMemory(size_t size)
 		}
 		pReturnAddress = m_pLastAcquiredAddress;
 		m_pLastAcquiredAddress = pNewLastAddress;
-		return pReturnAddress;
 	}
 	SetPagesMapped(pReturnAddress, size);
 	return pReturnAddress;
@@ -67,11 +66,6 @@ void CLNVMMemoryMapManager::UnmapMemory(void * pAddress, size_t size)
 	assert(size % PAGE_SIZE == 0);
 	SetPagesUnmapped(pAddress, size);
 	m_pagesManager.PutPages(pAddress, size / PAGE_SIZE);
-}
-
-CLNVMMemoryMapManager::SLPAGES * CLNVMMemoryMapManager::TryMapFromSet(size_t size)
-{
-
 }
 
 void CLNVMMemoryMapManager::SetPagesMapped(void * pAddress, size_t size)

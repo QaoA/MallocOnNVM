@@ -51,7 +51,6 @@ void CLSmallExtentManager::FreeExtent(CLExtent * pExtent)
 {
 	//尝试合并前后两个，合并时判断
 	assert(pExtent);
-
 }
 
 void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager)

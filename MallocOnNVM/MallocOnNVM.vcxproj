@@ -70,7 +70,7 @@
     <ClCompile Include="CLMutex.cpp" />
     <ClCompile Include="CLMetaDataManager.cpp" />
     <ClCompile Include="CLNVMMemoryMapManager.cpp" />
-    <ClCompile Include="CLPagesManager.cpp" />
+    <ClCompile Include="CLPageManager.cpp" />
     <ClCompile Include="CLPerArenaBlockManager.cpp" />
     <ClCompile Include="CLSmallExtentManager.cpp" />
     <ClCompile Include="CLSpinLock.cpp" />
@@ -95,7 +95,7 @@
     <ClInclude Include="CLMutex.h" />
     <ClInclude Include="CLMetaDataManager.h" />
     <ClInclude Include="CLNVMMemoryMapManager.h" />
-    <ClInclude Include="CLPagesManager.h" />
+    <ClInclude Include="CLPageManager.h" />
     <ClInclude Include="CLPerArenaBlockManager.h" />
     <ClInclude Include="CLSmallExtentManager.h" />
     <ClInclude Include="CLSpinLock.h" />

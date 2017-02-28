@@ -3,7 +3,7 @@
 
 #include <cstddef>
 #include <set>
-#include "CLPagesManager.h"
+#include "CLPageManager.h"
 
 const static char * FILE_PATH = "/home/mq/workspace/forNVMmalloc.txt";
 
@@ -28,7 +28,6 @@ public:
 	void UnmapMemory(void * pAddress, size_t size);
 
 private:
-	SLPAGES * TryMapFromSet(size_t size);
 	void SetPagesMapped(void * pAddress, size_t size);
 	void SetPagesUnmapped(void * pAddress, size_t size);
 
@@ -36,7 +35,7 @@ private:
 	int m_fd;
 	void * m_pBaseAddress;
 	void * m_pLastAcquiredAddress;
-	CLPagesManager m_pagesManager;
+	CLPageManager m_pagesManager;
 };
 
 #endif

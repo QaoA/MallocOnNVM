@@ -35,6 +35,12 @@
     <Filter Include="Source files\Exception">
       <UniqueIdentifier>{8fca17d1-e048-4434-b572-890dd299e284}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header files\NVMMap">
+      <UniqueIdentifier>{6cd04454-f117-4ece-82d1-a7e2576e2b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\NVMMap">
+      <UniqueIdentifier>{6cd30b9f-69f5-4bbe-b0a4-49edad61bf50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -50,9 +56,6 @@
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="SLList.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="CLNVMMemoryMapManager.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="CLMutex.cpp">
@@ -97,8 +100,11 @@
     <ClCompile Include="CLSystemException.cpp">
       <Filter>Source files\Exception</Filter>
     </ClCompile>
-    <ClCompile Include="CLPagesManager.cpp">
-      <Filter>Source files</Filter>
+    <ClCompile Include="CLNVMMemoryMapManager.cpp">
+      <Filter>Source files\NVMMap</Filter>
+    </ClCompile>
+    <ClCompile Include="CLPageManager.cpp">
+      <Filter>Source files\NVMMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,9 +112,6 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="SLList.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLNVMMemoryMapManager.h">
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="CLCriticalSection.h">
@@ -156,8 +159,11 @@
     <ClInclude Include="CLSystemException.h">
       <Filter>Header files\Exception</Filter>
     </ClInclude>
-    <ClInclude Include="CLPagesManager.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="CLNVMMemoryMapManager.h">
+      <Filter>Header files\NVMMap</Filter>
+    </ClInclude>
+    <ClInclude Include="CLPageManager.h">
+      <Filter>Header files\NVMMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

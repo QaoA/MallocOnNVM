@@ -13,6 +13,8 @@ public:
 	void LinkToList(SLList * pPrevious);
 	void AppendToList(SLList * pPrevious);
 	void Remove();
+	SLList * GetNext();
+	SLList * GetPrevious();
 
 public:
 	SLList * m_pPrevious;
