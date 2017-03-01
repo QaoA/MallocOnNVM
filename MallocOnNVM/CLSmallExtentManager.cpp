@@ -47,10 +47,53 @@ CLExtent * CLSmallExtentManager::GetAvailableExtent(size_t expectedSize, CLMetaD
 	return pReturnExtent;
 }
 
-void CLSmallExtentManager::FreeExtent(CLExtent * pExtent)
+void CLSmallExtentManager::FreeExtent(CLExtent * pExtent, CLMetaDataManager * pMetadataManager)
 {
-	//尝试合并前后两个，合并时判断
-	assert(pExtent);
+	assert(pExtent && pMetadataManager);
+
+	CLExtent * pPrevious = pExtent->GetAdjacentPreviousExtent();
+	CLExtent * pNext = pExtent->GetAdjacentNextExtent();
+	bool Appended = false;
+	if (MergePreCheck(pPrevious, pExtent))
+	{
+		if (pPrevious != m_pCurrentExtent)
+		{
+			RemoveExtentFromExtentListArray(pPrevious);
+		}
+		else
+		{
+			m_pCurrentExtent = pExtent;
+			Appended = true;
+		}
+		pExtent->Merge(pPrevious);
+		pMetadataManager->FreeExtent(pPrevious);
+		if (m_pLastExtent == pPrevious)
+		{
+			m_pLastExtent = pExtent;
+		}
+	}
+	if (MergePreCheck(pExtent, pNext))
+	{
+		if (pNext != m_pCurrentExtent)
+		{
+			RemoveExtentFromExtentListArray(pNext);
+		}
+		else
+		{
+			m_pCurrentExtent = pExtent;
+			Appended = true;
+		}
+		pExtent->Merge(pNext);
+		pMetadataManager->FreeExtent(pNext);
+		if (m_pLastExtent == pNext)
+		{
+			m_pLastExtent = pExtent;
+		}
+	}
+	if (!Appended)
+	{
+		AppendExtentToExtentListArray(pExtent);
+	}
 }
 
 void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager)
@@ -64,7 +107,7 @@ void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize, CLMetaDataManag
 	unsigned int index = Size2Index(expectedSize);
 	for (int i = index; i < SMALL_OBJECT_ARRAY_SIZE; ++i)
 	{
-		if ((m_pCurrentExtent = m_ExtentLists[i].GetExtent()) != nullptr)
+		if ((m_pCurrentExtent = m_ExtentListArray[i].GetExtent()) != nullptr)
 		{
 			break;
 		}
@@ -81,7 +124,7 @@ void CLSmallExtentManager::AppendExtent(CLExtent * pExtent)
 	assert(pExtent);
 	unsigned int index = Size2Index(pExtent->GetSize());
 	assert(index < SMALL_OBJECT_ARRAY_SIZE);
-	m_ExtentLists[index].PutExtent(pExtent);
+	m_ExtentListArray[index].PutExtent(pExtent);
 }
 
 CLExtent * CLSmallExtentManager::MapANewExtent(CLMetaDataManager * pMetadataManager)
@@ -102,8 +145,6 @@ CLExtent * CLSmallExtentManager::MapANewExtent(CLMetaDataManager * pMetadataMana
 	pExtent->Init(pAddress, SMALL_MAX_SIZE, m_pLastExtent);
 	m_pLastExtent = pExtent;
 	return pExtent;
-	//extent::merge判断是否在和自己合并，是不是在同一个arena中
-	//small::merge判断合并后有没有超过最大值限制，超过了就不合并
 }
 
 CLExtent * CLSmallExtentManager::SplitExtent(CLExtent * pTargetExtent,size_t expectedSize, CLMetaDataManager * pMetadataManager)
@@ -124,6 +165,29 @@ CLExtent * CLSmallExtentManager::SplitExtent(CLExtent * pTargetExtent,size_t exp
 		m_pLastExtent = pExtent;
 	}
 	return pExtent;
+}
+
+bool CLSmallExtentManager::MergePreCheck(CLExtent * pPreviousExtent, CLExtent * pNextExtent)
+{
+	if (((pPreviousExtent->GetNVMEndAddress() && PAGE_SIZE_MASK) == 0) || ((pNextExtent->GetNVMAddress() && PAGE_SIZE_MASK) == 0))
+	{
+		return false;
+	}
+	if (!pPreviousExtent->CanMerge(pNextExtent))
+	{
+		return false;
+	}
+	return true;
+}
+
+void CLSmallExtentManager::RemoveExtentFromExtentListArray(CLExtent * pExtent)
+{
+	m_ExtentListArray[Size2Index(pExtent->GetSize())].RemoveExtent(pExtent);
+}
+
+void CLSmallExtentManager::AppendExtentToExtentListArray(CLExtent * pExtent)
+{
+	m_ExtentListArray[Size2Index(pExtent->GetSize())].PutExtent(pExtent);
 }
 
 unsigned int CLSmallExtentManager::Size2Index(size_t size)

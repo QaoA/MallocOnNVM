@@ -21,23 +21,27 @@ public:
 	CLBlockArea * GetBlockOwner();
 	SLNVMBlock * GetNVMBlock();
 	size_t GetSize();
+	CLExtent * GetAdjacentPreviousExtent();
+	CLExtent * GetAdjacentNextExtent();
+	void * GetNVMAddress();
+	void * GetNVMEndAddress();
 
 public:
 	CLExtent * Split(CLExtent * pNewExtent,size_t anotherExtentSize);
-	bool Merge(CLExtent * pAnotherExtent);
+	CLExtent * Merge(CLExtent * pAnotherExtent);
+	bool CanMerge(CLExtent * pAnotherExtent);
 
 private:
 	bool CanSplit(size_t anotherExtentSize);
-	bool CanMerge(CLExtent * pAnotherExtent);
 	void SetAddress(void * pNVMAddress, size_t size);
 
 private:
 	SLList m_adjacentList;
 	void * m_pNVMAddress;
 	size_t m_size;
-	SLNVMBlock * m_pNVMBlock;
 	CLBlockArea * m_pNVMBlockOwner;
 	unsigned int m_arenaId;
+	SLNVMBlock * m_pNVMBlock;
 };
 
 #endif

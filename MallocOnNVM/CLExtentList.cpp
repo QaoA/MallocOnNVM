@@ -17,8 +17,8 @@ CLExtent * CLExtentList::GetExtent()
 	{
 		return nullptr;
 	}
-	CLExtent * pExtent = m_extents.top();
-	m_extents.pop();
+	CLExtent * pExtent = *m_extents.begin();
+	m_extents.erase(m_extents.begin());
 	m_extentCount--;
 	return pExtent;
 }
@@ -26,6 +26,12 @@ CLExtent * CLExtentList::GetExtent()
 void CLExtentList::PutExtent(CLExtent * pExtent)
 {
 	assert(pExtent);
-	m_extents.push(pExtent);
+	m_extents.insert(pExtent);
 	m_extentCount++;
+}
+
+void CLExtentList::RemoveExtent(CLExtent * pExtent)
+{
+	m_extents.erase(pExtent);
+	m_extentCount--;
 }

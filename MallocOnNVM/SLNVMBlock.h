@@ -9,6 +9,7 @@ public:
 	bool IsAvailable();
 	void SetAddress(void * pAddress, size_t size);
 	void Format();
+	void MakeFree();
 
 private:
 	unsigned int m_referenceCount;

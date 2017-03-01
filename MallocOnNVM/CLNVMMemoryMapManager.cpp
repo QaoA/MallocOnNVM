@@ -13,12 +13,12 @@ m_pBaseAddress(nullptr),
 m_pLastAcquiredAddress(nullptr),
 m_pagesManager()
 {
-	m_fd = open(FILE_PATH, O_RDWR | O_CREAT);
-	if (m_fd == -1)
-	{
-		throw CLSystemException(FILE_OPEN_ERROR);
-	}
-	if ((m_pBaseAddress = mmap(const_cast<void *>(MMAP_BASE_ADDRESS), MMAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, m_fd, 0)) == MAP_FAILED)
+	//m_fd = open(FILE_PATH, O_RDWR | O_CREAT);
+	//if (m_fd == -1)
+	//{
+	//	throw CLSystemException(FILE_OPEN_ERROR);
+	//}
+	if ((m_pBaseAddress = mmap(const_cast<void *>(MMAP_BASE_ADDRESS), MMAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 	{
 		throw CLSystemException(FILE_MAP_ERROR);
 	}
@@ -33,7 +33,7 @@ m_pagesManager()
 CLNVMMemoryMapManager::~CLNVMMemoryMapManager()
 {
 	munmap(m_pBaseAddress, MMAP_SIZE);
-	close(m_fd);
+	//close(m_fd);
 }
 
 CLNVMMemoryMapManager * CLNVMMemoryMapManager::GetInstance()
@@ -70,10 +70,10 @@ void CLNVMMemoryMapManager::UnmapMemory(void * pAddress, size_t size)
 
 void CLNVMMemoryMapManager::SetPagesMapped(void * pAddress, size_t size)
 {
-	madvise(pAddress, size, MADV_DONTNEED);
+	madvise(pAddress, size, MADV_WILLNEED);
 }
 
 void CLNVMMemoryMapManager::SetPagesUnmapped(void * pAddress, size_t size)
 {
-	madvise(pAddress, size, MADV_WILLNEED);
+	madvise(pAddress, size, MADV_DONTNEED);
 }
