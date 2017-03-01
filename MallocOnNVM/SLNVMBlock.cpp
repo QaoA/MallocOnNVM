@@ -17,3 +17,8 @@ void SLNVMBlock::Format()
 {
 	memset(this, 0, sizeof(SLNVMBlock));
 }
+
+void SLNVMBlock::MakeFree()
+{
+	m_pAddress = nullptr;
+}

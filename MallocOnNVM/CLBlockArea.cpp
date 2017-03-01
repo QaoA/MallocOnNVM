@@ -58,6 +58,7 @@ SLNVMBlock * CLBlockArea::GetAvailableBlock()
 void CLBlockArea::FreeBlock(SLNVMBlock * pNVMBlock)
 {
 	assert(pNVMBlock && IsBlockBelongToSelf(pNVMBlock));
+	
 	m_freeBlockList.push_back(pNVMBlock);
 	m_freeBlockCount++;
 }

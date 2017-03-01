@@ -8,27 +8,35 @@ using namespace std;
 CLSmallExtentManager sem;
 CLMetaDataManager mdm;
 
-struct SLPage
+void GetNVM(CLExtent * pExtent)
 {
-	void * pAddress;
-	unsigned int count;
-};
-#define  PUT(index) pm.PutPages(sp[index].pAddress, sp[index].count)
+	mdm.AllocANVMBlockForExtent(pExtent);
+}
+
+void FreeExtent(CLExtent * pExtent)
+{
+	mdm.FreeNVMBlockForExtent(pExtent);
+	sem.FreeExtent(pExtent,&mdm);
+}
 
 int main(int argc, char *argv[])
 {
-	CLPageManager pm;
+	//CLExtent * pExtents[128];
+	//for (int i = 0; i < 128; i++)
+	//{
+	//	pExtents[i] = sem.GetAvailableExtent(31, &mdm);
+	//}
+	//for (int i = 127; i >= 0; --i)
+	//{
+	//	sem.FreeExtent(pExtents[i]);
+	//}
 
-	SLPage sp[6];
-	sp[0] = { (void *)0x1000, 1 };
-	sp[1] = { (void *)0x2000, 1 };
-	sp[2] = { (void *)0x3000, 1 };
-	sp[3] = { (void *)0x4000, 1 };
-	sp[4] = { (void *)0x5000, 1 };
-	sp[5] = { (void *)0x6000, 1 };
-	PUT(1);
-	PUT(2);
-	PUT(3);
-
+	CLExtent * p1, *p2;
+	p1 = sem.GetAvailableExtent(31, &mdm);
+	p2 = sem.GetAvailableExtent(31, &mdm);
+	GetNVM(p1);
+	GetNVM(p2);
+	FreeExtent(p2);
+	FreeExtent(p1);
 	return 0;
 }
