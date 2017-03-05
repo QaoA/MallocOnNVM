@@ -93,7 +93,12 @@ void CLSmallExtentManager::FreeExtent(CLExtent * pExtent, CLMetaDataManager * pM
 	if (!Appended)
 	{
 		AppendExtentToExtentListArray(pExtent);
+		if (pExtent->GetSize() == SMALL_MAX_SIZE)
+		{
+			TryPurge(pMetadataManager);
+		}
 	}
+
 }
 
 void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager)
@@ -131,18 +136,13 @@ CLExtent * CLSmallExtentManager::MapANewExtent(CLMetaDataManager * pMetadataMana
 {
 	assert(pMetadataManager);
 	CLExtent * pExtent = pMetadataManager->GetExtent();
-	if (pExtent == nullptr)
-	{
-		return nullptr;
-	}
-	void * pAddress = CLNVMMemoryMapManager::GetInstance()->MapMemory(SMALL_MAX_SIZE);
-	if (pAddress == nullptr)
+	bool isSuccess = CLNVMMemoryMapManager::GetInstance()->MapMemory(pExtent, SMALL_MAX_SIZE);
+	if (!isSuccess)
 	{
 		pMetadataManager->FreeExtent(pExtent);
 		return nullptr;
 	}
-
-	pExtent->Init(pAddress, SMALL_MAX_SIZE, m_pLastExtent);
+	pExtent->SetAdjacentList(m_pLastExtent);
 	m_pLastExtent = pExtent;
 	return pExtent;
 }
@@ -188,6 +188,15 @@ void CLSmallExtentManager::RemoveExtentFromExtentListArray(CLExtent * pExtent)
 void CLSmallExtentManager::AppendExtentToExtentListArray(CLExtent * pExtent)
 {
 	m_ExtentListArray[Size2Index(pExtent->GetSize())].PutExtent(pExtent);
+}
+
+void CLSmallExtentManager::TryPurge(CLMetaDataManager * pMetadataManager)
+{
+	if (m_ExtentListArray[SMALL_OBJECT_ARRAY_SIZE -1].GetExtentCount() >= SMALL_OBJECT_MAX_CACHE_EXTENT_COUNT)
+	{
+		unsigned int unmapCount = SMALL_OBJECT_MAX_CACHE_EXTENT_COUNT - (SMALL_OBJECT_MAX_CACHE_EXTENT_COUNT >> SMALL_OBJECT_CACHE_EXTENT_COUNT_PURGE_BIT);
+		CLNVMMemoryMapManager::GetInstance()->UnmapMemoryAndFreeExtent(&m_ExtentListArray[SMALL_OBJECT_ARRAY_SIZE - 1], unmapCount,pMetadataManager);
+	}
 }
 
 unsigned int CLSmallExtentManager::Size2Index(size_t size)

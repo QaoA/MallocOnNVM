@@ -16,7 +16,8 @@ public:
 public:
 	void SetOccupied(SLNVMBlock * pNVMBlock,CLBlockArea * pBlockOwner);
 	void SetRelease();
-	void Init(void * pNVMAddress, size_t size, CLExtent * pPreviousExtent);
+	void SetAdjacentList(CLExtent * pPreviousExtent);
+	void SetAddress(void * pNVMAddress, size_t size);
 	bool IsOccupied();
 	CLBlockArea * GetBlockOwner();
 	SLNVMBlock * GetNVMBlock();
@@ -33,7 +34,6 @@ public:
 
 private:
 	bool CanSplit(size_t anotherExtentSize);
-	void SetAddress(void * pNVMAddress, size_t size);
 
 private:
 	SLList m_adjacentList;

@@ -26,6 +26,7 @@ private:
 	bool MergePreCheck(CLExtent * pPreviousExtent, CLExtent * pNextExtent);
 	void RemoveExtentFromExtentListArray(CLExtent * pExtent);
 	void AppendExtentToExtentListArray(CLExtent * pExtent);
+	void TryPurge(CLMetaDataManager * pMetadataManager);
 	unsigned int Size2Index(size_t size);
 	size_t Index2Size(unsigned int index);
 	size_t AlignSize(size_t size);

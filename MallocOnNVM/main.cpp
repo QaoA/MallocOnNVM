@@ -1,11 +1,11 @@
 #include <iostream>
 #include "CLPageManager.h"
 #include "CLMetaDataManager.h"
-#include "CLSmallExtentManager.h"
+#include "CLLargeExtentManager.h"
 
 using namespace std;
 
-CLSmallExtentManager sem;
+CLLargeExtentManager lem;
 CLMetaDataManager mdm;
 
 void GetNVM(CLExtent * pExtent)
@@ -16,27 +16,20 @@ void GetNVM(CLExtent * pExtent)
 void FreeExtent(CLExtent * pExtent)
 {
 	mdm.FreeNVMBlockForExtent(pExtent);
-	sem.FreeExtent(pExtent,&mdm);
+	lem.FreeExtent(pExtent,&mdm);
 }
 
 int main(int argc, char *argv[])
 {
-	//CLExtent * pExtents[128];
-	//for (int i = 0; i < 128; i++)
-	//{
-	//	pExtents[i] = sem.GetAvailableExtent(31, &mdm);
-	//}
-	//for (int i = 127; i >= 0; --i)
-	//{
-	//	sem.FreeExtent(pExtents[i]);
-	//}
-
-	CLExtent * p1, *p2;
-	p1 = sem.GetAvailableExtent(31, &mdm);
-	p2 = sem.GetAvailableExtent(31, &mdm);
-	GetNVM(p1);
-	GetNVM(p2);
-	FreeExtent(p2);
-	FreeExtent(p1);
+	CLExtent * pExtent1, * pExtent2, * pExtent3;
+	pExtent1 = lem.GetAvailableExtent(4096, &mdm);
+	pExtent2 = lem.GetAvailableExtent(4096, &mdm);
+	pExtent3 = lem.GetAvailableExtent(4096, &mdm);
+	GetNVM(pExtent1);
+	GetNVM(pExtent2);
+	GetNVM(pExtent3);
+	FreeExtent(pExtent1);
+	FreeExtent(pExtent2);
+	FreeExtent(pExtent3);
 	return 0;
 }

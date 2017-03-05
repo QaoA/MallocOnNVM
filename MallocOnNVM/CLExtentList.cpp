@@ -11,6 +11,11 @@ CLExtentList::~CLExtentList()
 {
 }
 
+unsigned int CLExtentList::GetExtentCount()
+{
+	return m_extentCount;
+}
+
 CLExtent * CLExtentList::GetExtent()
 {
 	if (m_extentCount == 0)

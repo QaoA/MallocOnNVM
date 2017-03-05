@@ -61,12 +61,16 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CLArena.cpp" />
+    <ClCompile Include="CLArenaManager.cpp" />
     <ClCompile Include="CLBlockArea.cpp" />
     <ClCompile Include="CLExtentList.cpp" />
     <ClCompile Include="CLExtentManager.cpp" />
     <ClCompile Include="CLGlobalBlockAreaManager.cpp" />
     <ClCompile Include="CLCriticalSection.cpp" />
     <ClCompile Include="CLExtent.cpp" />
+    <ClCompile Include="CLHugeExtentManager.cpp" />
+    <ClCompile Include="CLLargeExtenttManager.cpp" />
     <ClCompile Include="CLMutex.cpp" />
     <ClCompile Include="CLMetaDataManager.cpp" />
     <ClCompile Include="CLNVMMemoryMapManager.cpp" />
@@ -86,12 +90,16 @@
     <None Include="release.mak" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CLArena.h" />
+    <ClInclude Include="CLArenaManager.h" />
     <ClInclude Include="CLBlockArea.h" />
     <ClInclude Include="CLExtentList.h" />
     <ClInclude Include="CLExtentManager.h" />
     <ClInclude Include="CLGlobalBlockAreaManager.h" />
     <ClInclude Include="CLCriticalSection.h" />
     <ClInclude Include="CLExtent.h" />
+    <ClInclude Include="CLHugeExtentManager.h" />
+    <ClInclude Include="CLLargeExtentManager.h" />
     <ClInclude Include="CLMutex.h" />
     <ClInclude Include="CLMetaDataManager.h" />
     <ClInclude Include="CLNVMMemoryMapManager.h" />

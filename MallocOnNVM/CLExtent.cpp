@@ -29,10 +29,8 @@ void CLExtent::SetRelease()
 	m_pNVMBlock = nullptr;
 }
 
-void CLExtent::Init(void * pNVMAddress, size_t size, CLExtent * pPreviousExtent)
+void CLExtent::SetAdjacentList(CLExtent * pPreviousExtent)
 {
-	m_pNVMAddress = pNVMAddress;
-	m_size = size;
 	if (pPreviousExtent)
 	{
 		m_adjacentList.InitWithKnownNode(&pPreviousExtent->m_adjacentList);

@@ -75,7 +75,7 @@
     <MakeCommandTemplate>
       <SkipWhenRunningCommandList>false</SkipWhenRunningCommandList>
       <RemoteHost>
-        <HostName>192.168.1.121</HostName>
+        <HostName>192.168.0.10</HostName>
         <Transport>SSH</Transport>
         <UserName>mq</UserName>
       </RemoteHost>

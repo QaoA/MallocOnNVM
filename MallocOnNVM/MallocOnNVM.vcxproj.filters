@@ -41,6 +41,12 @@
     <Filter Include="Source files\NVMMap">
       <UniqueIdentifier>{6cd30b9f-69f5-4bbe-b0a4-49edad61bf50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header files\Allocator">
+      <UniqueIdentifier>{85ca220c-9bcf-4c39-a46d-ed02cf3f5e91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Allocator">
+      <UniqueIdentifier>{a6053366-91d9-4e18-a1a6-8eb944b6f247}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -91,12 +97,6 @@
     <ClCompile Include="SLNVMBlockArea.cpp">
       <Filter>Source files\Metadata</Filter>
     </ClCompile>
-    <ClCompile Include="CLExtentList.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="CLSmallExtentManager.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="CLSystemException.cpp">
       <Filter>Source files\Exception</Filter>
     </ClCompile>
@@ -105,6 +105,24 @@
     </ClCompile>
     <ClCompile Include="CLPageManager.cpp">
       <Filter>Source files\NVMMap</Filter>
+    </ClCompile>
+    <ClCompile Include="CLSmallExtentManager.cpp">
+      <Filter>Source files\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="CLLargeExtenttManager.cpp">
+      <Filter>Source files\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="CLHugeExtentManager.cpp">
+      <Filter>Source files\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="CLExtentList.cpp">
+      <Filter>Source files\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="CLArenaManager.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLArena.cpp">
+      <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,12 +168,6 @@
     <ClInclude Include="SLNVMBlockArea.h">
       <Filter>Header files\Metadata</Filter>
     </ClInclude>
-    <ClInclude Include="CLExtentList.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLSmallExtentManager.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
     <ClInclude Include="CLSystemException.h">
       <Filter>Header files\Exception</Filter>
     </ClInclude>
@@ -164,6 +176,24 @@
     </ClInclude>
     <ClInclude Include="CLPageManager.h">
       <Filter>Header files\NVMMap</Filter>
+    </ClInclude>
+    <ClInclude Include="CLHugeExtentManager.h">
+      <Filter>Header files\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="CLLargeExtentManager.h">
+      <Filter>Header files\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="CLExtentList.h">
+      <Filter>Header files\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="CLSmallExtentManager.h">
+      <Filter>Header files\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="CLArenaManager.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLArena.h">
+      <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
