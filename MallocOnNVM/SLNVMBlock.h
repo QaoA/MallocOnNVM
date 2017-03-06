@@ -7,14 +7,18 @@ struct SLNVMBlock
 {
 public:
 	bool IsAvailable();
-	void SetAddress(void * pAddress, size_t size);
+	void SetData(void * pAddress, size_t size, unsigned int arenaId);
 	void Format();
 	void MakeFree();
+	void IncreaseReferenceCount();
+	void DecreaseReferenceCount();
+	unsigned int GetReferenceCount();
 
 private:
 	unsigned int m_referenceCount;
 	size_t m_size;
-	void * m_pAddress; 
+	void * m_pAddress;
+	unsigned int m_arenaId;
 };
 
 #endif

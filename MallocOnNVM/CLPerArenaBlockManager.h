@@ -13,7 +13,7 @@ public:
 	~CLPerArenaBlockManager();
 
 public:
-	CLExtent * AllocBlockForExtent(CLExtent * pExtent);
+	CLExtent * AllocBlockForExtent(CLExtent * pExtent, unsigned int arenaId);
 	void FreeBlockForExtent(CLExtent * pExtent);
 
 private:

@@ -16,16 +16,18 @@ CLExtent::~CLExtent()
 {
 }
 
-void CLExtent::SetOccupied(SLNVMBlock * pNVMBlock,CLBlockArea * pBlockOwner)
+void CLExtent::SetOccupied(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockOwner, unsigned int arenaId)
 {
 	assert(pNVMBlock&&pBlockOwner);
 	m_pNVMBlockOwner = pBlockOwner;
 	m_pNVMBlock = pNVMBlock;
-	m_pNVMBlock->SetAddress(m_pNVMAddress, m_size);
+	m_arenaId = arenaId;
+	m_pNVMBlock->SetData(m_pNVMAddress, m_size,arenaId);
 }
 
 void CLExtent::SetRelease()
 {
+	assert(m_pNVMBlock->GetReferenceCount() == 0);
 	m_pNVMBlock = nullptr;
 }
 
@@ -125,4 +127,21 @@ void * CLExtent::GetNVMAddress()
 void * CLExtent::GetNVMEndAddress()
 {
 	return reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pNVMAddress)+m_size);
+}
+
+unsigned int CLExtent::GetArenaId()
+{
+	return m_arenaId;
+}
+
+void CLExtent::IncreaseReferenceCount()
+{
+	assert(m_pNVMBlock);
+	m_pNVMBlock->IncreaseReferenceCount();
+}
+
+void CLExtent::DecreaseReferenceCount()
+{
+	assert(m_pNVMBlock);
+	m_pNVMBlock->DecreaseReferenceCount();
 }

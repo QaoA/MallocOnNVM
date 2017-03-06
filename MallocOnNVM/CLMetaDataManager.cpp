@@ -18,10 +18,10 @@ CLExtent * CLMetaDataManager::GetExtent()
 	return m_extentManager.GetExtent();
 }
 
-CLExtent * CLMetaDataManager::AllocANVMBlockForExtent(CLExtent * pExtent)
+CLExtent * CLMetaDataManager::AllocANVMBlockForExtent(CLExtent * pExtent, unsigned int arenaId)
 {
 	assert(pExtent && !pExtent->IsOccupied());
-	return m_blockManager.AllocBlockForExtent(pExtent);
+	return m_blockManager.AllocBlockForExtent(pExtent,arenaId);
 }
 
 void CLMetaDataManager::FreeExtent(CLExtent * pExtent)

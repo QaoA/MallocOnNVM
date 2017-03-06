@@ -14,7 +14,7 @@ public:
 
 public:
 	CLExtent * GetExtent();
-	CLExtent * AllocANVMBlockForExtent(CLExtent * pExtent);
+	CLExtent * AllocANVMBlockForExtent(CLExtent * pExtent, unsigned int arenaId);
 	void FreeExtent(CLExtent * pExtent);
 	void FreeNVMBlockForExtent(CLExtent * pExtent);
 

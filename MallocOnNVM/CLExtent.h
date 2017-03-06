@@ -14,7 +14,7 @@ public:
 	~CLExtent();
 
 public:
-	void SetOccupied(SLNVMBlock * pNVMBlock,CLBlockArea * pBlockOwner);
+	void SetOccupied(SLNVMBlock * pNVMBlock,CLBlockArea * pBlockOwner,unsigned int arenaId);
 	void SetRelease();
 	void SetAdjacentList(CLExtent * pPreviousExtent);
 	void SetAddress(void * pNVMAddress, size_t size);
@@ -26,6 +26,9 @@ public:
 	CLExtent * GetAdjacentNextExtent();
 	void * GetNVMAddress();
 	void * GetNVMEndAddress();
+	unsigned int GetArenaId();
+	void IncreaseReferenceCount();
+	void DecreaseReferenceCount();
 
 public:
 	CLExtent * Split(CLExtent * pNewExtent,size_t anotherExtentSize);

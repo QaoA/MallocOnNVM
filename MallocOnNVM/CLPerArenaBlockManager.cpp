@@ -17,7 +17,7 @@ CLPerArenaBlockManager::~CLPerArenaBlockManager()
 {
 }
 
-CLExtent * CLPerArenaBlockManager::AllocBlockForExtent(CLExtent * pExtent)
+CLExtent * CLPerArenaBlockManager::AllocBlockForExtent(CLExtent * pExtent, unsigned int arenaId)
 {
 	if (m_nonFullAreasCount == 0)
 	{
@@ -30,7 +30,7 @@ CLExtent * CLPerArenaBlockManager::AllocBlockForExtent(CLExtent * pExtent)
 		m_nonFullAreasCount++;
 	}
 	CLBlockArea * pCurrentArea = m_NonFullAreaList.front();
-	pExtent->SetOccupied(pCurrentArea->GetAvailableBlock(), pCurrentArea);
+	pExtent->SetOccupied(pCurrentArea->GetAvailableBlock(), pCurrentArea, arenaId);
 	if (pCurrentArea->GetFreeBlockCount() == 0)
 	{
 		m_NonFullAreaList.pop_front();

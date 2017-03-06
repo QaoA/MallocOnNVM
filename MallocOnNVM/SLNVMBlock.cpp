@@ -2,10 +2,11 @@
 #include <cassert>
 #include <cstring>
 
-void SLNVMBlock::SetAddress(void * pAddress, size_t size)
+void SLNVMBlock::SetData(void * pAddress, size_t size, unsigned int arenaId)
 {
 	m_pAddress = pAddress;
 	m_size = size;
+	m_arenaId = arenaId;
 }
 
 bool SLNVMBlock::IsAvailable()
@@ -21,4 +22,19 @@ void SLNVMBlock::Format()
 void SLNVMBlock::MakeFree()
 {
 	m_pAddress = nullptr;
+}
+
+void SLNVMBlock::IncreaseReferenceCount()
+{
+	++m_referenceCount;
+}
+
+void SLNVMBlock::DecreaseReferenceCount()
+{
+	--m_referenceCount;
+}
+
+unsigned int SLNVMBlock::GetReferenceCount()
+{
+	return m_referenceCount;
 }

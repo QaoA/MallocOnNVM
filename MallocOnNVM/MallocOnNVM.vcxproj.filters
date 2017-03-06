@@ -47,6 +47,12 @@
     <Filter Include="Source files\Allocator">
       <UniqueIdentifier>{a6053366-91d9-4e18-a1a6-8eb944b6f247}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header files\Tool">
+      <UniqueIdentifier>{ebea1246-686d-4de8-bfce-208a62473cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Tool">
+      <UniqueIdentifier>{affecbe4-2da3-4424-85c0-d0f45c60fd3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -59,9 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="SLList.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
     <ClCompile Include="CLMutex.cpp">
@@ -119,17 +122,23 @@
       <Filter>Source files\Allocator</Filter>
     </ClCompile>
     <ClCompile Include="CLArenaManager.cpp">
-      <Filter>Source files</Filter>
+      <Filter>Source files\Allocator</Filter>
     </ClCompile>
     <ClCompile Include="CLArena.cpp">
+      <Filter>Source files\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="SLList.cpp">
+      <Filter>Source files\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="NVMMalloc.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLNVMObject.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SizeDefine.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="SLList.h">
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="CLCriticalSection.h">
@@ -190,9 +199,21 @@
       <Filter>Header files\Allocator</Filter>
     </ClInclude>
     <ClInclude Include="CLArenaManager.h">
-      <Filter>Header files</Filter>
+      <Filter>Header files\Allocator</Filter>
     </ClInclude>
     <ClInclude Include="CLArena.h">
+      <Filter>Header files\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="SLList.h">
+      <Filter>Header files\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="CLTLSVariable.h">
+      <Filter>Header files\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="NVMMalloc.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLNVMObject.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
