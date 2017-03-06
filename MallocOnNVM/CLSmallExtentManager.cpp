@@ -98,7 +98,6 @@ void CLSmallExtentManager::FreeExtent(CLExtent * pExtent, CLMetaDataManager * pM
 			TryPurge(pMetadataManager);
 		}
 	}
-
 }
 
 void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager)
@@ -169,7 +168,7 @@ CLExtent * CLSmallExtentManager::SplitExtent(CLExtent * pTargetExtent,size_t exp
 
 bool CLSmallExtentManager::MergePreCheck(CLExtent * pPreviousExtent, CLExtent * pNextExtent)
 {
-	if (((pPreviousExtent->GetNVMEndAddress() && PAGE_SIZE_MASK) == 0) || ((pNextExtent->GetNVMAddress() && PAGE_SIZE_MASK) == 0))
+	if (((unsigned long)(pPreviousExtent->GetNVMEndAddress()) & (PAGE_SIZE_MASK)) == 0 || ((unsigned long)(pNextExtent->GetNVMAddress())&(PAGE_SIZE_MASK) == 0))
 	{
 		return false;
 	}
