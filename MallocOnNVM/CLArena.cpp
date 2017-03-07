@@ -35,6 +35,10 @@ CLExtent * CLArena::GetExtent(size_t size)
 	{
 		pExtent = m_hugeManager.GetAvailableExtent(size, &m_metadataManager);
 	}
+	if (pExtent == nullptr)
+	{
+		return nullptr;
+	}
 	m_metadataManager.AllocANVMBlockForExtent(pExtent,m_arenaId);
 	assert(pExtent->IsOccupied());
 	return pExtent;

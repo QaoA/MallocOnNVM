@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	CLNVMObject * array[256];
 	for (int i = 0; i < 256; ++i)
 	{
-		array[i] = new CLNVMObject(Random(4096));
+		array[i] = new CLNVMObject(Random(8192));
 	}
 	for (int i = 0; i < 255; ++i)
 	{
