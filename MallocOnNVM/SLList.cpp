@@ -56,3 +56,14 @@ SLList * SLList::GetPrevious()
 {
 	return m_pPrevious;
 }
+
+SLList * SLList::GetNextRecovery()
+{
+	SLList * pNextsNext = m_pNext->m_pNext;
+	SLList * pLogicalSelf = pNextsNext->m_pPrevious->m_pPrevious;
+	if (pLogicalSelf != this)
+	{
+		m_pNext = pLogicalSelf;
+	}
+	return m_pNext;
+}

@@ -1,24 +1,12 @@
 #include <iostream>
 #include <cstdlib>
-#include "CLNVMObject.h"
+#include "NVMMalloc.h"
 
 using namespace std;
 
-int Random(int max)
-{
-	return rand() % max;
-}
-
 int main(int argc, char *argv[])
 {
-	CLNVMObject * array[256];
-	for (int i = 0; i < 256; ++i)
-	{
-		array[i] = new CLNVMObject(Random(8192));
-	}
-	for (int i = 0; i < 255; ++i)
-	{
-		delete array[i];
-	}
+	void * p1 = MallocOnNVM(15);
+	FreeOnNVM(p1);
 	return 0;
 }

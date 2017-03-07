@@ -17,6 +17,9 @@ public:
 	SLList * GetPrevious();
 
 public:
+	SLList * GetNextRecovery();
+
+public:
 	SLList * m_pPrevious;
 	SLList * m_pNext;
 };

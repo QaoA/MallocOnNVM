@@ -17,6 +17,7 @@ public:
 public:
 	void Format(SLNVMBlockArea * pPrevious = nullptr);
 	bool IsBlockBelongToSelf(SLNVMBlock * pBlock);
+	SLNVMBlockArea * GetNextBlockAreaRecovery();
 	
 private:
 	SLList m_list;

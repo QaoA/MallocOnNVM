@@ -1,7 +1,9 @@
 #ifndef __SPIN_LOCK_H__
 #define __SPIN_LOCK_H__
 
-class CLSpinLock
+#include "ILLock.h"
+
+class CLSpinLock:public ILLock
 {
 public:
 	CLSpinLock();

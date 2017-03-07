@@ -2,17 +2,27 @@
 #include "CLArenaManager.h"
 #include "CLArena.h"
 #include "CLExtent.h"
+#include "CLAllocatedExtentManager.h"
 
-CLExtent * MallocOnNVM(size_t size)
+void * MallocOnNVM(size_t size)
 {
-	return CLArenaManager::GetInstance()->GetArena()->GetExtent(size);
+	CLExtent * pExtent =  CLArenaManager::GetInstance()->GetArena()->GetExtent(size);
+	if (pExtent != nullptr)
+	{
+		CLAllocatedExtentManager::GetInstance()->Put(pExtent);
+	}
+	return pExtent->GetNVMAddress();
 }
 
-void FreeOnNVM(CLExtent * pExtent)
+void FreeOnNVM(void * pNVMAddress)
 {
-	if (pExtent == nullptr)
+	if (pNVMAddress == nullptr)
 	{
 		return;
 	}
-	CLArenaManager::GetInstance()->GetArena(pExtent->GetArenaId())->FreeExtent(pExtent);
+	CLExtent * pExtent = CLAllocatedExtentManager::GetInstance()->Get(pNVMAddress);
+	if (pExtent)
+	{
+		CLArenaManager::GetInstance()->GetArena(pExtent->GetArenaId())->FreeExtent(pExtent);
+	}
 }

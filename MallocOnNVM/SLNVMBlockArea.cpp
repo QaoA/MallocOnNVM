@@ -30,3 +30,8 @@ bool SLNVMBlockArea::IsBlockBelongToSelf(SLNVMBlock * pBlock)
 	return (reinterpret_cast<unsigned long>(pBlock) > reinterpret_cast<unsigned long>(this)) &&
 		(reinterpret_cast<unsigned long>(pBlock) < (reinterpret_cast<unsigned long>(this) + GetClassSize()));
 }
+
+SLNVMBlockArea * SLNVMBlockArea::GetNextBlockAreaRecovery()
+{
+	return GetContainer(SLNVMBlockArea, m_list, m_list.GetNextRecovery());
+}

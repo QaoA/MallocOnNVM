@@ -50,3 +50,8 @@ CLBlockArea * CLGlobalBlockAreaManager::GetABlockArea()
 		return pBlockArea;
 	}
 }
+
+void CLGlobalBlockAreaManager::DoRecovery()
+{
+	CLCriticalSection cs(&m_lock);
+}

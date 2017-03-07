@@ -23,7 +23,7 @@ error:
 	$(error Invalid configuration, please check your inputs)
 endif
 
-SOURCEFILES := CLBlockArea.cpp CLExtentList.cpp CLExtentManager.cpp CLGlobalBlockAreaManager.cpp CLCriticalSection.cpp CLExtent.cpp CLLargeExtenttManager.cpp CLMutex.cpp CLMetaDataManager.cpp CLNVMMemoryMapManager.cpp CLPageManager.cpp CLPerArenaBlockManager.cpp CLSmallExtentManager.cpp CLSpinLock.cpp CLSystemException.cpp main.cpp SLList.cpp SLNVMBlock.cpp SLNVMBlockArea.cpp
+SOURCEFILES := CLArena.cpp CLArenaManager.cpp CLBlockArea.cpp CLExtentList.cpp CLExtentManager.cpp CLGlobalBlockAreaManager.cpp CLCriticalSection.cpp CLExtent.cpp CLHugeExtentManager.cpp CLLargeExtenttManager.cpp CLMutex.cpp CLMetaDataManager.cpp CLNVMMemoryMapManager.cpp CLNVMObject.cpp CLPageManager.cpp CLPerArenaBlockManager.cpp CLSmallExtentManager.cpp CLSpinLock.cpp CLSystemException.cpp main.cpp NVMMalloc.cpp SLList.cpp SLNVMBlock.cpp SLNVMBlockArea.cpp
 EXTERNAL_LIBS := 
 EXTERNAL_LIBS_COPIED := $(foreach lib, $(EXTERNAL_LIBS),$(BINARYDIR)/$(notdir $(lib)))
 

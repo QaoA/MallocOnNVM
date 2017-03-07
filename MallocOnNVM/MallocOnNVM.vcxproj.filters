@@ -133,8 +133,14 @@
     <ClCompile Include="NVMMalloc.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="CLNVMObject.cpp">
+    <ClCompile Include="CLRecoverier.cpp">
       <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLRadixTreeNode.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLAllocatedExtentManager.cpp">
+      <Filter>Source files\Allocator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,8 +219,17 @@
     <ClInclude Include="NVMMalloc.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="CLNVMObject.h">
+    <ClInclude Include="CLRecoverier.h">
       <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLRadixTree.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLRadixTreeNode.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLAllocatedExtentManager.h">
+      <Filter>Header files\Allocator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
