@@ -42,6 +42,7 @@ CLBlockArea * CLGlobalBlockAreaManager::GetABlockArea()
 	if (m_pFirstBlockArea == nullptr)
 	{
 		m_pFirstBlockArea = AppendNewBlockArea();
+		assert(m_pFirstBlockArea == MMAP_METADATA_BASE_ADDRESS);
 		return m_pFirstBlockArea;
 	}
 	else
@@ -51,7 +52,8 @@ CLBlockArea * CLGlobalBlockAreaManager::GetABlockArea()
 	}
 }
 
-void CLGlobalBlockAreaManager::DoRecovery()
-{
-	CLCriticalSection cs(&m_lock);
-}
+//void CLGlobalBlockAreaManager::DoRecovery()
+//{
+//	CLCriticalSection cs(&m_lock);
+//	m_pFirstBlockArea = static_cast<CLBlockArea *>(const_cast<void *>(MMAP_METADATA_BASE_ADDRESS));
+//}

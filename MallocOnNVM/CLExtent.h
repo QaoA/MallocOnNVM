@@ -31,6 +31,9 @@ public:
 	void DecreaseReferenceCount();
 
 public:
+	void Recovery(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea);
+
+public:
 	CLExtent * Split(CLExtent * pNewExtent,size_t anotherExtentSize);
 	CLExtent * Merge(CLExtent * pAnotherExtent);
 	bool CanMerge(CLExtent * pAnotherExtent);

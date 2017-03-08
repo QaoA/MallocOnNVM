@@ -6,6 +6,7 @@
 
 struct SLNVMBlockArea;
 struct SLNVMBlock;
+class CLRecoverier;
 
 class CLBlockArea
 {
@@ -16,6 +17,7 @@ public:
 public:
 	void Format(SLNVMBlockArea * pNVMBlockArea);
 	void Format(SLNVMBlockArea * pNVMBlockArea, CLBlockArea * pPreviousArea);
+	void Recovery(SLNVMBlockArea * pNVMBlockArea,CLRecoverier * pRecoverier);
 	SLNVMBlock * GetAvailableBlock();
 	void FreeBlock(SLNVMBlock * pNVMBlock);
 	void LinkToList(CLBlockArea * pPreviousArea);

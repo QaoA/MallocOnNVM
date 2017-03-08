@@ -6,7 +6,6 @@
 #include <cstddef>
 
 class CLExtent;
-class CLMetaDataManager;
 
 class CLSmallExtentManager
 {
@@ -15,18 +14,18 @@ public:
 	~CLSmallExtentManager();
 
 public:
-	CLExtent * GetAvailableExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager);
-	void FreeExtent(CLExtent * pExtent, CLMetaDataManager * pMetadataManager);
+	CLExtent * GetAvailableExtent(size_t expectedSize);
+	void FreeExtent(CLExtent * pExtent);
 
 private:
-	void SetCurrentExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager);
+	void SetCurrentExtent(size_t expectedSize);
 	void AppendExtent(CLExtent * pExtent);
-	CLExtent * MapANewExtent(CLMetaDataManager * pMetadataManager);
-	CLExtent * SplitExtent(CLExtent * pTargetExtent, size_t expectedSize, CLMetaDataManager * pMetadataManager);
+	CLExtent * MapANewExtent();
+	CLExtent * SplitExtent(CLExtent * pTargetExtent, size_t expectedSize);
 	bool MergePreCheck(CLExtent * pPreviousExtent, CLExtent * pNextExtent);
 	void RemoveExtentFromExtentListArray(CLExtent * pExtent);
 	void AppendExtentToExtentListArray(CLExtent * pExtent);
-	void TryPurge(CLMetaDataManager * pMetadataManager);
+	void TryPurge();
 	unsigned int Size2Index(size_t size);
 	size_t Index2Size(unsigned int index);
 	size_t AlignSize(size_t size);

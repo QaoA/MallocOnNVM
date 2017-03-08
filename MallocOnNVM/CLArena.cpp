@@ -25,15 +25,15 @@ CLExtent * CLArena::GetExtent(size_t size)
 	CLExtent * pExtent;
 	if (size < SMALL_MAX_SIZE)
 	{
-		pExtent = m_smallManager.GetAvailableExtent(size, &m_metadataManager);
+		pExtent = m_smallManager.GetAvailableExtent(size);
 	}
 	else if (size < LARGE_MAX_SIZE)
 	{
-		pExtent = m_largeManager.GetAvailableExtent(size, &m_metadataManager);
+		pExtent = m_largeManager.GetAvailableExtent(size);
 	}
 	else
 	{
-		pExtent = m_hugeManager.GetAvailableExtent(size, &m_metadataManager);
+		pExtent = m_hugeManager.GetAvailableExtent(size);
 	}
 	if (pExtent == nullptr)
 	{
@@ -52,15 +52,15 @@ void CLArena::FreeExtent(CLExtent * pExtent)
 	size_t size = pExtent->GetSize();
 	if (size < SMALL_MAX_SIZE)
 	{
-		m_smallManager.FreeExtent(pExtent, &m_metadataManager);
+		m_smallManager.FreeExtent(pExtent);
 	}
 	else if (size < LARGE_MAX_SIZE)
 	{
-		m_largeManager.FreeExtent(pExtent, &m_metadataManager);
+		m_largeManager.FreeExtent(pExtent);
 	}
 	else
 	{
-		m_hugeManager.FreeExtent(pExtent, &m_metadataManager);
+		m_hugeManager.FreeExtent(pExtent);
 	}
 }
 

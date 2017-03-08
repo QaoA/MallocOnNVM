@@ -1,5 +1,4 @@
 #include "CLLargeExtentManager.h"
-#include "CLMetaDataManager.h"
 #include "CLExtent.h"
 #include "CLNVMMemoryMapManager.h"
 #include <cassert>
@@ -12,7 +11,7 @@ CLLargeExtentManager::~CLLargeExtentManager()
 {
 }
 
-CLExtent * CLLargeExtentManager::GetAvailableExtent(size_t size,CLMetaDataManager * pMetadataManager)
+CLExtent * CLLargeExtentManager::GetAvailableExtent(size_t size)
 {
 	size = AlignSize(size);
 	unsigned int index = Size2Index(size);
@@ -25,44 +24,43 @@ CLExtent * CLLargeExtentManager::GetAvailableExtent(size_t size,CLMetaDataManage
 			pExtent = m_extentListArray[i].GetExtent();
 			if (pExtent != nullptr)
 			{
-				CLExtent * pNewExtent = pMetadataManager->GetExtent();
+				CLExtent * pNewExtent = new CLExtent();
 				pExtent->Split(pNewExtent, size);
-				AppendExtent(pExtent,pMetadataManager);
+				AppendExtent(pExtent);
 				return pNewExtent;
 			}
 		}
 	}
 	if (pExtent == nullptr)
 	{
-		return MapNewExtent(size, pMetadataManager);
+		return MapNewExtent(size);
 	}
 	return pExtent;
 }
 
-void CLLargeExtentManager::FreeExtent(CLExtent * pExtent,CLMetaDataManager * pMetadataManager)
+void CLLargeExtentManager::FreeExtent(CLExtent * pExtent)
 {
-	assert(pExtent&&pMetadataManager);
+	assert(pExtent);
 	assert(pExtent->GetSize() >= LARGE_MIN_SIZE&&pExtent->GetSize() <= LARGE_MAX_SIZE);
 	assert(pExtent->GetSize() == AlignSize(pExtent->GetSize()));
-	AppendExtent(pExtent,pMetadataManager);
+	AppendExtent(pExtent);
 }
 
-void CLLargeExtentManager::AppendExtent(CLExtent * pExtent, CLMetaDataManager * pMetadataManager)
+void CLLargeExtentManager::AppendExtent(CLExtent * pExtent)
 {
-	assert(pExtent && pMetadataManager);
+	assert(pExtent);
 	unsigned int index = Size2Index(pExtent->GetSize());
 	m_extentListArray[index].PutExtent(pExtent);
 	if (m_extentListArray[index].GetExtentCount() >= LARGE_OBJECT_MAX_CACHE_EXTENT_COUNT)
 	{
 		CLNVMMemoryMapManager::GetInstance()->UnmapMemoryAndFreeExtent(&m_extentListArray[index], 
-			LARGE_OBJECT_MAX_CACHE_EXTENT_COUNT - (LARGE_OBJECT_MAX_CACHE_EXTENT_COUNT >> LARGE_OBJECT_CACHE_EXTENT_COUNT_PURGE_BIT),
-			pMetadataManager);
+			LARGE_OBJECT_MAX_CACHE_EXTENT_COUNT - (LARGE_OBJECT_MAX_CACHE_EXTENT_COUNT >> LARGE_OBJECT_CACHE_EXTENT_COUNT_PURGE_BIT));
 	}
 }
 
-CLExtent * CLLargeExtentManager::MapNewExtent(size_t size, CLMetaDataManager * pMetadataManager)
+CLExtent * CLLargeExtentManager::MapNewExtent(size_t size)
 {
-	CLExtent * pExtent = pMetadataManager->GetExtent();
+	CLExtent * pExtent = new CLExtent();
 	CLNVMMemoryMapManager::GetInstance()->MapMemory(pExtent, size);
 	return pExtent;
 }

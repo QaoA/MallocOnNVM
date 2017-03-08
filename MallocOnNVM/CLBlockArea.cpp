@@ -1,5 +1,6 @@
 #include "CLBlockArea.h"
 #include "SLNVMBlockArea.h"
+#include "CLRecoverier.h"
 #include <cassert>
 
 CLBlockArea::CLBlockArea():
@@ -39,6 +40,28 @@ void CLBlockArea::Format(SLNVMBlockArea * pNVMBlockArea, CLBlockArea * pPrevious
 	for (int i = 0; i < m_freeBlockCount; ++i)
 	{
 		m_freeBlockList.push_back(&m_pNVMBlockArea->m_pBlocks[i]);
+	}
+}
+
+void CLBlockArea::Recovery(SLNVMBlockArea * pNVMBlockArea, CLRecoverier * pRecoverier)
+{
+	assert(pNVMBlockArea && pRecoverier);
+	m_pNVMBlockArea = pNVMBlockArea;
+	unsigned int blockCount = SLNVMBlockArea::GetBlockCount();
+	for (int i = 0; i < blockCount; ++i)
+	{
+		if (m_pNVMBlockArea->m_pBlocks[i].IsAvailable())
+		{
+			m_freeBlockList.push_back(&m_pNVMBlockArea->m_pBlocks[i]);
+			m_freeBlockCount++;
+		}
+		else
+		{
+			pRecoverier->AddAllocatedMemoryInfo(&m_pNVMBlockArea->m_pBlocks[i], this);
+			//将已分配的块放到radix tree中
+			//将已分配的块的地址加入到nvmMemoryUseTable中
+			//返回该块属于哪个arena
+		}
 	}
 }
 

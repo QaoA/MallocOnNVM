@@ -82,9 +82,9 @@ void CLNVMMemoryMapManager::UnmapMemory(CLExtent * pExtent)
 	m_pagesManager.PutPages(pAddress, size / PAGE_SIZE);
 }
 
-void CLNVMMemoryMapManager::UnmapMemoryAndFreeExtent(CLExtentList * pExtentList, unsigned int unmapCount, CLMetaDataManager * pMetadataManager)
+void CLNVMMemoryMapManager::UnmapMemoryAndFreeExtent(CLExtentList * pExtentList, unsigned int unmapCount)
 {
-	assert(pExtentList && pExtentList->GetExtentCount() >= unmapCount && pMetadataManager);
+	assert(pExtentList && pExtentList->GetExtentCount() >= unmapCount);
 	CLCriticalSection cs(&m_mutex);
 	for (int i = 0; i < unmapCount; ++i)
 	{
@@ -94,7 +94,7 @@ void CLNVMMemoryMapManager::UnmapMemoryAndFreeExtent(CLExtentList * pExtentList,
 		assert(size % PAGE_SIZE == 0);
 		SetPagesUnmapped(pAddress, size);
 		m_pagesManager.PutPages(pAddress, size / PAGE_SIZE);
-		pMetadataManager->FreeExtent(pExtent);
+		delete pExtent;
 	}
 }
 

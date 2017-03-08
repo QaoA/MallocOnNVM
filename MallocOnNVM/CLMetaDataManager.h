@@ -2,7 +2,6 @@
 #define __METADATA_MANAGER_H__
 
 #include "CLPerArenaBlockManager.h"
-#include "CLExtentManager.h"
 
 class CLExtent;
 
@@ -13,14 +12,11 @@ public:
 	~CLMetaDataManager();
 
 public:
-	CLExtent * GetExtent();
 	CLExtent * AllocANVMBlockForExtent(CLExtent * pExtent, unsigned int arenaId);
-	void FreeExtent(CLExtent * pExtent);
 	void FreeNVMBlockForExtent(CLExtent * pExtent);
 
 private:
 	CLPerArenaBlockManager m_blockManager;
-	CLExtentManager m_extentManager;
 };
 
 #endif

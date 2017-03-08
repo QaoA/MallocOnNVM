@@ -145,3 +145,13 @@ void CLExtent::DecreaseReferenceCount()
 	assert(m_pNVMBlock);
 	m_pNVMBlock->DecreaseReferenceCount();
 }
+
+void CLExtent::Recovery(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea)
+{
+	assert(pNVMBlock);
+	m_pNVMBlock = pNVMBlock;
+	m_pNVMBlockOwner = pBlockArea;
+	m_pNVMAddress = m_pNVMBlock->GetNVMAddress();
+	m_size = m_pNVMBlock->GetSize();
+	m_arenaId = m_pNVMBlock->GetArenaId();
+}

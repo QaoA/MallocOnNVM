@@ -8,7 +8,6 @@
 
 class CLExtentList;
 class CLExtent;
-class CLMetaDataManager;
 
 const static char * FILE_PATH = "/home/mq/workspace/forNVMmalloc.txt";
 
@@ -25,7 +24,7 @@ public:
 	bool MapMemory(CLExtent * pExtent, size_t size);
 	void * MapMemory(size_t size);
 	void UnmapMemory(CLExtent * pExtent);
-	void UnmapMemoryAndFreeExtent(CLExtentList * pExtentList, unsigned int unmapCount, CLMetaDataManager * pMetadataManager);
+	void UnmapMemoryAndFreeExtent(CLExtentList * pExtentList, unsigned int unmapCount);
 
 private:
 	void SetPagesMapped(void * pAddress, size_t size);

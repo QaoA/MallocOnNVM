@@ -20,7 +20,7 @@ public:
 
 public:
 	CLBlockArea * GetABlockArea();
-	void DoRecovery();
+	//void DoRecovery();
 
 private:
 	CLBlockArea * AppendNewBlockArea();

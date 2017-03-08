@@ -13,6 +13,9 @@ public:
 	void IncreaseReferenceCount();
 	void DecreaseReferenceCount();
 	unsigned int GetReferenceCount();
+	size_t GetSize();
+	void * GetNVMAddress();
+	unsigned int GetArenaId();
 
 private:
 	unsigned int m_referenceCount;

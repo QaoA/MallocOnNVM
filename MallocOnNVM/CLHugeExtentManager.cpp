@@ -1,6 +1,7 @@
 #include "CLHugeExtentManager.h"
 #include "SizeDefine.h"
 #include "CLNVMMemoryMapManager.h"
+#include "CLExtent.h"
 #include <cassert>
 
 CLHugeExtentManager::CLHugeExtentManager()
@@ -11,20 +12,19 @@ CLHugeExtentManager::~CLHugeExtentManager()
 {
 }
 
-CLExtent * CLHugeExtentManager::GetAvailableExtent(size_t size,CLMetaDataManager * pMetadataManager)
+CLExtent * CLHugeExtentManager::GetAvailableExtent(size_t size)
 {
-	assert(pMetadataManager);
 	size = AlignSize(size);
-	CLExtent * pExtent = pMetadataManager->GetExtent();
+	CLExtent * pExtent = new CLExtent();
 	CLNVMMemoryMapManager::GetInstance()->MapMemory(pExtent,size);
 	return pExtent;
 }
 
-void CLHugeExtentManager::FreeExtent(CLExtent * pExtent, CLMetaDataManager * pMetadataManager)
+void CLHugeExtentManager::FreeExtent(CLExtent * pExtent)
 {
-	assert(pExtent && pMetadataManager);
+	assert(pExtent);
 	CLNVMMemoryMapManager::GetInstance()->UnmapMemory(pExtent);
-	pMetadataManager->FreeExtent(pExtent);
+	delete pExtent;
 }
 
 size_t CLHugeExtentManager::AlignSize(size_t size)

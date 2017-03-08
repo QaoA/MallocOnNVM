@@ -38,3 +38,18 @@ unsigned int SLNVMBlock::GetReferenceCount()
 {
 	return m_referenceCount;
 }
+
+size_t SLNVMBlock::GetSize()
+{
+	return m_size;
+}
+
+void * SLNVMBlock::GetNVMAddress()
+{
+	return m_pAddress;
+}
+
+unsigned int SLNVMBlock::GetArenaId()
+{
+	return m_arenaId;
+}

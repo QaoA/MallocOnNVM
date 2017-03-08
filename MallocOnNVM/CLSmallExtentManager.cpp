@@ -1,6 +1,5 @@
 #include "CLSmallExtentManager.h"
 #include "CLExtent.h"
-#include "CLMetaDataManager.h"
 #include "CLNVMMemoryMapManager.h"
 #include <cassert>
 
@@ -14,13 +13,13 @@ CLSmallExtentManager::~CLSmallExtentManager()
 {
 }
 
-CLExtent * CLSmallExtentManager::GetAvailableExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager)
+CLExtent * CLSmallExtentManager::GetAvailableExtent(size_t expectedSize)
 {
-	assert(pMetadataManager && expectedSize <= SMALL_MAX_SIZE);
+	assert(expectedSize <= SMALL_MAX_SIZE);
 	expectedSize = AlignSize(expectedSize);
 	if (m_pCurrentExtent == nullptr || m_pCurrentExtent->GetSize() < expectedSize)
 	{
-		SetCurrentExtent(expectedSize,pMetadataManager);
+		SetCurrentExtent(expectedSize);
 	}
 	if (m_pCurrentExtent == nullptr)
 	{
@@ -32,7 +31,7 @@ CLExtent * CLSmallExtentManager::GetAvailableExtent(size_t expectedSize, CLMetaD
 	assert(currentExtentSize >= expectedSize);
 	if (currentExtentSize != expectedSize)
 	{
-		pReturnExtent = SplitExtent(m_pCurrentExtent, expectedSize, pMetadataManager);
+		pReturnExtent = SplitExtent(m_pCurrentExtent, expectedSize);
 		if (pReturnExtent == nullptr)
 		{
 			pReturnExtent = m_pCurrentExtent;
@@ -47,9 +46,9 @@ CLExtent * CLSmallExtentManager::GetAvailableExtent(size_t expectedSize, CLMetaD
 	return pReturnExtent;
 }
 
-void CLSmallExtentManager::FreeExtent(CLExtent * pExtent, CLMetaDataManager * pMetadataManager)
+void CLSmallExtentManager::FreeExtent(CLExtent * pExtent)
 {
-	assert(pExtent && pMetadataManager);
+	assert(pExtent);
 
 	CLExtent * pPrevious = pExtent->GetAdjacentPreviousExtent();
 	CLExtent * pNext = pExtent->GetAdjacentNextExtent();
@@ -66,7 +65,7 @@ void CLSmallExtentManager::FreeExtent(CLExtent * pExtent, CLMetaDataManager * pM
 			Appended = true;
 		}
 		pExtent->Merge(pPrevious);
-		pMetadataManager->FreeExtent(pPrevious);
+		delete pPrevious;
 		if (m_pLastExtent == pPrevious)
 		{
 			m_pLastExtent = pExtent;
@@ -84,7 +83,7 @@ void CLSmallExtentManager::FreeExtent(CLExtent * pExtent, CLMetaDataManager * pM
 			Appended = true;
 		}
 		pExtent->Merge(pNext);
-		pMetadataManager->FreeExtent(pNext);
+		delete pNext;
 		if (m_pLastExtent == pNext)
 		{
 			m_pLastExtent = pExtent;
@@ -95,12 +94,12 @@ void CLSmallExtentManager::FreeExtent(CLExtent * pExtent, CLMetaDataManager * pM
 		AppendExtentToExtentListArray(pExtent);
 		if (pExtent->GetSize() == SMALL_MAX_SIZE)
 		{
-			TryPurge(pMetadataManager);
+			TryPurge();
 		}
 	}
 }
 
-void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize, CLMetaDataManager * pMetadataManager)
+void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize)
 {
 	if (m_pCurrentExtent != nullptr)
 	{
@@ -119,7 +118,7 @@ void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize, CLMetaDataManag
 
 	if (m_pCurrentExtent == nullptr)
 	{
-		m_pCurrentExtent = MapANewExtent(pMetadataManager);
+		m_pCurrentExtent = MapANewExtent();
 	}
 }
 
@@ -131,14 +130,13 @@ void CLSmallExtentManager::AppendExtent(CLExtent * pExtent)
 	m_ExtentListArray[index].PutExtent(pExtent);
 }
 
-CLExtent * CLSmallExtentManager::MapANewExtent(CLMetaDataManager * pMetadataManager)
+CLExtent * CLSmallExtentManager::MapANewExtent()
 {
-	assert(pMetadataManager);
-	CLExtent * pExtent = pMetadataManager->GetExtent();
+	CLExtent * pExtent = new CLExtent();
 	bool isSuccess = CLNVMMemoryMapManager::GetInstance()->MapMemory(pExtent, SMALL_MAX_SIZE);
 	if (!isSuccess)
 	{
-		pMetadataManager->FreeExtent(pExtent);
+		delete pExtent;
 		return nullptr;
 	}
 	pExtent->SetAdjacentList(m_pLastExtent);
@@ -146,17 +144,13 @@ CLExtent * CLSmallExtentManager::MapANewExtent(CLMetaDataManager * pMetadataMana
 	return pExtent;
 }
 
-CLExtent * CLSmallExtentManager::SplitExtent(CLExtent * pTargetExtent,size_t expectedSize, CLMetaDataManager * pMetadataManager)
+CLExtent * CLSmallExtentManager::SplitExtent(CLExtent * pTargetExtent,size_t expectedSize)
 {
-	assert(pMetadataManager && pTargetExtent);
-	CLExtent * pExtent = pMetadataManager->GetExtent();
-	if (pExtent == nullptr)
-	{
-		return nullptr;
-	}
+	assert(pTargetExtent);
+	CLExtent * pExtent = new CLExtent();
 	if (pTargetExtent->Split(pExtent, expectedSize) == nullptr)
 	{
-		pMetadataManager->FreeExtent(pExtent);
+		delete pExtent;
 		return nullptr;
 	}
 	if (pTargetExtent == m_pLastExtent)
@@ -189,12 +183,12 @@ void CLSmallExtentManager::AppendExtentToExtentListArray(CLExtent * pExtent)
 	m_ExtentListArray[Size2Index(pExtent->GetSize())].PutExtent(pExtent);
 }
 
-void CLSmallExtentManager::TryPurge(CLMetaDataManager * pMetadataManager)
+void CLSmallExtentManager::TryPurge()
 {
 	if (m_ExtentListArray[SMALL_OBJECT_ARRAY_SIZE -1].GetExtentCount() >= SMALL_OBJECT_MAX_CACHE_EXTENT_COUNT)
 	{
 		unsigned int unmapCount = SMALL_OBJECT_MAX_CACHE_EXTENT_COUNT - (SMALL_OBJECT_MAX_CACHE_EXTENT_COUNT >> SMALL_OBJECT_CACHE_EXTENT_COUNT_PURGE_BIT);
-		CLNVMMemoryMapManager::GetInstance()->UnmapMemoryAndFreeExtent(&m_ExtentListArray[SMALL_OBJECT_ARRAY_SIZE - 1], unmapCount,pMetadataManager);
+		CLNVMMemoryMapManager::GetInstance()->UnmapMemoryAndFreeExtent(&m_ExtentListArray[SMALL_OBJECT_ARRAY_SIZE - 1], unmapCount);
 	}
 }
 

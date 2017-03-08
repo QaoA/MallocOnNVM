@@ -82,9 +82,6 @@
     <ClCompile Include="CLBlockArea.cpp">
       <Filter>Source files\Metadata</Filter>
     </ClCompile>
-    <ClCompile Include="CLExtentManager.cpp">
-      <Filter>Source files\Metadata</Filter>
-    </ClCompile>
     <ClCompile Include="CLGlobalBlockAreaManager.cpp">
       <Filter>Source files\Metadata</Filter>
     </ClCompile>
@@ -136,11 +133,14 @@
     <ClCompile Include="CLRecoverier.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="CLRadixTreeNode.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="CLAllocatedExtentManager.cpp">
       <Filter>Source files\Allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="CLRadixTreeNode.cpp">
+      <Filter>Source files\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="CLNVMMemoryUseInfoCollector.cpp">
+      <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,9 +163,6 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="CLBlockArea.h">
-      <Filter>Header files\Metadata</Filter>
-    </ClInclude>
-    <ClInclude Include="CLExtentManager.h">
       <Filter>Header files\Metadata</Filter>
     </ClInclude>
     <ClInclude Include="CLGlobalBlockAreaManager.h">
@@ -222,14 +219,17 @@
     <ClInclude Include="CLRecoverier.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="CLRadixTree.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLRadixTreeNode.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
     <ClInclude Include="CLAllocatedExtentManager.h">
       <Filter>Header files\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="CLRadixTree.h">
+      <Filter>Header files\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="CLRadixTreeNode.h">
+      <Filter>Header files\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="CLNVMMemoryUseInfoCollector.h">
+      <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
