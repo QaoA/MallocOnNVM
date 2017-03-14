@@ -3,12 +3,12 @@
 #include "CLCriticalSection.h"
 #include <cassert>
 
-CLArena::CLArena():
-m_arenaId(0),
+CLArena::CLArena(unsigned int arenaId):
+m_arenaId(arenaId),
 m_smallManager(),
 m_largeManager(),
 m_hugeManager(),
-m_metadataManager(),
+m_blockManager(),
 m_allocMutex(),
 m_bindMutex(),
 m_bindCount(0)
@@ -39,7 +39,7 @@ CLExtent * CLArena::GetExtent(size_t size)
 	{
 		return nullptr;
 	}
-	m_metadataManager.AllocANVMBlockForExtent(pExtent,m_arenaId);
+	pExtent->SetOccupied(&m_blockManager, m_arenaId);
 	assert(pExtent->IsOccupied());
 	return pExtent;
 }
@@ -48,7 +48,7 @@ void CLArena::FreeExtent(CLExtent * pExtent)
 {
 	CLCriticalSection cs(&m_allocMutex);
 	assert(pExtent);
-	m_metadataManager.FreeNVMBlockForExtent(pExtent);
+	pExtent->SetRelease(&m_blockManager);
 	size_t size = pExtent->GetSize();
 	if (size < SMALL_MAX_SIZE)
 	{
@@ -82,13 +82,13 @@ unsigned int CLArena::GetBindCount()
 	return m_bindCount;
 }
 
-void CLArena::SetArenaId(unsigned int id)
-{
-	assert(m_arenaId == 0);
-	m_arenaId = id;
-}
-
-unsigned CLArena::GetArenaId()
+unsigned int CLArena::GetArenaId()
 {
 	return m_arenaId;
+}
+
+void CLArena::RecieveBlockAreaRecovery(CLBlockArea * pBlockArea)
+{
+	assert(pBlockArea);
+	m_blockManager.RecieveBlockAreaRecovery(pBlockArea);
 }

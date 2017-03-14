@@ -6,22 +6,50 @@
 struct SLNVMBlock
 {
 public:
-	bool IsAvailable();
-	void SetData(void * pAddress, size_t size, unsigned int arenaId);
-	void Format();
-	void MakeFree();
-	void IncreaseReferenceCount();
-	void DecreaseReferenceCount();
-	unsigned int GetReferenceCount();
-	size_t GetSize();
-	void * GetNVMAddress();
-	unsigned int GetArenaId();
+	inline bool IsAvailable();
+	inline void SetData(void * pAddress, size_t size, unsigned int arenaId);
+	inline void Format();
+	inline void IncreaseReferenceCount();
+	inline void DecreaseReferenceCount();
+	inline int GetArenaId();
 
-private:
+public:
 	unsigned int m_referenceCount;
 	size_t m_size;
 	void * m_pAddress;
 	unsigned int m_arenaId;
 };
+
+void SLNVMBlock::SetData(void * pAddress, size_t size, unsigned int arenaId)
+{
+	m_pAddress = pAddress;
+	m_size = size;
+	m_arenaId = arenaId;
+}
+
+bool SLNVMBlock::IsAvailable()
+{
+	return !m_referenceCount;
+}
+
+void SLNVMBlock::Format()
+{
+	m_referenceCount = 0;
+}
+
+void SLNVMBlock::IncreaseReferenceCount()
+{
+	++m_referenceCount;
+}
+
+void SLNVMBlock::DecreaseReferenceCount()
+{
+	--m_referenceCount;
+}
+
+int SLNVMBlock::GetArenaId()
+{
+	return m_arenaId;
+}
 
 #endif

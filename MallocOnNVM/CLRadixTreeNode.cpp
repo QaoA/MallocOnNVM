@@ -68,3 +68,18 @@ void * CLRadixTreeNode::Remove(unsigned long key, unsigned long mask)
 		return pLeaf;
 	}
 }
+
+void * CLRadixTreeNode::Get(unsigned long key, unsigned long mask)
+{
+	unsigned long index = ((key & mask) >> (m_height*SLOT_COUNT_BIT));
+	if (m_height != 0)
+	{
+		assert(m_slots[index].m_pNextLayerNode != nullptr);
+		void * pLeaf = m_slots[index].m_pNextLayerNode->Get(key, mask >> SLOT_COUNT_BIT);
+		return pLeaf;
+	}
+	else
+	{
+		return m_slots[index].m_leaf;
+	}
+}

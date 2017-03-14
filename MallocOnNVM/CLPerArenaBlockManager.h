@@ -4,7 +4,10 @@
 #include <list>
 
 class CLBlockArea;
-class CLExtent;
+class CLBlock;
+
+#define CACHE_EMPTY_AREA_MAX_COUNT 8
+#define EMPTY_AREA_PURGE_BIT 2
 
 class CLPerArenaBlockManager
 {
@@ -13,13 +16,17 @@ public:
 	~CLPerArenaBlockManager();
 
 public:
-	CLExtent * AllocBlockForExtent(CLExtent * pExtent, unsigned int arenaId);
-	void FreeBlockForExtent(CLExtent * pExtent);
+	CLBlock * AllocBlock();
+	void FreeBlock(CLBlock * pBlock);
+
+public:
+	void RecieveBlockAreaRecovery(CLBlockArea * pBlockArea);
 
 private:
-	std::list<CLBlockArea *> m_NonFullAreaList;
-	std::list<CLBlockArea *> m_FullAreaList;
-	unsigned int m_nonFullAreasCount;
+	std::list<CLBlockArea *> m_nonFullAreaList;
+	std::list<CLBlockArea *> m_fullAreaList;
+	std::list<CLBlockArea *> m_emptyAreaList;
+	unsigned int m_emptyAreaCount;
 };
 
 #endif

@@ -16,7 +16,13 @@ CLExtent * CLHugeExtentManager::GetAvailableExtent(size_t size)
 {
 	size = AlignSize(size);
 	CLExtent * pExtent = new CLExtent();
-	CLNVMMemoryMapManager::GetInstance()->MapMemory(pExtent,size);
+	void * pAddress = CLNVMMemoryMapManager::GetInstance()->MapMemory(size);
+	if (pAddress == nullptr)
+	{
+		delete pExtent;
+		return nullptr;
+	}
+	pExtent->SetAddress(pAddress, size);
 	return pExtent;
 }
 

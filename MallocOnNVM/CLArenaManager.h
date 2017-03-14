@@ -21,10 +21,12 @@ public:
 public:
 	CLArena * GetArena();
 	CLArena * GetArena(unsigned int arenaId);
+	CLArena * GetArenaRecovery(unsigned int arenaId);
 
 private:
 	CLArena * GetArenaFromArrayOrNewAArena();
 	CLArena * GetArenaFromArray();
+	CLArena * TryNewAArena();
 
 private:
 	CLMutex m_arenaArrayLock;

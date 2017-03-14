@@ -1,22 +1,29 @@
 #include "CLNVMMemoryMapManager.h"
 #include <cstdlib>
-#include <sys/mman.h>
 #include <cassert>
+#include <fcntl.h>
+#include <unistd.h>
 #include "SizeDefine.h"
 #include "CLSystemException.h"
+#include "CLCriticalSection.h"
+#include "CLBaseMetadata.h"
 #include "CLExtent.h"
 #include "CLExtentList.h"
-#include "CLCriticalSection.h"
-#include "CLMetaDataManager.h"
 
-CLNVMMemoryMapManager::CLNVMMemoryMapManager():
+CLNVMMemoryMapManager::CLNVMMemoryMapManager() :
 m_fd(0),
 m_pBaseAddress(nullptr),
 m_pLastAcquiredAddress(nullptr),
+m_pBaseMetadata(nullptr),
 m_pagesManager(),
 m_mutex()
 {
-	if ((m_pBaseAddress = mmap(const_cast<void *>(MMAP_BASE_ADDRESS), MMAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
+	m_fd = open("/home/mq/forNVMmalloc.txt", O_RDWR);
+	if (m_fd == -1)
+	{
+		throw CLSystemException(FILE_OPEN_ERROR);
+	}
+	if ((m_pBaseAddress = mmap(const_cast<void *>(MMAP_BASE_ADDRESS), MMAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, m_fd, 0)) == MAP_FAILED)
 	{
 		throw CLSystemException(FILE_MAP_ERROR);
 	}
@@ -24,13 +31,17 @@ m_mutex()
 	{
 		throw CLSystemException(FILE_MAP_ADDRESS_ERROR);
 	}
-	madvise(m_pBaseAddress, MMAP_SIZE, MADV_DONTNEED);
-	m_pLastAcquiredAddress = m_pBaseAddress;
+	m_pBaseMetadata = new CLBaseMetadata(static_cast<SLNVMBaseMetadata*>(m_pBaseAddress));
+	void * pMapBaseAddress = reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pBaseAddress)+CLBaseMetadata::GetMetadataSize());
+	madvise(pMapBaseAddress, MMAP_SIZE - CLBaseMetadata::GetMetadataSize(), MADV_DONTNEED);
+	m_pLastAcquiredAddress = pMapBaseAddress;
 }
 
 CLNVMMemoryMapManager::~CLNVMMemoryMapManager()
 {
+	delete m_pBaseMetadata;
 	munmap(m_pBaseAddress, MMAP_SIZE);
+	close(m_fd);
 }
 
 CLNVMMemoryMapManager * CLNVMMemoryMapManager::GetInstance()
@@ -39,24 +50,13 @@ CLNVMMemoryMapManager * CLNVMMemoryMapManager::GetInstance()
 	return &instance;
 }
 
-bool CLNVMMemoryMapManager::MapMemory(CLExtent * pExtent, size_t size)
-{
-	assert(pExtent);
-	void * pAddress = MapMemory(size);
-	if (pAddress == nullptr)
-	{
-		return false;
-	}
-	pExtent->SetAddress(pAddress, size);
-	return true;
-}
-
 void * CLNVMMemoryMapManager::MapMemory(size_t size)
 {
+	assert((size &PAGE_SIZE_BIT) == 0);
 	CLCriticalSection cs(&m_mutex);
-	assert(size % PAGE_SIZE == 0);
+	unsigned long pageCount = size >> PAGE_SIZE_BIT;
 	void * pReturnAddress = nullptr;
-	pReturnAddress = m_pagesManager.GetPages(size / PAGE_SIZE);
+	pReturnAddress = m_pagesManager.GetPages(pageCount);
 	if (pReturnAddress == nullptr)
 	{
 		void * pNewLastAddress = reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pLastAcquiredAddress)+size);
@@ -98,12 +98,11 @@ void CLNVMMemoryMapManager::UnmapMemoryAndFreeExtent(CLExtentList * pExtentList,
 	}
 }
 
-void CLNVMMemoryMapManager::SetPagesMapped(void * pAddress, size_t size)
+void CLNVMMemoryMapManager::Recovery()
 {
-	madvise(pAddress, size, MADV_WILLNEED);
 }
 
-void CLNVMMemoryMapManager::SetPagesUnmapped(void * pAddress, size_t size)
+void CLNVMMemoryMapManager::GetMemoryRecovery(void * pAddress, size_t size)
 {
-	madvise(pAddress, size, MADV_DONTNEED);
+	SetPagesMapped(pAddress, size);
 }

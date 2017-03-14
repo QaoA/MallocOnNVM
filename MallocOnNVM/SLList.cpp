@@ -1,69 +1,25 @@
 #include "SLList.h"
-#include <cstring>
-#include <cassert>
 
-SLList::SLList()
+SLList::SLList() :
+m_pPrevious(this),
+m_pNext(this)
 {
-	InitDefault();
 }
 
 SLList::~SLList()
 {
 }
 
-void SLList::InitDefault()
+void SLList::Append(SLList * pPrevious)
 {
-	m_pPrevious = this;
-	m_pNext = this;
-}
-
-void SLList::InitWithKnownNode(SLList * pPrevious)
-{
-	assert(pPrevious);
 	m_pPrevious = pPrevious;
 	m_pNext = pPrevious->m_pNext;
-}
-
-void SLList::LinkToList(SLList * pPrevious)
-{
-	assert(pPrevious);
-	SLList * pNext = pPrevious->m_pNext;
-
-	pNext->m_pPrevious = this;
-	pPrevious->m_pNext = this;
-}
-
-void SLList::AppendToList(SLList * pPrevious)
-{
-	InitWithKnownNode(pPrevious);
-	LinkToList(m_pPrevious);
+	m_pPrevious->m_pNext = this;
+	m_pNext->m_pPrevious = this;
 }
 
 void SLList::Remove()
 {
-	SLList * pPrevious = this->m_pPrevious;
-	SLList * pNext = this->m_pNext;
-	pPrevious->m_pNext = pNext;
-	pNext->m_pPrevious = pPrevious;
-}
-
-SLList * SLList::GetNext()
-{
-	return m_pNext;
-}
-
-SLList * SLList::GetPrevious()
-{
-	return m_pPrevious;
-}
-
-SLList * SLList::GetNextRecovery()
-{
-	SLList * pNextsNext = m_pNext->m_pNext;
-	SLList * pLogicalSelf = pNextsNext->m_pPrevious->m_pPrevious;
-	if (pLogicalSelf != this)
-	{
-		m_pNext = pLogicalSelf;
-	}
-	return m_pNext;
+	m_pPrevious->m_pNext = m_pNext;
+	m_pNext->m_pPrevious = m_pPrevious;
 }

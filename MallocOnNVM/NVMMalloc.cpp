@@ -3,6 +3,7 @@
 #include "CLArena.h"
 #include "CLExtent.h"
 #include "CLAllocatedExtentManager.h"
+#include "CLRecoverier.h"
 
 void * MallocOnNVM(size_t size)
 {
@@ -20,9 +21,33 @@ void FreeOnNVM(void * pNVMAddress)
 	{
 		return;
 	}
-	CLExtent * pExtent = CLAllocatedExtentManager::GetInstance()->Get(pNVMAddress);
+	CLExtent * pExtent = CLAllocatedExtentManager::GetInstance()->Remove(pNVMAddress);
 	if (pExtent)
 	{
 		CLArenaManager::GetInstance()->GetArena(pExtent->GetArenaId())->FreeExtent(pExtent);
 	}
+}
+
+void NotifyNVMMemoryGet(void * pNVMAddress)
+{
+	CLExtent * pExtent = CLAllocatedExtentManager::GetInstance()->Get(pNVMAddress);
+	if (pExtent)
+	{
+		pExtent->IncreaseReferenceCount();
+	}
+}
+
+void NotifyNVMMemoryRelease(void * pNVMAddress)
+{
+	CLExtent * pExtent = CLAllocatedExtentManager::GetInstance()->Get(pNVMAddress);
+	if (pExtent)
+	{
+		pExtent->DecreaseReferenceCount();
+	}
+}
+
+void Recovery()
+{
+	CLRecoverier r;
+	r.DoRecovery();
 }

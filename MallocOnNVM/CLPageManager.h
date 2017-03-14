@@ -3,7 +3,6 @@
 
 #include <map>
 
-//简单的代码实现，可以用但不够好
 class CLPageManager
 {
 public:

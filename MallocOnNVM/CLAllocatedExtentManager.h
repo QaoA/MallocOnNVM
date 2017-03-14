@@ -16,6 +16,7 @@ public:
 
 public:
 	void Put(CLExtent * pExtent);
+	CLExtent * Remove(void * pNVMAddress);
 	CLExtent * Get(void * pNVMAddress);
 
 private:

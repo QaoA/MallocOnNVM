@@ -64,6 +64,7 @@
     <ClCompile Include="CLAllocatedExtentManager.cpp" />
     <ClCompile Include="CLArena.cpp" />
     <ClCompile Include="CLArenaManager.cpp" />
+    <ClCompile Include="CLBlock.cpp" />
     <ClCompile Include="CLBlockArea.cpp" />
     <ClCompile Include="CLExtentList.cpp" />
     <ClCompile Include="CLGlobalBlockAreaManager.cpp" />
@@ -72,20 +73,22 @@
     <ClCompile Include="CLHugeExtentManager.cpp" />
     <ClCompile Include="CLLargeExtenttManager.cpp" />
     <ClCompile Include="CLMutex.cpp" />
-    <ClCompile Include="CLMetaDataManager.cpp" />
+    <ClCompile Include="CLBaseMetadata.cpp" />
     <ClCompile Include="CLNVMMemoryMapManager.cpp" />
     <ClCompile Include="CLNVMMemoryUseInfoCollector.cpp" />
     <ClCompile Include="CLPageManager.cpp" />
     <ClCompile Include="CLPerArenaBlockManager.cpp" />
     <ClCompile Include="CLRadixTreeNode.cpp" />
     <ClCompile Include="CLRecoverier.cpp" />
+    <ClCompile Include="CLRecoveryInfoPack.cpp" />
     <ClCompile Include="CLSmallExtentManager.cpp" />
     <ClCompile Include="CLSpinLock.cpp" />
     <ClCompile Include="CLSystemException.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NVMMalloc.cpp" />
     <ClCompile Include="SLList.cpp" />
-    <ClCompile Include="SLNVMBlock.cpp" />
+    <ClCompile Include="SLMemoryUseInfo.h" />
+    <ClCompile Include="SLNVMBaseMetadatacpp.cpp" />
     <ClCompile Include="SLNVMBlockArea.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +100,7 @@
     <ClInclude Include="CLAllocatedExtentManager.h" />
     <ClInclude Include="CLArena.h" />
     <ClInclude Include="CLArenaManager.h" />
+    <ClInclude Include="CLBlock.h" />
     <ClInclude Include="CLBlockArea.h" />
     <ClInclude Include="CLExtentList.h" />
     <ClInclude Include="CLGlobalBlockAreaManager.h" />
@@ -105,7 +109,7 @@
     <ClInclude Include="CLHugeExtentManager.h" />
     <ClInclude Include="CLLargeExtentManager.h" />
     <ClInclude Include="CLMutex.h" />
-    <ClInclude Include="CLMetaDataManager.h" />
+    <ClInclude Include="CLBaseMetadata.h" />
     <ClInclude Include="CLNVMMemoryMapManager.h" />
     <ClInclude Include="CLNVMMemoryUseInfoCollector.h" />
     <ClInclude Include="CLPageManager.h" />
@@ -113,14 +117,18 @@
     <ClInclude Include="CLRadixTree.h" />
     <ClInclude Include="CLRadixTreeNode.h" />
     <ClInclude Include="CLRecoverier.h" />
+    <ClInclude Include="CLRecoveryInfoPack.h" />
     <ClInclude Include="CLSmallExtentManager.h" />
     <ClInclude Include="CLSpinLock.h" />
     <ClInclude Include="CLSystemException.h" />
     <ClInclude Include="CLTLSVariable.h" />
+    <ClInclude Include="MacroDefine.h" />
     <ClInclude Include="ILLock.h" />
     <ClInclude Include="NVMMalloc.h" />
     <ClInclude Include="SizeDefine.h" />
     <ClInclude Include="SLList.h" />
+    <ClInclude Include="SLNVMList.h" />
+    <ClInclude Include="SLNVMBaseMetadata.h" />
     <ClInclude Include="SLNVMBlock.h" />
     <ClInclude Include="SLNVMBlockArea.h" />
   </ItemGroup>

@@ -7,7 +7,7 @@ static const unsigned int PAGE_SIZE_MASK = 0xfff;
 
 static const void * MMAP_BASE_ADDRESS = reinterpret_cast<void *>(0x00007fffb6fd7000);
 static const void * MMAP_METADATA_BASE_ADDRESS = MMAP_BASE_ADDRESS;
-static const unsigned long MMAP_SIZE = 1 << 30;
+static const unsigned long MMAP_SIZE = 1 << 23;
 
 static const unsigned int SMALL_MAX_SIZE = PAGE_SIZE;
 static const unsigned int SMALL_OBJECT_ALIGN = 16;

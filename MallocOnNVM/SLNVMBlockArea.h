@@ -1,29 +1,34 @@
 #ifndef __NVM_BLOCK_AREA_H__
 #define __NVM_BLOCK_AREA_H__
 
-#include "SLList.h"
+#include "SLNVMList.h"
 #include "SizeDefine.h"
 #include "SLNVMBlock.h"
 
-class CLBlockArea;
+#define NVM_BLOCK_AREA_SIZE PAGE_SIZE
 
 struct SLNVMBlockArea
 {
-	friend class CLBlockArea;
 public:
 	static unsigned int GetBlockCount();
-	static unsigned int GetClassSize();
 
 public:
 	void Format(SLNVMBlockArea * pPrevious = nullptr);
-	bool IsBlockBelongToSelf(SLNVMBlock * pBlock);
 	SLNVMBlockArea * GetNextBlockAreaRecovery();
 	
-private:
-	SLList m_list;
-	SLNVMBlock m_pBlocks[1];
+public:
+	struct SLData
+	{
+		SLNVMList m_list;
+		SLNVMBlock m_pBlocks[1];
+	};
+	union
+	{
+		SLData m_data;
+		char m_sizeArray[NVM_BLOCK_AREA_SIZE];
+	};
 };
 
-const unsigned int AREA_BLOCK_COUNT = (PAGE_SIZE - (sizeof(SLNVMBlockArea) - sizeof(SLNVMBlock))) / sizeof(SLNVMBlock);
+const unsigned int AREA_BLOCK_COUNT = (sizeof(SLNVMBlockArea) - sizeof(SLNVMBlockArea::SLData) + sizeof(SLNVMBlock)) / sizeof(SLNVMBlock);
 
 #endif

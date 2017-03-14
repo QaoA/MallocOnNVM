@@ -64,7 +64,7 @@ void CLPageManager::PutPages(void * pAddress, unsigned int pageCount)
 	{
 		if (CanMerge(it[1]->first, it[1]->second, it[2]->first))
 		{
-			newPageCount = newPageCount == 0 ? it[1]->second + it[1]->second : it[2]->second;
+			newPageCount += (newPageCount == 0 ? it[1]->second + it[2]->second : it[2]->second);
 			mergeArray[1] = true; mergeArray[2] = true;
 		}
 	}

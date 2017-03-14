@@ -2,6 +2,11 @@
 #define __RECOVERIER_H__
 
 #include "CLNVMMemoryUseInfoCollector.h"
+#include <list>
+
+struct SLNVMBlock;
+struct SLNVMBlockArea;
+class CLBlockArea;
 
 class CLRecoverier
 {
@@ -11,7 +16,9 @@ public:
 
 public:
 	void DoRecovery();
-	void AddAllocatedMemoryInfo(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea);
+	void AppendInfo(SLNVMBlock * pBlock);
+	void AppendInfo(SLNVMBlockArea * pArea);
+	void DispatchBlockArea(CLBlockArea * pBlockArea, int arenaId);
 
 private:
 	CLNVMMemoryUseInfoCollector m_collector;

@@ -2,26 +2,30 @@
 #define __NVM_MEMORY_USE_TABLE_H__
 
 #include <set>
-#include "CLExtent.h"
+#include <cstddef>
+#include <list>
 
 class CLExtent;
+struct SLMemoryUseInfo;
 
 class CLNVMMemoryUseInfoCollector
 {
 public:
-	struct SLCompare
+	struct SLComparer
 	{
-		bool operator()(CLExtent * pFirst, CLExtent * pSecond);
+		bool operator()(SLMemoryUseInfo * pFirst, SLMemoryUseInfo * pSecond);
 	};
+
 public:
 	CLNVMMemoryUseInfoCollector();
 	~CLNVMMemoryUseInfoCollector();
 
 public:
-	void AddUsedMemory(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea);
+	void AppendMemoryUseInfo(void * pAddress, size_t size, int arenaId);
+	void AppendAreaUseInfo(void * pAddress, size_t size);
 
 private:
-	std::set<CLExtent *,SLCompare> m_set;
+	std::set<SLMemoryUseInfo *, SLComparer> m_set;
 };
 
 #endif

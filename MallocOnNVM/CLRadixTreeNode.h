@@ -24,6 +24,7 @@ public:
 public:
 	void Insert(unsigned long key, void * pLeaf, unsigned long mask);
 	void * Remove(unsigned long key, unsigned long mask);
+	void * Get(unsigned long key, unsigned long mask);
 
 private:
 	std::vector<SLRadixTreeSlot> m_slots;

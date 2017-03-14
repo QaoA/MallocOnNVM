@@ -1,37 +1,30 @@
 #include "SLNVMBlockArea.h"
 #include "SLNVMBlock.h"
 #include <cstring>
+#include <cassert>
 
 unsigned int SLNVMBlockArea::GetBlockCount()
 {
 	return AREA_BLOCK_COUNT;
 }
 
-unsigned int SLNVMBlockArea::GetClassSize()
-{
-	return PAGE_SIZE;
-}
-
 void SLNVMBlockArea::Format(SLNVMBlockArea * pPrevious)
 {
-	if (pPrevious)
+	for (int i = 0; i<AREA_BLOCK_COUNT; ++i)
 	{
-		m_list.InitWithKnownNode(&pPrevious->m_list);
+		m_data.m_pBlocks[i].Format();
+	}
+	if (pPrevious != nullptr)
+	{
+		m_data.m_list.Append(&pPrevious->m_data.m_list);
 	}
 	else
 	{
-		m_list.InitDefault();
+		m_data.m_list.Init(&pPrevious->m_data.m_list);
 	}
-	memset(&this->m_pBlocks[0], 0, GetBlockCount() * sizeof(SLNVMBlock));
-}
-
-bool SLNVMBlockArea::IsBlockBelongToSelf(SLNVMBlock * pBlock)
-{
-	return (reinterpret_cast<unsigned long>(pBlock) > reinterpret_cast<unsigned long>(this)) &&
-		(reinterpret_cast<unsigned long>(pBlock) < (reinterpret_cast<unsigned long>(this) + GetClassSize()));
 }
 
 SLNVMBlockArea * SLNVMBlockArea::GetNextBlockAreaRecovery()
 {
-	return GetContainer(SLNVMBlockArea, m_list, m_list.GetNextRecovery());
+	return GetContainer(SLNVMBlockArea, m_data.m_list, m_data.m_list.GetNextRecovery());
 }

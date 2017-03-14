@@ -15,6 +15,7 @@ public:
 	
 public:
 	void Insert(LeafType * pNewNode, void * key);
+	LeafType * Get(void * key);
 	LeafType * GetAndRemove(void * key);
 
 private:
@@ -37,6 +38,12 @@ void CLRadixTree<LeafType>::Insert(LeafType * pNewNode, void * key)
 {
 	assert(pNewNode);
 	m_root.Insert(reinterpret_cast<unsigned long>(key), pNewNode, SLOT_INIT_MASK);
+}
+
+template<class LeafType>
+LeafType * CLRadixTree<LeafType>::Get(void * key)
+{
+	return static_cast<LeafType *>(m_root.Get(reinterpret_cast<unsigned long>(key), SLOT_INIT_MASK));
 }
 
 template<class LeafType>

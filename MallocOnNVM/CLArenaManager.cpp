@@ -49,36 +49,40 @@ CLArena * CLArenaManager::GetArena(unsigned int arenaId)
 {
 	assert(arenaId < m_arenaMaxCount);
 	CLArena * pReturnArena = m_arenaArray[arenaId];
+	if (pReturnArena == nullptr)
+	{
+		CLCriticalSection cs(&m_arenaArrayLock);
+		if (pReturnArena == nullptr)
+		{
+			m_arenaArray[arenaId] = new CLArena(arenaId);
+		}
+		pReturnArena = m_arenaArray[arenaId];
+	}
 	assert(pReturnArena);
 	return pReturnArena;
 }
 
-CLArena * CLArenaManager::GetArenaFromArrayOrNewAArena()
+CLArena * CLArenaManager::GetArenaRecovery(unsigned int arenaId)
 {
-	CLArena * pNewArena = nullptr;
-	CLArena * pReturnArena = nullptr;
-	if (m_arenaCurrentCount <= m_arenaMaxCount)
-	{
-		pNewArena = new CLArena();
-	}
+	assert(arenaId < m_arenaMaxCount);
+	CLArena * pReturnArena = m_arenaArray[arenaId];
+	if (pReturnArena == nullptr)
 	{
 		CLCriticalSection cs(&m_arenaArrayLock);
-		if (m_arenaCurrentCount >= m_arenaMaxCount)
+		assert(arenaId >= m_arenaCurrentCount);
+		for (int i = m_arenaCurrentCount; i <= arenaId; ++i)
 		{
-			pReturnArena = nullptr;
+			m_arenaArray[i] = new CLArena(i);
 		}
-		else
-		{
-			m_arenaArray[m_arenaCurrentCount] = pNewArena;
-			pReturnArena = pNewArena;
-			pNewArena->SetArenaId(m_arenaCurrentCount);
-			m_arenaCurrentCount++;
-		}
+		m_arenaCurrentCount = arenaId;
 	}
-	if (pNewArena != pReturnArena)
-	{
-		delete pNewArena;
-	}
+	return m_arenaArray[arenaId];
+}
+
+CLArena * CLArenaManager::GetArenaFromArrayOrNewAArena()
+{
+	CLArena * pReturnArena = nullptr;
+	pReturnArena = TryNewAArena();
 	if (pReturnArena == nullptr)
 	{
 		pReturnArena = GetArenaFromArray();
@@ -91,6 +95,7 @@ CLArena * CLArenaManager::GetArenaFromArray()
 	assert(m_arenaCurrentCount >= m_arenaMaxCount);
 	int minBindCount = INT_MAX;
 	int minIndex = 0;
+	CLCriticalSection cs(&m_arenaArrayLock);
 	for (int i = 0; i < m_arenaMaxCount; ++i)
 	{
 		unsigned int currentBindCount = m_arenaArray[i]->GetBindCount();
@@ -101,4 +106,21 @@ CLArena * CLArenaManager::GetArenaFromArray()
 		}
 	}
 	return m_arenaArray[minIndex];
+}
+
+CLArena * CLArenaManager::TryNewAArena()
+{
+	CLArena * pReturnArena = nullptr;
+	CLCriticalSection cs(&m_arenaArrayLock);
+	if (m_arenaCurrentCount >= m_arenaMaxCount)
+	{
+		pReturnArena = nullptr;
+	}
+	else
+	{
+		pReturnArena = new CLArena(m_arenaCurrentCount);
+		m_arenaArray[m_arenaCurrentCount] = pReturnArena;
+		m_arenaCurrentCount++;
+	}
+	return pReturnArena;
 }

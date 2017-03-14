@@ -1,11 +1,11 @@
 #include "CLBlockArea.h"
 #include "SLNVMBlockArea.h"
 #include "CLRecoverier.h"
+#include "CLBlock.h"
 #include <cassert>
 
-CLBlockArea::CLBlockArea():
-m_list(),
-m_pNVMBlockArea(nullptr),
+CLBlockArea::CLBlockArea(SLNVMBlockArea * pNVMBlockArea) :
+m_pNVMBlockArea(pNVMBlockArea),
 m_freeBlockList(),
 m_freeBlockCount(0)
 {
@@ -15,57 +15,30 @@ CLBlockArea::~CLBlockArea()
 {
 }
 
-void CLBlockArea::Format(SLNVMBlockArea * pNVMBlockArea)
+unsigned int CLBlockArea::GetClassSize()
 {
-	Format(pNVMBlockArea, nullptr);
+	return sizeof(SLNVMBlockArea);
 }
 
-void CLBlockArea::Format(SLNVMBlockArea * pNVMBlockArea, CLBlockArea * pPreviousArea)
+void CLBlockArea::Format(CLBlockArea * pPreviousArea)
 {
-	assert(pNVMBlockArea);
-	m_pNVMBlockArea = pNVMBlockArea;
-
 	if (pPreviousArea == nullptr)
 	{
-		m_list.InitDefault();
 		m_pNVMBlockArea->Format();
 	}
 	else
 	{
-		m_list.InitWithKnownNode(&pPreviousArea->m_list);
 		m_pNVMBlockArea->Format(pPreviousArea->m_pNVMBlockArea);
 	}
 
 	m_freeBlockCount = SLNVMBlockArea::GetBlockCount();
 	for (int i = 0; i < m_freeBlockCount; ++i)
 	{
-		m_freeBlockList.push_back(&m_pNVMBlockArea->m_pBlocks[i]);
+		m_freeBlockList.push_back(&m_pNVMBlockArea->m_data.m_pBlocks[i]);
 	}
 }
 
-void CLBlockArea::Recovery(SLNVMBlockArea * pNVMBlockArea, CLRecoverier * pRecoverier)
-{
-	assert(pNVMBlockArea && pRecoverier);
-	m_pNVMBlockArea = pNVMBlockArea;
-	unsigned int blockCount = SLNVMBlockArea::GetBlockCount();
-	for (int i = 0; i < blockCount; ++i)
-	{
-		if (m_pNVMBlockArea->m_pBlocks[i].IsAvailable())
-		{
-			m_freeBlockList.push_back(&m_pNVMBlockArea->m_pBlocks[i]);
-			m_freeBlockCount++;
-		}
-		else
-		{
-			pRecoverier->AddAllocatedMemoryInfo(&m_pNVMBlockArea->m_pBlocks[i], this);
-			//将已分配的块放到radix tree中
-			//将已分配的块的地址加入到nvmMemoryUseTable中
-			//返回该块属于哪个arena
-		}
-	}
-}
-
-SLNVMBlock * CLBlockArea::GetAvailableBlock()
+CLBlock * CLBlockArea::GetAvailableBlock()
 {
 	if (m_freeBlockCount == 0)
 	{
@@ -75,37 +48,33 @@ SLNVMBlock * CLBlockArea::GetAvailableBlock()
 	m_freeBlockCount--;
 	SLNVMBlock * pReturnBlock = m_freeBlockList.back();
 	m_freeBlockList.pop_back();
-	return pReturnBlock;
+	return new CLBlock(pReturnBlock, this);
 }
 
-void CLBlockArea::FreeBlock(SLNVMBlock * pNVMBlock)
+void CLBlockArea::FreeBlock(CLBlock * pBlock)
 {
-	assert(pNVMBlock && IsBlockBelongToSelf(pNVMBlock));
-	
-	m_freeBlockList.push_back(pNVMBlock);
+	assert(pBlock);
+	m_freeBlockList.push_back(pBlock->m_pNVMBlock);
 	m_freeBlockCount++;
+	delete pBlock;
 }
 
-void CLBlockArea::LinkToList(CLBlockArea * pPreviousArea)
+int CLBlockArea::Recovery(CLRecoverier & recoverier)
 {
-	if (pPreviousArea)
+	unsigned int blockCount = SLNVMBlockArea::GetBlockCount();
+	int arenaId = -1;
+	for (int i = 0; i < blockCount; ++i)
 	{
-		m_list.LinkToList(&pPreviousArea->m_list);
-		m_pNVMBlockArea->m_list.LinkToList(&pPreviousArea->m_pNVMBlockArea->m_list);
+		if (m_pNVMBlockArea->m_data.m_pBlocks[i].IsAvailable())
+		{
+			m_freeBlockList.push_back(&m_pNVMBlockArea->m_data.m_pBlocks[i]);
+			m_freeBlockCount++;
+		}
+		else
+		{
+			arenaId = (arenaId == -1) ? m_pNVMBlockArea->m_data.m_pBlocks[i].GetArenaId() : arenaId;
+			recoverier.AppendInfo(&m_pNVMBlockArea->m_data.m_pBlocks[i]);
+		}
 	}
-}
-
-unsigned int CLBlockArea::GetFreeBlockCount()
-{
-	return m_freeBlockCount;
-}
-
-bool CLBlockArea::IsFull()
-{
-	return GetFreeBlockCount() == SLNVMBlockArea::GetBlockCount();
-}
-
-bool CLBlockArea::IsBlockBelongToSelf(SLNVMBlock * pNVMBlock)
-{
-	return m_pNVMBlockArea->IsBlockBelongToSelf(pNVMBlock);
+	return arenaId;
 }

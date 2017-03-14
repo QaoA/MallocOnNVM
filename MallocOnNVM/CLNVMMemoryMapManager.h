@@ -3,13 +3,13 @@
 
 #include <cstddef>
 #include <set>
+#include <sys/mman.h>
 #include "CLPageManager.h"
 #include "CLMutex.h"
 
 class CLExtentList;
 class CLExtent;
-
-const static char * FILE_PATH = "/home/mq/workspace/forNVMmalloc.txt";
+class CLBaseMetadata;
 
 class CLNVMMemoryMapManager
 {
@@ -21,21 +21,41 @@ public:
 	static CLNVMMemoryMapManager * GetInstance();
 
 public:
-	bool MapMemory(CLExtent * pExtent, size_t size);
 	void * MapMemory(size_t size);
 	void UnmapMemory(CLExtent * pExtent);
 	void UnmapMemoryAndFreeExtent(CLExtentList * pExtentList, unsigned int unmapCount);
+	inline CLBaseMetadata * GetBaseMetadata();
+
+public:
+	void Recovery();
+	void GetMemoryRecovery(void * pAddress, size_t size);
 
 private:
-	void SetPagesMapped(void * pAddress, size_t size);
-	void SetPagesUnmapped(void * pAddress, size_t size);
+	inline void SetPagesMapped(void * pAddress, size_t size);
+	inline void SetPagesUnmapped(void * pAddress, size_t size);
 
 private:
 	int m_fd;
 	void * m_pBaseAddress;
 	void * m_pLastAcquiredAddress;
+	CLBaseMetadata * m_pBaseMetadata;
 	CLPageManager m_pagesManager;
 	CLMutex m_mutex;
 };
+
+CLBaseMetadata * CLNVMMemoryMapManager::GetBaseMetadata()
+{
+	return m_pBaseMetadata;
+}
+
+void CLNVMMemoryMapManager::SetPagesMapped(void * pAddress, size_t size)
+{
+	madvise(pAddress, size, MADV_WILLNEED);
+}
+
+void CLNVMMemoryMapManager::SetPagesUnmapped(void * pAddress, size_t size)
+{
+	madvise(pAddress, size, MADV_DONTNEED);
+}
 
 #endif

@@ -2,8 +2,10 @@
 #define __GLOBAL_BLOCK_AREA_MANAGER_H__
 
 #include "CLMutex.h"
+#include <list>
 
 class CLBlockArea;
+class CLRecoverier;
 
 class CLGlobalBlockAreaManager
 {
@@ -20,14 +22,15 @@ public:
 
 public:
 	CLBlockArea * GetABlockArea();
-	//void DoRecovery();
+	void FreeBlockArea(CLBlockArea * pArea);
+	void FreeBlockAreas(std::list<CLBlockArea *> & areaList, unsigned int freeCount);
+
+public:
+	void Recovery(CLRecoverier & recoverier);
+	void RecieveFreeBlockAreaRecovery(CLBlockArea * pBlockArea);
 
 private:
-	CLBlockArea * AppendNewBlockArea();
-	void InitFirstBlockArea();
-	CLBlockArea * InitABlockArea();
-
-private:
+	std::list<CLBlockArea *> m_areaList;
 	CLBlockArea * m_pFirstBlockArea;
 	CLMutex m_lock;
 };

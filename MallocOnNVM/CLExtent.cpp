@@ -1,14 +1,14 @@
 #include "CLExtent.h"
 #include "SLNVMBlock.h"
+#include "CLPerArenaBlockManager.h"
 #include <cassert>
 
 CLExtent::CLExtent():
 m_adjacentList(),
 m_pNVMAddress(nullptr),
 m_size(0),
-m_pNVMBlock(nullptr),
-m_pNVMBlockOwner(nullptr),
-m_arenaId(0)
+m_arenaId(0),
+m_pBlock(nullptr)
 {
 }
 
@@ -16,51 +16,32 @@ CLExtent::~CLExtent()
 {
 }
 
-void CLExtent::SetOccupied(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockOwner, unsigned int arenaId)
+bool CLExtent::SetOccupied(CLPerArenaBlockManager * pBlockManager, unsigned int arenaId)
 {
-	assert(pNVMBlock&&pBlockOwner);
-	m_pNVMBlockOwner = pBlockOwner;
-	m_pNVMBlock = pNVMBlock;
+	assert(pBlockManager);
+	m_pBlock = pBlockManager->AllocBlock();
+	if (m_pBlock == nullptr)
+	{
+		return false;
+	}
 	m_arenaId = arenaId;
-	m_pNVMBlock->SetData(m_pNVMAddress, m_size,arenaId);
+	m_pBlock->SetData(m_pNVMAddress, m_size, m_arenaId);
+	return true;
 }
 
-void CLExtent::SetRelease()
+void CLExtent::SetRelease(CLPerArenaBlockManager * pBlockManager)
 {
-	assert(m_pNVMBlock->GetReferenceCount() == 0);
-	m_pNVMBlock = nullptr;
+	assert(pBlockManager);
+	pBlockManager->FreeBlock(m_pBlock);
+	m_pBlock = nullptr;
 }
 
-void CLExtent::SetAdjacentList(CLExtent * pPreviousExtent)
+void CLExtent::AppendToAdjacentList(CLExtent * pPreviousExtent)
 {
-	if (pPreviousExtent)
+	if (pPreviousExtent != nullptr)
 	{
-		m_adjacentList.InitWithKnownNode(&pPreviousExtent->m_adjacentList);
+		m_adjacentList.Append(&pPreviousExtent->m_adjacentList);
 	}
-	else
-	{
-		m_adjacentList.InitDefault();
-	}
-}
-
-bool CLExtent::IsOccupied()
-{
-	return m_pNVMBlock;
-}
-
-CLBlockArea * CLExtent::GetBlockOwner()
-{
-	return m_pNVMBlockOwner;
-}
-
-SLNVMBlock * CLExtent::GetNVMBlock()
-{
-	return m_pNVMBlock;
-}
-
-size_t CLExtent::GetSize()
-{
-	return m_size;
 }
 
 CLExtent * CLExtent::Split(CLExtent * pNewExtent,size_t anotherExtentSize)
@@ -74,7 +55,7 @@ CLExtent * CLExtent::Split(CLExtent * pNewExtent,size_t anotherExtentSize)
 	m_size -= anotherExtentSize;
 	void * pNewNVMAddress = reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pNVMAddress)+m_size);
 	pNewExtent->SetAddress(pNewNVMAddress, anotherExtentSize);
-	pNewExtent->m_adjacentList.AppendToList(&m_adjacentList);
+	pNewExtent->m_adjacentList.Append(&m_adjacentList);
 	return pNewExtent;
 }
 
@@ -103,55 +84,14 @@ bool CLExtent::CanMerge(CLExtent * pAnotherExtent)
 		(reinterpret_cast<unsigned long>(pAnotherExtent->m_pNVMAddress) + static_cast<unsigned long>(pAnotherExtent->m_size) == reinterpret_cast<unsigned long>(m_pNVMAddress));
 }
 
-void CLExtent::SetAddress(void * pNVMAddress, size_t size)
-{
-	m_pNVMAddress = pNVMAddress;
-	m_size = size;
-}
 
-CLExtent * CLExtent::GetAdjacentNextExtent()
-{
-	return GetContainer(CLExtent, m_adjacentList, m_adjacentList.GetNext());
-}
 
-CLExtent * CLExtent::GetAdjacentPreviousExtent()
-{
-	return GetContainer(CLExtent, m_adjacentList, m_adjacentList.GetPrevious());
-}
-
-void * CLExtent::GetNVMAddress()
-{
-	return m_pNVMAddress;
-}
-
-void * CLExtent::GetNVMEndAddress()
-{
-	return reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pNVMAddress)+m_size);
-}
-
-unsigned int CLExtent::GetArenaId()
-{
-	return m_arenaId;
-}
-
-void CLExtent::IncreaseReferenceCount()
-{
-	assert(m_pNVMBlock);
-	m_pNVMBlock->IncreaseReferenceCount();
-}
-
-void CLExtent::DecreaseReferenceCount()
-{
-	assert(m_pNVMBlock);
-	m_pNVMBlock->DecreaseReferenceCount();
-}
-
-void CLExtent::Recovery(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea)
-{
-	assert(pNVMBlock);
-	m_pNVMBlock = pNVMBlock;
-	m_pNVMBlockOwner = pBlockArea;
-	m_pNVMAddress = m_pNVMBlock->GetNVMAddress();
-	m_size = m_pNVMBlock->GetSize();
-	m_arenaId = m_pNVMBlock->GetArenaId();
-}
+//void CLExtent::Recovery(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea)
+//{
+//	assert(pNVMBlock);
+//	m_pNVMBlock = pNVMBlock;
+//	m_pNVMBlockOwner = pBlockArea;
+//	m_pNVMAddress = m_pNVMBlock->GetNVMAddress();
+//	m_size = m_pNVMBlock->GetSize();
+//	m_arenaId = m_pNVMBlock->GetArenaId();
+//}

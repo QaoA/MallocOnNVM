@@ -22,5 +22,10 @@ void CLAllocatedExtentManager::Put(CLExtent * pExtent)
 
 CLExtent * CLAllocatedExtentManager::Get(void * pNVMAddress)
 {
+	return m_extentTree.Get(pNVMAddress);
+}
+
+CLExtent * CLAllocatedExtentManager::Remove(void * pNVMAddress)
+{
 	return m_extentTree.GetAndRemove(pNVMAddress);
 }

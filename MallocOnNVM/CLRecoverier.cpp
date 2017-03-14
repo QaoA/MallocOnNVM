@@ -1,5 +1,11 @@
 #include "CLRecoverier.h"
+#include "SLNVMBlockArea.h"
+#include "CLGlobalBlockAreaManager.h"
+#include "CLArenaManager.h"
+#include "CLArena.h"
 #include <cassert>
+
+using namespace std;
 
 CLRecoverier::CLRecoverier()
 {
@@ -10,15 +16,30 @@ CLRecoverier::~CLRecoverier()
 }
 
 void CLRecoverier::DoRecovery()
-{	
-	//恢复NVMBlockArea
-	//恢复Arena的数据结构
-	//扫描所有的NVMBlockArea
-	
+{
+	CLGlobalBlockAreaManager::GetInstance()->Recovery(*this);
+	int i = 0;
 }
 
-void CLRecoverier::AddAllocatedMemoryInfo(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea)
+void CLRecoverier::AppendInfo(SLNVMBlockArea * pArea)
 {
-	assert(pNVMBlock && pBlockArea);
-	m_collector.AddUsedMemory(pNVMBlock, pBlockArea);
+	m_collector.AppendAreaUseInfo(pArea, sizeof(SLNVMBlockArea));
+}
+
+void CLRecoverier::AppendInfo(SLNVMBlock * pBlock)
+{
+	m_collector.AppendMemoryUseInfo(pBlock, pBlock->m_size, pBlock->m_arenaId);
+}
+
+void CLRecoverier::DispatchBlockArea(CLBlockArea * pBlockArea, int arenaId)
+{
+	assert(pBlockArea);
+	if (arenaId == -1)
+	{
+		CLGlobalBlockAreaManager::GetInstance()->RecieveFreeBlockAreaRecovery(pBlockArea);
+	}
+	else
+	{
+		CLArenaManager::GetInstance()->GetArenaRecovery(arenaId)->RecieveBlockAreaRecovery(pBlockArea);
+	}
 }

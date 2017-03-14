@@ -61,7 +61,13 @@ void CLLargeExtentManager::AppendExtent(CLExtent * pExtent)
 CLExtent * CLLargeExtentManager::MapNewExtent(size_t size)
 {
 	CLExtent * pExtent = new CLExtent();
-	CLNVMMemoryMapManager::GetInstance()->MapMemory(pExtent, size);
+	void * pAddress = CLNVMMemoryMapManager::GetInstance()->MapMemory(size);
+	if (pAddress == nullptr)
+	{
+		delete pExtent;
+		return nullptr;
+	}
+	pExtent->SetAddress(pAddress, size);
 	return pExtent;
 }
 

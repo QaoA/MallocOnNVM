@@ -1,15 +1,17 @@
 #include "CLPerArenaBlockManager.h"
 #include "CLGlobalBlockAreaManager.h"
-#include "CLExtent.h"
 #include "CLBlockArea.h"
+#include "CLBlock.h"
 #include <cassert>
+#include <algorithm>
 
 using namespace std;
 
 CLPerArenaBlockManager::CLPerArenaBlockManager():
-m_NonFullAreaList(),
-m_FullAreaList(),
-m_nonFullAreasCount(0)
+m_nonFullAreaList(),
+m_fullAreaList(),
+m_emptyAreaList(),
+m_emptyAreaCount(0)
 {
 }
 
@@ -17,46 +19,70 @@ CLPerArenaBlockManager::~CLPerArenaBlockManager()
 {
 }
 
-CLExtent * CLPerArenaBlockManager::AllocBlockForExtent(CLExtent * pExtent, unsigned int arenaId)
+CLBlock * CLPerArenaBlockManager::AllocBlock()
 {
-	if (m_nonFullAreasCount == 0)
+	if (m_nonFullAreaList.empty())
 	{
-		CLBlockArea * pArea = CLGlobalBlockAreaManager::GetInstance()->GetABlockArea();
-		if (pArea == nullptr)
+		if (m_emptyAreaList.empty())
 		{
-			return nullptr;
+			CLBlockArea * pArea = CLGlobalBlockAreaManager::GetInstance()->GetABlockArea();
+			if (pArea == nullptr)
+			{
+				return nullptr;
+			}
+			m_nonFullAreaList.push_back(pArea);
 		}
-		m_NonFullAreaList.push_back(pArea);
-		m_nonFullAreasCount++;
+		else
+		{
+			m_nonFullAreaList.push_back(m_emptyAreaList.front());
+			m_emptyAreaList.pop_front();
+			m_emptyAreaCount--;
+		}
 	}
-	CLBlockArea * pCurrentArea = m_NonFullAreaList.front();
-	pExtent->SetOccupied(pCurrentArea->GetAvailableBlock(), pCurrentArea, arenaId);
-	if (pCurrentArea->GetFreeBlockCount() == 0)
+	assert(!m_nonFullAreaList.empty());
+	CLBlockArea * pArea = m_nonFullAreaList.front();
+	CLBlock * pBlock = pArea->GetAvailableBlock();
+	if (pArea->IsFull())
 	{
-		m_NonFullAreaList.pop_front();
-		m_nonFullAreasCount--;
-		m_FullAreaList.push_back(pCurrentArea);
+		m_nonFullAreaList.pop_front();
+		m_fullAreaList.push_back(pArea);
 	}
-	return pExtent;
+	return pBlock;
 }
 
-void CLPerArenaBlockManager::FreeBlockForExtent(CLExtent * pExtent)
+void CLPerArenaBlockManager::FreeBlock(CLBlock * pBlock)
 {
-	assert(pExtent&&pExtent->IsOccupied());
-	CLBlockArea * pBlockOwner = pExtent->GetBlockOwner();
-	assert(pBlockOwner);
-	if (pBlockOwner->IsFull())
+	assert(pBlock);
+	CLBlockArea * pArea = pBlock->GetOwner();
+	if (pArea->IsFull())
 	{
-		for (list<CLBlockArea *>::iterator it = m_FullAreaList.begin(); it != m_FullAreaList.end(); ++it)
-		{
-			if (*it == pBlockOwner)
-			{
-				m_FullAreaList.erase(it);
-				break;
-			}
-		}
-		m_NonFullAreaList.push_back(pBlockOwner);
-		m_nonFullAreasCount++;
+		m_fullAreaList.erase(find(m_fullAreaList.begin(),m_fullAreaList.end(),pArea));
+		m_nonFullAreaList.push_back(pArea);
 	}
-	pBlockOwner->FreeBlock(pExtent->GetNVMBlock());
+	pArea->FreeBlock(pBlock);
+	if (pArea->IsEmpty())
+	{
+		m_nonFullAreaList.erase(find(m_nonFullAreaList.begin(), m_nonFullAreaList.end(), pArea));
+		m_emptyAreaList.push_back(pArea);
+		m_emptyAreaCount++;
+		if (m_emptyAreaCount > CACHE_EMPTY_AREA_MAX_COUNT)
+		{
+			unsigned int purgeCount = m_emptyAreaCount - CACHE_EMPTY_AREA_MAX_COUNT >> EMPTY_AREA_PURGE_BIT;
+			CLGlobalBlockAreaManager::GetInstance()->FreeBlockAreas(m_emptyAreaList, purgeCount);
+			m_emptyAreaCount = CACHE_EMPTY_AREA_MAX_COUNT >> EMPTY_AREA_PURGE_BIT;
+		}
+	}
+}
+
+void CLPerArenaBlockManager::RecieveBlockAreaRecovery(CLBlockArea * pBlockArea)
+{
+	assert(pBlockArea && !pBlockArea->IsEmpty());
+	if (pBlockArea->IsFull())
+	{
+		m_fullAreaList.push_back(pBlockArea);
+	}
+	else
+	{
+		m_nonFullAreaList.push_back(pBlockArea);
+	}
 }

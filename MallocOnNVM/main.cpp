@@ -4,11 +4,13 @@
 
 using namespace std;
 
+unsigned int Random(int max)
+{
+	return rand() % max;
+}
+
 int main(int argc, char *argv[])
 {
-	//CLMetadataManager->GetExtent() ·ÏÆú
-
-	void * p1 = MallocOnNVM(15);
-	FreeOnNVM(p1);
+	//todo CLRecoveryInfoPack->AppendInfo()
 	return 0;
-}
+} 

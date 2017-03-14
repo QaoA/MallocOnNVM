@@ -133,13 +133,14 @@ void CLSmallExtentManager::AppendExtent(CLExtent * pExtent)
 CLExtent * CLSmallExtentManager::MapANewExtent()
 {
 	CLExtent * pExtent = new CLExtent();
-	bool isSuccess = CLNVMMemoryMapManager::GetInstance()->MapMemory(pExtent, SMALL_MAX_SIZE);
-	if (!isSuccess)
+	void * pAddress = CLNVMMemoryMapManager::GetInstance()->MapMemory(SMALL_MAX_SIZE);
+	if (pAddress == nullptr)
 	{
 		delete pExtent;
 		return nullptr;
 	}
-	pExtent->SetAdjacentList(m_pLastExtent);
+	pExtent->SetAddress(pAddress, SMALL_MAX_SIZE);
+	pExtent->AppendToAdjacentList(m_pLastExtent);
 	m_pLastExtent = pExtent;
 	return pExtent;
 }
