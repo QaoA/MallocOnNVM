@@ -27,8 +27,10 @@ public:
 	void AppendAreaUseInfo(CLBlockArea * pArea);
 	SLMemoryUseInfo * GetUseInfoOneByOne();
 	void MakeUseInfoReady();
+	unsigned long GetLastBoundary();
 
 private:
+	void SetCurrentDatas();
 	inline unsigned long GetStartBoundary(unsigned long pAddress);
 	inline unsigned long GetEndBoundary(unsigned long pAddress);
 
@@ -48,7 +50,7 @@ unsigned long CLNVMMemoryUseInfoCollector::GetEndBoundary(unsigned long pAddress
 {
 	if (pAddress&PAGE_SIZE_MASK)
 	{
-		return pAddress&(~PAGE_SIZE_MASK) + PAGE_SIZE;
+		return (pAddress&(~PAGE_SIZE_MASK)) + PAGE_SIZE;
 	}
 	return pAddress;
 }

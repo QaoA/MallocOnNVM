@@ -16,6 +16,14 @@ int main(int argc, char *argv[])
 	//for (int i = 0; i < 300; ++i)
 	//{
 	//	addr[i] = MallocOnNVM(Random(4096));
+	//	NotifyNVMMemoryGet(addr[i]);
+	//}
+	//for (int i = 0; i < 300; ++i)
+	//{
+	//	if (i & 0x1)
+	//	{
+	//		NotifyNVMMemoryRelease(addr[i]);
+	//	}
 	//}
 	Recovery();
 	return 0;

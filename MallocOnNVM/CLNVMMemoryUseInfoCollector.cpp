@@ -3,6 +3,7 @@
 #include "CLExtent.h"
 #include "SLMemoryUseInfo.h"
 #include "SLNVMBlockArea.h"
+#include "CLNVMMemoryMapManager.h"
 #include <cassert>
 
 using namespace std;
@@ -47,6 +48,25 @@ void CLNVMMemoryUseInfoCollector::MakeUseInfoReady()
 {
 	if (!m_set.empty())
 	{
+		m_currentStartAddress = reinterpret_cast<unsigned long>(CLNVMMemoryMapManager::GetInstance()->GetRecoveryBaseAddress());
+		m_currentEndAddress = m_currentStartAddress;
+		m_currentArenaId = -1;
+	}
+}
+
+unsigned long CLNVMMemoryUseInfoCollector::GetLastBoundary()
+{
+	if (m_set.empty())
+	{
+		return reinterpret_cast<unsigned long>(CLNVMMemoryMapManager::GetInstance()->GetRecoveryBaseAddress());
+	}
+	return GetEndBoundary((*(--m_set.end()))->GetEndAddress());
+}
+
+void CLNVMMemoryUseInfoCollector::SetCurrentDatas()
+{
+	if (!m_set.empty())
+	{
 		SLMemoryUseInfo * pFirstInfo = (*m_set.begin());
 		m_currentStartAddress = GetStartBoundary(pFirstInfo->GetAddress());
 		m_currentEndAddress = GetEndBoundary(pFirstInfo->GetEndAddress());
@@ -74,12 +94,12 @@ SLMemoryUseInfo * CLNVMMemoryUseInfoCollector::GetUseInfoOneByOne()
 		unsigned long firstInfoAddressBoundary = GetStartBoundary((*m_set.begin())->GetAddress());
 		if (m_currentEndAddress == firstInfoAddressBoundary)
 		{
-			MakeUseInfoReady();
+			SetCurrentDatas();
 		}
 		else
 		{
-			SLMemoryUseInfo * pReturnInfo = new SLMemoryUseInfo(reinterpret_cast<void *>(m_currentEndAddress), firstInfoAddressBoundary);
-			MakeUseInfoReady();
+			SLMemoryUseInfo * pReturnInfo = new SLMemoryUseInfo(reinterpret_cast<void *>(m_currentEndAddress), firstInfoAddressBoundary - m_currentEndAddress);
+			SetCurrentDatas();
 			return pReturnInfo;
 		}
 	}
@@ -94,8 +114,13 @@ SLMemoryUseInfo * CLNVMMemoryUseInfoCollector::GetUseInfoOneByOne()
 	{
 		assert(m_currentStartAddress < m_currentEndAddress);
 		pExtent = new CLExtent();
-		pExtent->Recovery(reinterpret_cast<void *>(m_currentStartAddress), m_currentEndAddress - m_currentStartAddress, m_currentArenaId);
-		m_currentStartAddress = m_currentEndAddress;
+		unsigned long tmpEndAddress = pFirstInfo->GetAddress();
+		if (tmpEndAddress > m_currentEndAddress)
+		{
+			tmpEndAddress = m_currentEndAddress;
+		}
+		pExtent->Recovery(reinterpret_cast<void *>(m_currentStartAddress), tmpEndAddress - m_currentStartAddress, m_currentArenaId);
+		m_currentStartAddress = tmpEndAddress;
 		return new SLMemoryUseInfo(pExtent);
 	}
 }

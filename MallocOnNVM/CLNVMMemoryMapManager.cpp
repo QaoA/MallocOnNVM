@@ -3,7 +3,6 @@
 #include <cassert>
 #include <fcntl.h>
 #include <unistd.h>
-#include "SizeDefine.h"
 #include "CLSystemException.h"
 #include "CLCriticalSection.h"
 #include "CLBaseMetadata.h"
@@ -12,6 +11,7 @@
 
 CLNVMMemoryMapManager::CLNVMMemoryMapManager() :
 m_fd(0),
+m_pRecoveryBaseAddress(nullptr),
 m_pBaseAddress(nullptr),
 m_pLastAcquiredAddress(nullptr),
 m_pBaseMetadata(nullptr),
@@ -32,9 +32,9 @@ m_mutex()
 		throw CLSystemException(FILE_MAP_ADDRESS_ERROR);
 	}
 	m_pBaseMetadata = new CLBaseMetadata(static_cast<SLNVMBaseMetadata*>(m_pBaseAddress));
-	void * pMapBaseAddress = reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pBaseAddress)+CLBaseMetadata::GetMetadataSize());
-	madvise(pMapBaseAddress, MMAP_SIZE - CLBaseMetadata::GetMetadataSize(), MADV_DONTNEED);
-	m_pLastAcquiredAddress = pMapBaseAddress;
+	m_pRecoveryBaseAddress = reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pBaseAddress)+CLBaseMetadata::GetMetadataSize());
+	madvise(m_pRecoveryBaseAddress, MMAP_SIZE - CLBaseMetadata::GetMetadataSize(), MADV_DONTNEED);
+	m_pLastAcquiredAddress = m_pRecoveryBaseAddress;
 }
 
 CLNVMMemoryMapManager::~CLNVMMemoryMapManager()

@@ -41,6 +41,7 @@ void CLRecoverier::DispatchAllMemoryInfo()
 {
 	SLMemoryUseInfo * pInfo = nullptr;
 	m_collector.MakeUseInfoReady();
+	CLNVMMemoryMapManager::GetInstance()->RecieveLastMapAddressRecovery(reinterpret_cast<void *>(m_collector.GetLastBoundary()));
 	while ((pInfo = m_collector.GetUseInfoOneByOne()) != nullptr)
 	{
 		switch (pInfo->GetType())

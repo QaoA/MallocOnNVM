@@ -6,6 +6,7 @@
 #include <sys/mman.h>
 #include "CLPageManager.h"
 #include "CLMutex.h"
+#include "SizeDefine.h"
 
 class CLExtentList;
 class CLExtent;
@@ -29,6 +30,8 @@ public:
 public:
 	void RecieveFreePages(void * pAddress, size_t size);
 	void GetMemoryRecovery(void * pAddress, size_t size);
+	inline void * GetRecoveryBaseAddress();
+	inline void RecieveLastMapAddressRecovery(void * pAddress);
 
 private:
 	inline void SetPagesMapped(void * pAddress, size_t size);
@@ -36,6 +39,7 @@ private:
 
 private:
 	int m_fd;
+	void * m_pRecoveryBaseAddress;
 	void * m_pBaseAddress;
 	void * m_pLastAcquiredAddress;
 	CLBaseMetadata * m_pBaseMetadata;
@@ -56,6 +60,16 @@ void CLNVMMemoryMapManager::SetPagesMapped(void * pAddress, size_t size)
 void CLNVMMemoryMapManager::SetPagesUnmapped(void * pAddress, size_t size)
 {
 	madvise(pAddress, size, MADV_DONTNEED);
+}
+
+void * CLNVMMemoryMapManager::GetRecoveryBaseAddress()
+{
+	return m_pRecoveryBaseAddress;
+}
+
+void CLNVMMemoryMapManager::RecieveLastMapAddressRecovery(void * pAddress)
+{
+	m_pLastAcquiredAddress = pAddress;
 }
 
 #endif
