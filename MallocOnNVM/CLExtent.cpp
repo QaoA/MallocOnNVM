@@ -44,6 +44,20 @@ void CLExtent::AppendToAdjacentList(CLExtent * pPreviousExtent)
 	}
 }
 
+void CLExtent::Recovery(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea)
+{
+	m_pBlock = new CLBlock(pNVMBlock, pBlockArea);
+	m_pBlock->GetData(&m_pNVMAddress, &m_size, &m_arenaId);
+}
+
+void CLExtent::Recovery(void * pAddress, size_t size, int arenaId)
+{
+	m_pNVMAddress = pAddress;
+	m_size = size;
+	m_arenaId = arenaId;
+	m_pBlock = nullptr;
+}
+
 CLExtent * CLExtent::Split(CLExtent * pNewExtent,size_t anotherExtentSize)
 {
 	assert(pNewExtent && anotherExtentSize);

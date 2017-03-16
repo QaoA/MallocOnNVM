@@ -73,16 +73,14 @@ void CLGlobalBlockAreaManager::Recovery(CLRecoverier & recoverier)
 		return;
 	}
 	m_pFirstBlockArea = new CLBlockArea(pFirstNVMArea);
-	int firstAreaArenaId = m_pFirstBlockArea->Recovery(recoverier);
-	recoverier.DispatchBlockArea(m_pFirstBlockArea, firstAreaArenaId);
-	recoverier.AppendInfo(pFirstNVMArea);
+	m_pFirstBlockArea->Recovery(recoverier);
+	recoverier.AppendInfo(m_pFirstBlockArea);
 	SLNVMBlockArea * pTmpNVMArea = pFirstNVMArea->GetNextBlockAreaRecovery();
 	while (pTmpNVMArea != pFirstNVMArea)
 	{
 		CLBlockArea * pTmpArea = new CLBlockArea(pTmpNVMArea);
-		int arenaId = pTmpArea->Recovery(recoverier);
-		recoverier.DispatchBlockArea(pTmpArea, arenaId);
-		recoverier.AppendInfo(pTmpNVMArea);
+		pTmpArea->Recovery(recoverier);
+		recoverier.AppendInfo(pTmpArea);
 		pTmpNVMArea = pTmpNVMArea->GetNextBlockAreaRecovery();
 	}
 }

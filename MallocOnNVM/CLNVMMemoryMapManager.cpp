@@ -98,8 +98,12 @@ void CLNVMMemoryMapManager::UnmapMemoryAndFreeExtent(CLExtentList * pExtentList,
 	}
 }
 
-void CLNVMMemoryMapManager::Recovery()
+void CLNVMMemoryMapManager::RecieveFreePages(void * pAddress, size_t size)
 {
+	assert(pAddress);
+	assert(!(reinterpret_cast<unsigned long>(pAddress)&PAGE_SIZE_MASK));
+	assert(!(size&PAGE_SIZE_MASK));
+	m_pagesManager.PutPages(pAddress, size / PAGE_SIZE);
 }
 
 void CLNVMMemoryMapManager::GetMemoryRecovery(void * pAddress, size_t size)

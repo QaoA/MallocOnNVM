@@ -99,6 +99,17 @@ void CLSmallExtentManager::FreeExtent(CLExtent * pExtent)
 	}
 }
 
+void CLSmallExtentManager::RecieveExtentRecovery(CLExtent * pExtent)
+{
+	assert(pExtent);
+	pExtent->AppendToAdjacentList(m_pLastExtent);
+	if (!pExtent->IsOccupied())
+	{
+		AppendExtent(pExtent);
+	}
+	m_pLastExtent = pExtent;
+}
+
 void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize)
 {
 	if (m_pCurrentExtent != nullptr)

@@ -2,16 +2,21 @@
 #include "SizeDefine.h"
 #include "CLExtent.h"
 #include "SLMemoryUseInfo.h"
+#include "SLNVMBlockArea.h"
 #include <cassert>
 
 using namespace std;
 
 bool CLNVMMemoryUseInfoCollector::SLComparer::operator()(SLMemoryUseInfo * pFirst, SLMemoryUseInfo * pSecond)
 {
-	return (pFirst->m_pAddress) < (pSecond->m_pAddress);
+	return (pFirst->GetAddress()) < (pSecond->GetAddress());
 }
 
-CLNVMMemoryUseInfoCollector::CLNVMMemoryUseInfoCollector()
+CLNVMMemoryUseInfoCollector::CLNVMMemoryUseInfoCollector():
+m_set(),
+m_currentStartAddress(0),
+m_currentEndAddress(0),
+m_currentArenaId(0)
 {
 }
 
@@ -24,22 +29,73 @@ CLNVMMemoryUseInfoCollector::~CLNVMMemoryUseInfoCollector()
 	m_set.clear();
 }
 
-void CLNVMMemoryUseInfoCollector::AppendMemoryUseInfo(void * pAddress, size_t size, int arenaId)
+void CLNVMMemoryUseInfoCollector::AppendMemoryUseInfo(SLNVMBlock * pBlock, CLBlockArea * pOwner)
 {
-	SLMemoryUseInfo * pInfo = new SLMemoryUseInfo;
-	pInfo->m_pAddress = pAddress;
-	pInfo->m_size = size;
-	pInfo->m_arenaId = arenaId;
-	pInfo->m_bIsBlockArea = false;
-	set<SLMemoryUseInfo*>::iterator it = m_set.insert(pInfo).first;
+	assert(pBlock && pOwner);
+	CLExtent * pExtent = new CLExtent();
+	pExtent->Recovery(pBlock, pOwner);
+	m_set.insert(new SLMemoryUseInfo(pExtent));
 }
 
-void CLNVMMemoryUseInfoCollector::AppendAreaUseInfo(void * pAddress, size_t size)
+void CLNVMMemoryUseInfoCollector::AppendAreaUseInfo(CLBlockArea * pArea)
 {
-	SLMemoryUseInfo * pInfo = new SLMemoryUseInfo;
-	pInfo->m_pAddress = pAddress;
-	pInfo->m_size = size;
-	pInfo->m_arenaId = -1;
-	pInfo->m_bIsBlockArea = true;
-	set<SLMemoryUseInfo*>::iterator it = m_set.insert(pInfo).first;
+	assert(pArea);
+	m_set.insert(new SLMemoryUseInfo(pArea));
+}
+
+void CLNVMMemoryUseInfoCollector::MakeUseInfoReady()
+{
+	if (!m_set.empty())
+	{
+		SLMemoryUseInfo * pFirstInfo = (*m_set.begin());
+		m_currentStartAddress = GetStartBoundary(pFirstInfo->GetAddress());
+		m_currentEndAddress = GetEndBoundary(pFirstInfo->GetEndAddress());
+		m_currentArenaId = pFirstInfo->GetArenaId();
+	}
+}
+
+SLMemoryUseInfo * CLNVMMemoryUseInfoCollector::GetUseInfoOneByOne()
+{
+	CLExtent * pExtent = nullptr;
+	if (m_set.empty())
+	{
+		if (m_currentEndAddress != m_currentStartAddress)
+		{
+			assert(m_currentStartAddress < m_currentEndAddress);
+			pExtent = new CLExtent();
+			pExtent->Recovery(reinterpret_cast<void *>(m_currentStartAddress),m_currentEndAddress - m_currentStartAddress, m_currentArenaId);
+			m_currentStartAddress = m_currentEndAddress;
+			return new SLMemoryUseInfo(pExtent);
+		}
+		return nullptr;
+	}
+	if (m_currentStartAddress == m_currentEndAddress)
+	{
+		unsigned long firstInfoAddressBoundary = GetStartBoundary((*m_set.begin())->GetAddress());
+		if (m_currentEndAddress == firstInfoAddressBoundary)
+		{
+			MakeUseInfoReady();
+		}
+		else
+		{
+			SLMemoryUseInfo * pReturnInfo = new SLMemoryUseInfo(reinterpret_cast<void *>(m_currentEndAddress), firstInfoAddressBoundary);
+			MakeUseInfoReady();
+			return pReturnInfo;
+		}
+	}
+	SLMemoryUseInfo * pFirstInfo = *m_set.begin();
+	if (pFirstInfo->GetAddress() == m_currentStartAddress)
+	{
+		m_set.erase(m_set.begin());
+		m_currentStartAddress = pFirstInfo->GetEndAddress();
+		return pFirstInfo;
+	}
+	else
+	{
+		assert(m_currentStartAddress < m_currentEndAddress);
+		pExtent = new CLExtent();
+		pExtent->Recovery(reinterpret_cast<void *>(m_currentStartAddress), m_currentEndAddress - m_currentStartAddress, m_currentArenaId);
+		m_currentStartAddress = m_currentEndAddress;
+		return new SLMemoryUseInfo(pExtent);
+	}
 }

@@ -5,7 +5,6 @@
 #include <list>
 
 struct SLNVMBlock;
-struct SLNVMBlockArea;
 class CLBlockArea;
 
 class CLRecoverier
@@ -16,12 +15,30 @@ public:
 
 public:
 	void DoRecovery();
-	void AppendInfo(SLNVMBlock * pBlock);
-	void AppendInfo(SLNVMBlockArea * pArea);
 	void DispatchBlockArea(CLBlockArea * pBlockArea, int arenaId);
+
+public:
+	inline void AppendInfo(SLNVMBlock * pBlock, CLBlockArea * pOwner);
+	inline void AppendInfo(CLBlockArea * pArea);
+
+private:
+	void DispatchAllMemoryInfo();
+	void DispatchFreeInfo(SLMemoryUseInfo * pInfo);
+	void DispacthBlockInfo(SLMemoryUseInfo * pInfo);
+	void DispatchAreaInfo(SLMemoryUseInfo * pInfo);
 
 private:
 	CLNVMMemoryUseInfoCollector m_collector;
 };
+
+void CLRecoverier::AppendInfo(CLBlockArea * pArea)
+{
+	m_collector.AppendAreaUseInfo(pArea);
+}
+
+void CLRecoverier::AppendInfo(SLNVMBlock * pBlock, CLBlockArea * pOwner)
+{
+	m_collector.AppendMemoryUseInfo(pBlock, pOwner);
+}
 
 #endif

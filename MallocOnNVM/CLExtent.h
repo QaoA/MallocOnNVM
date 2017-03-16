@@ -34,7 +34,8 @@ public:
 
 
 public:
-	//void Recovery(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea);
+	void Recovery(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea);
+	void Recovery(void * pAddress, size_t size, int arenaId);
 
 public:
 	CLExtent * Split(CLExtent * pNewExtent,size_t anotherExtentSize);

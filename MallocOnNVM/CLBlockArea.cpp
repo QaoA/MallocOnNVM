@@ -7,7 +7,8 @@
 CLBlockArea::CLBlockArea(SLNVMBlockArea * pNVMBlockArea) :
 m_pNVMBlockArea(pNVMBlockArea),
 m_freeBlockList(),
-m_freeBlockCount(0)
+m_freeBlockCount(0),
+m_arenaId(-1)
 {
 }
 
@@ -59,10 +60,9 @@ void CLBlockArea::FreeBlock(CLBlock * pBlock)
 	delete pBlock;
 }
 
-int CLBlockArea::Recovery(CLRecoverier & recoverier)
+void CLBlockArea::Recovery(CLRecoverier & recoverier)
 {
 	unsigned int blockCount = SLNVMBlockArea::GetBlockCount();
-	int arenaId = -1;
 	for (int i = 0; i < blockCount; ++i)
 	{
 		if (m_pNVMBlockArea->m_data.m_pBlocks[i].IsAvailable())
@@ -72,9 +72,12 @@ int CLBlockArea::Recovery(CLRecoverier & recoverier)
 		}
 		else
 		{
-			arenaId = (arenaId == -1) ? m_pNVMBlockArea->m_data.m_pBlocks[i].GetArenaId() : arenaId;
-			recoverier.AppendInfo(&m_pNVMBlockArea->m_data.m_pBlocks[i]);
+			if (m_arenaId == -1)
+			{
+				m_arenaId = m_pNVMBlockArea->m_data.m_pBlocks[i].GetArenaId();
+			}
+			assert(m_arenaId == m_pNVMBlockArea->m_data.m_pBlocks[i].GetArenaId());
+			recoverier.AppendInfo(&m_pNVMBlockArea->m_data.m_pBlocks[i],this);
 		}
 	}
-	return arenaId;
 }

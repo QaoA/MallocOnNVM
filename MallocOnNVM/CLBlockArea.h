@@ -21,17 +21,23 @@ public:
 	void Format(CLBlockArea * pPreviousArea = nullptr);
 	CLBlock * GetAvailableBlock();
 	void FreeBlock(CLBlock * pBlock);
+
+public:
 	inline unsigned int GetFreeBlockCount();
 	inline bool IsFull();
 	inline bool IsEmpty();
+	inline void * GetNVMBaseAddress();
+	inline void * GetNVMEndAddress();
+	inline int GetArenaId();
 
 public:
-	int Recovery(CLRecoverier & recoverier);
+	void Recovery(CLRecoverier & recoverier);
 
 private:
 	SLNVMBlockArea * m_pNVMBlockArea;
 	std::list<SLNVMBlock *> m_freeBlockList;
 	unsigned int m_freeBlockCount;
+	int m_arenaId;
 };
 
 unsigned int CLBlockArea::GetFreeBlockCount()
@@ -47,6 +53,21 @@ bool CLBlockArea::IsFull()
 bool CLBlockArea::IsEmpty()
 {
 	return m_freeBlockCount == SLNVMBlockArea::GetBlockCount();
+}
+
+void * CLBlockArea::GetNVMBaseAddress()
+{
+	return  m_pNVMBlockArea;
+}
+
+void * CLBlockArea::GetNVMEndAddress()
+{
+	return reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pNVMBlockArea)+sizeof(SLNVMBlockArea));
+}
+
+int CLBlockArea::GetArenaId()
+{
+	return m_arenaId;
 }
 
 #endif

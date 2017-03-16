@@ -148,13 +148,13 @@
     <ClCompile Include="SLMemoryUseInfo.h">
       <Filter>Header files\Recovery</Filter>
     </ClCompile>
-    <ClCompile Include="CLRecoveryInfoPack.cpp">
-      <Filter>Source files\Recovery</Filter>
-    </ClCompile>
     <ClCompile Include="CLRecoverier.cpp">
       <Filter>Source files\Recovery</Filter>
     </ClCompile>
     <ClCompile Include="CLNVMMemoryUseInfoCollector.cpp">
+      <Filter>Source files\Recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="SLMemoryUseInfo.cpp">
       <Filter>Source files\Recovery</Filter>
     </ClCompile>
   </ItemGroup>
@@ -256,9 +256,6 @@
       <Filter>Header files\Recovery</Filter>
     </ClInclude>
     <ClInclude Include="CLRecoverier.h">
-      <Filter>Header files\Recovery</Filter>
-    </ClInclude>
-    <ClInclude Include="CLRecoveryInfoPack.h">
       <Filter>Header files\Recovery</Filter>
     </ClInclude>
   </ItemGroup>

@@ -27,7 +27,7 @@ public:
 	inline CLBaseMetadata * GetBaseMetadata();
 
 public:
-	void Recovery();
+	void RecieveFreePages(void * pAddress, size_t size);
 	void GetMemoryRecovery(void * pAddress, size_t size);
 
 private:

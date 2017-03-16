@@ -16,6 +16,7 @@ public:
 public:
 	CLExtent * GetAvailableExtent(size_t expectedSize);
 	void FreeExtent(CLExtent * pExtent);
+	void RecieveExtentRecovery(CLExtent * pExtent);
 
 private:
 	void SetCurrentExtent(size_t expectedSize);

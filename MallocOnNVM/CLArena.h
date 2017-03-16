@@ -26,6 +26,7 @@ public:
 
 public:
 	void RecieveBlockAreaRecovery(CLBlockArea * pBlockArea);
+	void RecieveExtentRecovery(CLExtent * pExtent);
 
 private:
 	unsigned int m_arenaId;

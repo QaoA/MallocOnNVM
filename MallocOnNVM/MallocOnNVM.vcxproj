@@ -80,13 +80,13 @@
     <ClCompile Include="CLPerArenaBlockManager.cpp" />
     <ClCompile Include="CLRadixTreeNode.cpp" />
     <ClCompile Include="CLRecoverier.cpp" />
-    <ClCompile Include="CLRecoveryInfoPack.cpp" />
     <ClCompile Include="CLSmallExtentManager.cpp" />
     <ClCompile Include="CLSpinLock.cpp" />
     <ClCompile Include="CLSystemException.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NVMMalloc.cpp" />
     <ClCompile Include="SLList.cpp" />
+    <ClCompile Include="SLMemoryUseInfo.cpp" />
     <ClCompile Include="SLMemoryUseInfo.h" />
     <ClCompile Include="SLNVMBaseMetadatacpp.cpp" />
     <ClCompile Include="SLNVMBlockArea.cpp" />
@@ -117,7 +117,6 @@
     <ClInclude Include="CLRadixTree.h" />
     <ClInclude Include="CLRadixTreeNode.h" />
     <ClInclude Include="CLRecoverier.h" />
-    <ClInclude Include="CLRecoveryInfoPack.h" />
     <ClInclude Include="CLSmallExtentManager.h" />
     <ClInclude Include="CLSpinLock.h" />
     <ClInclude Include="CLSystemException.h" />

@@ -3,6 +3,9 @@
 #include "CLGlobalBlockAreaManager.h"
 #include "CLArenaManager.h"
 #include "CLArena.h"
+#include "CLNVMMemoryMapManager.h"
+#include "SLMemoryUseInfo.h"
+#include "CLAllocatedExtentManager.h"
 #include <cassert>
 
 using namespace std;
@@ -18,17 +21,7 @@ CLRecoverier::~CLRecoverier()
 void CLRecoverier::DoRecovery()
 {
 	CLGlobalBlockAreaManager::GetInstance()->Recovery(*this);
-	int i = 0;
-}
-
-void CLRecoverier::AppendInfo(SLNVMBlockArea * pArea)
-{
-	m_collector.AppendAreaUseInfo(pArea, sizeof(SLNVMBlockArea));
-}
-
-void CLRecoverier::AppendInfo(SLNVMBlock * pBlock)
-{
-	m_collector.AppendMemoryUseInfo(pBlock, pBlock->m_size, pBlock->m_arenaId);
+	DispatchAllMemoryInfo();
 }
 
 void CLRecoverier::DispatchBlockArea(CLBlockArea * pBlockArea, int arenaId)
@@ -42,4 +35,56 @@ void CLRecoverier::DispatchBlockArea(CLBlockArea * pBlockArea, int arenaId)
 	{
 		CLArenaManager::GetInstance()->GetArenaRecovery(arenaId)->RecieveBlockAreaRecovery(pBlockArea);
 	}
+}
+
+void CLRecoverier::DispatchAllMemoryInfo()
+{
+	SLMemoryUseInfo * pInfo = nullptr;
+	m_collector.MakeUseInfoReady();
+	while ((pInfo = m_collector.GetUseInfoOneByOne()) != nullptr)
+	{
+		switch (pInfo->GetType())
+		{
+		case MEM_BLOCK:
+			DispacthBlockInfo(pInfo);
+			break;
+		case MEM_AREA:
+			DispatchAreaInfo(pInfo);
+			break;
+		case MEM_FREE:
+			DispatchFreeInfo(pInfo);
+			break;
+		default:
+			break;
+		}
+		delete pInfo;
+	}
+}
+
+void CLRecoverier::DispacthBlockInfo(SLMemoryUseInfo * pInfo)
+{
+	assert(pInfo && pInfo->GetType() == MEM_BLOCK);
+	CLArenaManager::GetInstance()->GetArenaRecovery(pInfo->GetArenaId())->RecieveExtentRecovery(pInfo->m_pExtent);
+	CLAllocatedExtentManager::GetInstance()->Put(pInfo->m_pExtent);
+}
+
+void CLRecoverier::DispatchAreaInfo(SLMemoryUseInfo * pInfo)
+{
+	assert(pInfo && pInfo->GetType() == MEM_AREA);
+	CLBlockArea * pArea = pInfo->m_pBlockArea;
+	if (pArea->IsEmpty())
+	{
+		CLGlobalBlockAreaManager::GetInstance()->RecieveFreeBlockAreaRecovery(pArea);
+	}
+	else
+	{
+		CLArenaManager::GetInstance()->GetArena(pInfo->GetArenaId())->RecieveBlockAreaRecovery(pArea);
+	}
+}
+
+void CLRecoverier::DispatchFreeInfo(SLMemoryUseInfo * pInfo)
+{
+	assert(pInfo && pInfo->GetType() == MEM_FREE);
+	CLNVMMemoryMapManager::GetInstance()->RecieveFreePages(pInfo->m_pFreePage->m_pAddress, pInfo->m_pFreePage->m_size);
+	delete pInfo->m_pFreePage;
 }

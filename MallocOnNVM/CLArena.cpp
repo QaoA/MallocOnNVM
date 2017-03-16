@@ -92,3 +92,17 @@ void CLArena::RecieveBlockAreaRecovery(CLBlockArea * pBlockArea)
 	assert(pBlockArea);
 	m_blockManager.RecieveBlockAreaRecovery(pBlockArea);
 }
+
+void CLArena::RecieveExtentRecovery(CLExtent * pExtent)
+{
+	assert(pExtent);
+	unsigned long size = pExtent->GetSize();
+	if (size < SMALL_MAX_SIZE)
+	{
+		m_smallManager.RecieveExtentRecovery(pExtent);
+	}
+	else
+	{
+		assert(pExtent->IsOccupied());
+	}
+}
