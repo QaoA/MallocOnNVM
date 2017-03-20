@@ -8,7 +8,6 @@ unsigned int Random(int max)
 {
 	return rand() % max;
 }
-//todo CLBlockArea的arenaID的相关设置
 
 int main(int argc, char *argv[])
 {
@@ -23,7 +22,21 @@ int main(int argc, char *argv[])
 	//	if (i & 0x1)
 	//	{
 	//		NotifyNVMMemoryRelease(addr[i]);
+	//		FreeOnNVM(addr[i]);
 	//	}
+	//}
+	//for (int i = 0; i < 300; ++i)
+	//{
+	//	if (i & 0x1)
+	//	{
+	//		addr[i] = MallocOnNVM(Random(4096));
+	//		NotifyNVMMemoryGet(addr[i]);
+	//	}
+	//}
+	//for (int i = 0; i < 300; ++i)
+	//{
+	//		NotifyNVMMemoryRelease(addr[i]);
+	//		FreeOnNVM(addr[i]);
 	//}
 	Recovery();
 	return 0;

@@ -19,6 +19,7 @@ public:
 	bool SetOccupied(CLPerArenaBlockManager * pBlockManager, unsigned int arenaId);
 	void SetRelease(CLPerArenaBlockManager * pBlockManager);
 	void AppendToAdjacentList(CLExtent * pPreviousExtent);
+	void RemoveFromAdjacentList();
 	
 public:	
 	inline void SetAddress(void * pNVMAddress, size_t size);

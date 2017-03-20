@@ -91,9 +91,15 @@ void CLSmallExtentManager::FreeExtent(CLExtent * pExtent)
 	}
 	if (!Appended)
 	{
+		assert(pExtent != m_pCurrentExtent);
 		AppendExtentToExtentListArray(pExtent);
 		if (pExtent->GetSize() == SMALL_MAX_SIZE)
 		{
+			pExtent->RemoveFromAdjacentList();
+			if (m_pLastExtent == pExtent)
+			{
+				m_pLastExtent = pExtent->GetAdjacentPreviousExtent();
+			}
 			TryPurge();
 		}
 	}
@@ -131,6 +137,11 @@ void CLSmallExtentManager::SetCurrentExtent(size_t expectedSize)
 	{
 		m_pCurrentExtent = MapANewExtent();
 	}
+	if (m_pCurrentExtent->GetSize() == SMALL_MAX_SIZE)
+	{
+		m_pCurrentExtent->AppendToAdjacentList(m_pLastExtent);
+		m_pLastExtent = m_pCurrentExtent;
+	}
 }
 
 void CLSmallExtentManager::AppendExtent(CLExtent * pExtent)
@@ -143,16 +154,13 @@ void CLSmallExtentManager::AppendExtent(CLExtent * pExtent)
 
 CLExtent * CLSmallExtentManager::MapANewExtent()
 {
-	CLExtent * pExtent = new CLExtent();
 	void * pAddress = CLNVMMemoryMapManager::GetInstance()->MapMemory(SMALL_MAX_SIZE);
 	if (pAddress == nullptr)
 	{
-		delete pExtent;
 		return nullptr;
 	}
+	CLExtent * pExtent = new CLExtent();
 	pExtent->SetAddress(pAddress, SMALL_MAX_SIZE);
-	pExtent->AppendToAdjacentList(m_pLastExtent);
-	m_pLastExtent = pExtent;
 	return pExtent;
 }
 

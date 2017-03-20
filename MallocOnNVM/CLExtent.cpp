@@ -44,6 +44,11 @@ void CLExtent::AppendToAdjacentList(CLExtent * pPreviousExtent)
 	}
 }
 
+void CLExtent::RemoveFromAdjacentList()
+{
+	m_adjacentList.Remove();
+}
+
 void CLExtent::Recovery(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea)
 {
 	m_pBlock = new CLBlock(pNVMBlock, pBlockArea);
