@@ -33,7 +33,6 @@ m_mutex()
 	}
 	m_pBaseMetadata = new CLBaseMetadata(static_cast<SLNVMBaseMetadata*>(m_pBaseAddress));
 	m_pRecoveryBaseAddress = reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pBaseAddress)+CLBaseMetadata::GetMetadataSize());
-	madvise(m_pRecoveryBaseAddress, MMAP_SIZE - CLBaseMetadata::GetMetadataSize(), MADV_DONTNEED);
 	m_pLastAcquiredAddress = m_pRecoveryBaseAddress;
 }
 
@@ -67,7 +66,6 @@ void * CLNVMMemoryMapManager::MapMemory(size_t size)
 		pReturnAddress = m_pLastAcquiredAddress;
 		m_pLastAcquiredAddress = pNewLastAddress;
 	}
-	SetPagesMapped(pReturnAddress, size);
 	return pReturnAddress;
 }
 
@@ -78,7 +76,6 @@ void CLNVMMemoryMapManager::UnmapMemory(CLExtent * pExtent)
 	void * pAddress = pExtent->GetNVMAddress();
 	size_t size = pExtent->GetSize();
 	assert(size % PAGE_SIZE == 0);
-	SetPagesUnmapped(pAddress, size);
 	m_pagesManager.PutPages(pAddress, size / PAGE_SIZE);
 }
 
@@ -92,7 +89,6 @@ void CLNVMMemoryMapManager::UnmapMemoryAndFreeExtent(CLExtentList * pExtentList,
 		void * pAddress = pExtent->GetNVMAddress();
 		size_t size = pExtent->GetSize();
 		assert(size % PAGE_SIZE == 0);
-		SetPagesUnmapped(pAddress, size);
 		m_pagesManager.PutPages(pAddress, size / PAGE_SIZE);
 		delete pExtent;
 	}
@@ -104,9 +100,4 @@ void CLNVMMemoryMapManager::RecieveFreePages(void * pAddress, size_t size)
 	assert(!(reinterpret_cast<unsigned long>(pAddress)&PAGE_SIZE_MASK));
 	assert(!(size&PAGE_SIZE_MASK));
 	m_pagesManager.PutPages(pAddress, size / PAGE_SIZE);
-}
-
-void CLNVMMemoryMapManager::GetMemoryRecovery(void * pAddress, size_t size)
-{
-	SetPagesMapped(pAddress, size);
 }

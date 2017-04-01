@@ -67,15 +67,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Makefile" />
-    <None Include="debug.mak">
-      <Filter>Make files</Filter>
-    </None>
-    <None Include="release.mak">
-      <Filter>Make files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
@@ -151,9 +142,6 @@
     <ClCompile Include="SLList.cpp">
       <Filter>Source files\Tool</Filter>
     </ClCompile>
-    <ClCompile Include="SLMemoryUseInfo.h">
-      <Filter>Header files\Recovery</Filter>
-    </ClCompile>
     <ClCompile Include="CLRecoverier.cpp">
       <Filter>Source files\Recovery</Filter>
     </ClCompile>
@@ -164,10 +152,13 @@
       <Filter>Source files\Recovery</Filter>
     </ClCompile>
     <ClCompile Include="CLLogArea.cpp">
-      <Filter>Source files</Filter>
+      <Filter>Source files\Log</Filter>
     </ClCompile>
-    <ClCompile Include="SLNVMLogArea.cpp">
-      <Filter>Source files</Filter>
+    <ClCompile Include="CLLogAreaManager.cpp">
+      <Filter>Source files\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="CLSemaphore.cpp">
+      <Filter>Source files\Lock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,11 +261,20 @@
     <ClInclude Include="CLRecoverier.h">
       <Filter>Header files\Recovery</Filter>
     </ClInclude>
-    <ClInclude Include="CLLogArea.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="SLMemoryUseInfo.h">
+      <Filter>Header files\Recovery</Filter>
     </ClInclude>
-    <ClInclude Include="SLNVMLogArea.h">
-      <Filter>Header files</Filter>
+    <ClInclude Include="CLLogAreaManager.h">
+      <Filter>Header files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="CLLogArea.h">
+      <Filter>Header files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="SLNVMLogAreaPointers.h">
+      <Filter>Header files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="CLSemaphore.h">
+      <Filter>Header files\Lock</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

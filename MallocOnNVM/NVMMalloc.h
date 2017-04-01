@@ -3,8 +3,6 @@
 
 #include <cstddef>
 
-class CLExtent;
-
 void * MallocOnNVM(size_t size);
 void FreeOnNVM(void * pNVMAddress);
 void NotifyNVMMemoryGet(void * pNVMAddress);

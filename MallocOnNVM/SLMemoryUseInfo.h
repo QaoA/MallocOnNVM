@@ -9,7 +9,8 @@ enum MEM_INFO_TYPE
 {
 	MEM_BLOCK,
 	MEM_AREA,
-	MEM_FREE
+	MEM_FREE,
+	MEM_RESERVE
 };
 
 struct SLFreeInfo
@@ -27,12 +28,15 @@ public:
 	unsigned int m_size;
 };
 
+typedef SLFreeInfo SLReservedArea;
+
 struct SLMemoryUseInfo
 {
 public:
 	SLMemoryUseInfo(CLExtent * pExtent);
 	SLMemoryUseInfo(CLBlockArea * pArea);
 	SLMemoryUseInfo(void * pAddress, unsigned int size);
+	SLMemoryUseInfo(void * pReservedArea, unsigned int areaSize, bool reserveFlag);
 
 public:
 	inline MEM_INFO_TYPE GetType();

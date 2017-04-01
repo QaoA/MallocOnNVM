@@ -23,3 +23,9 @@ m_pFreePage(new SLFreeInfo(pAddress, size)),
 m_type(MEM_FREE)
 {
 }
+
+SLMemoryUseInfo::SLMemoryUseInfo(void * pReservedArea, unsigned int areaSize, bool reserveFlag):
+m_pFreePage(new SLReservedArea(pReservedArea,areaSize)),
+m_type(MEM_RESERVE)
+{
+}

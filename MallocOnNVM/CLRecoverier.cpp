@@ -6,6 +6,7 @@
 #include "CLNVMMemoryMapManager.h"
 #include "SLMemoryUseInfo.h"
 #include "CLAllocatedExtentManager.h"
+#include "CLBaseMetadata.h"
 #include <cassert>
 
 using namespace std;
@@ -18,8 +19,9 @@ CLRecoverier::~CLRecoverier()
 {
 }
 
-void CLRecoverier::DoRecovery()
+void CLRecoverier::DoRecovery(LogRecoveryFunc recoveryFunc)
 {
+	CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->Recovery(*this,recoveryFunc);
 	CLGlobalBlockAreaManager::GetInstance()->Recovery(*this);
 	DispatchAllMemoryInfo();
 }
@@ -54,6 +56,8 @@ void CLRecoverier::DispatchAllMemoryInfo()
 			break;
 		case MEM_FREE:
 			DispatchFreeInfo(pInfo);
+			break;
+		case MEM_RESERVE:
 			break;
 		default:
 			break;

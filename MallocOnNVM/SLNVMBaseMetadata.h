@@ -2,12 +2,13 @@
 #define __NVM_BASE_METADATA_H__
 
 #include "SizeDefine.h"
+#include "SLNVMLogAreaPointers.h"
 #include <cstddef>
 
 struct SLNVMBlockArea;
 class CLBaseMetadata;
 
-#define  NVM_BASE_METADATA_SIZE PAGE_SIZE
+#define NVM_BASE_METADATA_SIZE PAGE_SIZE
 
 struct SLNVMBaseMetadata
 {
@@ -20,6 +21,7 @@ private:
 	struct SLData
 	{
 		SLNVMBlockArea * m_pFirstArea;
+		SLNVMLogAreaPointers m_logAreaPointers;
 	};
 	union
 	{

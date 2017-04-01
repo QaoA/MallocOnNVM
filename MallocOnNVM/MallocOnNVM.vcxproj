@@ -60,6 +60,10 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <SourcePath>C:\Program Files %28x86%29\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\Linux\include\usr;$(SourcePath)</SourcePath>
+  </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="CLAllocatedExtentManager.cpp" />
     <ClCompile Include="CLArena.cpp" />
@@ -74,6 +78,7 @@
     <ClCompile Include="CLHugeExtentManager.cpp" />
     <ClCompile Include="CLLargeExtenttManager.cpp" />
     <ClCompile Include="CLLogArea.cpp" />
+    <ClCompile Include="CLLogAreaManager.cpp" />
     <ClCompile Include="CLMutex.cpp" />
     <ClCompile Include="CLNVMMemoryMapManager.cpp" />
     <ClCompile Include="CLNVMMemoryUseInfoCollector.cpp" />
@@ -81,6 +86,7 @@
     <ClCompile Include="CLPerArenaBlockManager.cpp" />
     <ClCompile Include="CLRadixTreeNode.cpp" />
     <ClCompile Include="CLRecoverier.cpp" />
+    <ClCompile Include="CLSemaphore.cpp" />
     <ClCompile Include="CLSmallExtentManager.cpp" />
     <ClCompile Include="CLSpinLock.cpp" />
     <ClCompile Include="CLSystemException.cpp" />
@@ -90,7 +96,6 @@
     <ClCompile Include="SLMemoryUseInfo.cpp" />
     <ClCompile Include="SLNVMBaseMetadatacpp.cpp" />
     <ClCompile Include="SLNVMBlockArea.cpp" />
-    <ClCompile Include="SLNVMLogArea.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLAllocatedExtentManager.h" />
@@ -106,6 +111,7 @@
     <ClInclude Include="CLHugeExtentManager.h" />
     <ClInclude Include="CLLargeExtentManager.h" />
     <ClInclude Include="CLLogArea.h" />
+    <ClInclude Include="CLLogAreaManager.h" />
     <ClInclude Include="CLMutex.h" />
     <ClInclude Include="CLNVMMemoryMapManager.h" />
     <ClInclude Include="CLNVMMemoryUseInfoCollector.h" />
@@ -114,6 +120,7 @@
     <ClInclude Include="CLRadixTree.h" />
     <ClInclude Include="CLRadixTreeNode.h" />
     <ClInclude Include="CLRecoverier.h" />
+    <ClInclude Include="CLSemaphore.h" />
     <ClInclude Include="CLSmallExtentManager.h" />
     <ClInclude Include="CLSpinLock.h" />
     <ClInclude Include="CLSystemException.h" />
@@ -123,14 +130,18 @@
     <ClInclude Include="NVMMalloc.h" />
     <ClInclude Include="SizeDefine.h" />
     <ClInclude Include="SLList.h" />
+    <ClInclude Include="SLNVMLogAreaPointers.h" />
     <ClInclude Include="SLMemoryUseInfo.h" />
     <ClInclude Include="SLNVMBaseMetadata.h" />
     <ClInclude Include="SLNVMBlock.h" />
     <ClInclude Include="SLNVMBlockArea.h" />
     <ClInclude Include="SLNVMList.h" />
-    <ClInclude Include="SLNVMLogArea.h" />
   </ItemGroup>
-  <ItemDefinitionGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\Linux\include\usr\include\x86_64-linux-gnu;C:\Program Files %28x86%29\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\Linux\include\usr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

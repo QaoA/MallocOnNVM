@@ -25,6 +25,7 @@ public:
 public:
 	void AppendMemoryUseInfo(SLNVMBlock * pBlock, CLBlockArea * pOwner);
 	void AppendAreaUseInfo(CLBlockArea * pArea);
+	void AppendReservedAreaInfo(void * pReservedArea, unsigned int areaSize);
 	SLMemoryUseInfo * GetUseInfoOneByOne();
 	void MakeUseInfoReady();
 	unsigned long GetLastBoundary();

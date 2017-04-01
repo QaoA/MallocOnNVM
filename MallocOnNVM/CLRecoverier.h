@@ -2,6 +2,7 @@
 #define __RECOVERIER_H__
 
 #include "CLNVMMemoryUseInfoCollector.h"
+#include "CLLogAreaManager.h"
 #include <list>
 
 struct SLNVMBlock;
@@ -14,12 +15,13 @@ public:
 	~CLRecoverier();
 
 public:
-	void DoRecovery();
+	void DoRecovery(LogRecoveryFunc recoveryFunc);
 	void DispatchBlockArea(CLBlockArea * pBlockArea, int arenaId);
 
 public:
 	inline void AppendInfo(SLNVMBlock * pBlock, CLBlockArea * pOwner);
 	inline void AppendInfo(CLBlockArea * pArea);
+	inline void AppendInfo(void * pReserveredArea, unsigned int areaSize);
 
 private:
 	void DispatchAllMemoryInfo();
@@ -39,6 +41,11 @@ void CLRecoverier::AppendInfo(CLBlockArea * pArea)
 void CLRecoverier::AppendInfo(SLNVMBlock * pBlock, CLBlockArea * pOwner)
 {
 	m_collector.AppendMemoryUseInfo(pBlock, pOwner);
+}
+
+void CLRecoverier::AppendInfo(void * pReserveredArea, unsigned int areaSize)
+{
+	m_collector.AppendReservedAreaInfo(pReserveredArea, areaSize);
 }
 
 #endif

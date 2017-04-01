@@ -29,13 +29,8 @@ public:
 
 public:
 	void RecieveFreePages(void * pAddress, size_t size);
-	void GetMemoryRecovery(void * pAddress, size_t size);
 	inline void * GetRecoveryBaseAddress();
 	inline void RecieveLastMapAddressRecovery(void * pAddress);
-
-private:
-	inline void SetPagesMapped(void * pAddress, size_t size);
-	inline void SetPagesUnmapped(void * pAddress, size_t size);
 
 private:
 	int m_fd;
@@ -50,16 +45,6 @@ private:
 CLBaseMetadata * CLNVMMemoryMapManager::GetBaseMetadata()
 {
 	return m_pBaseMetadata;
-}
-
-void CLNVMMemoryMapManager::SetPagesMapped(void * pAddress, size_t size)
-{
-	madvise(pAddress, size, MADV_WILLNEED);
-}
-
-void CLNVMMemoryMapManager::SetPagesUnmapped(void * pAddress, size_t size)
-{
-	madvise(pAddress, size, MADV_DONTNEED);
 }
 
 void * CLNVMMemoryMapManager::GetRecoveryBaseAddress()
