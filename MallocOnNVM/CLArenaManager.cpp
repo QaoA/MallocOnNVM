@@ -27,9 +27,9 @@ CLArenaManager * CLArenaManager::GetInstance()
 	return &instance;
 }
 
-void CLArenaManager::CallbackAreanDestruct(void *)
+void CLArenaManager::CallbackAreanDestruct(void * pArena)
 {
-	CLArenaManager::GetInstance()->GetArena()->Unbind();
+	static_cast<CLArena *>(pArena)->Unbind();
 }
 
 CLArena * CLArenaManager::GetArena()
@@ -72,7 +72,10 @@ CLArena * CLArenaManager::GetArenaRecovery(unsigned int arenaId)
 		assert(arenaId >= m_arenaCurrentCount);
 		for (int i = m_arenaCurrentCount; i <= arenaId; ++i)
 		{
-			m_arenaArray[i] = new CLArena(i);
+			if (m_arenaArray[i] == nullptr)
+			{
+				m_arenaArray[i] = new CLArena(i);
+			}
 		}
 		m_arenaCurrentCount = arenaId;
 	}

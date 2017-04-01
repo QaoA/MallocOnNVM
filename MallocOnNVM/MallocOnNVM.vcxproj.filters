@@ -59,6 +59,12 @@
     <Filter Include="Source files\Recovery">
       <UniqueIdentifier>{dcf7525e-b08d-4a29-ac32-762ed0ef8f5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header files\Log">
+      <UniqueIdentifier>{40204fb8-ba18-4a88-9f9d-93743ee5b4ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Log">
+      <UniqueIdentifier>{d60e4db9-94c8-41d2-a94b-fd0b6fbbb27b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
@@ -156,6 +162,12 @@
     </ClCompile>
     <ClCompile Include="SLMemoryUseInfo.cpp">
       <Filter>Source files\Recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="CLLogArea.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="SLNVMLogArea.cpp">
+      <Filter>Source files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +269,12 @@
     </ClInclude>
     <ClInclude Include="CLRecoverier.h">
       <Filter>Header files\Recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="CLLogArea.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="SLNVMLogArea.h">
+      <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

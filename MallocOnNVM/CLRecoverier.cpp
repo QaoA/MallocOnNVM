@@ -66,7 +66,10 @@ void CLRecoverier::DispacthBlockInfo(SLMemoryUseInfo * pInfo)
 {
 	assert(pInfo && pInfo->GetType() == MEM_BLOCK);
 	CLArenaManager::GetInstance()->GetArenaRecovery(pInfo->GetArenaId())->RecieveExtentRecovery(pInfo->m_pExtent);
-	CLAllocatedExtentManager::GetInstance()->Put(pInfo->m_pExtent);
+	if (pInfo->m_pExtent->IsOccupied())
+	{
+		CLAllocatedExtentManager::GetInstance()->Put(pInfo->m_pExtent);
+	}
 }
 
 void CLRecoverier::DispatchAreaInfo(SLMemoryUseInfo * pInfo)
