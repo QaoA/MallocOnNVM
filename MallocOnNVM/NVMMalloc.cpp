@@ -46,8 +46,8 @@ void NotifyNVMMemoryRelease(void * pNVMAddress)
 	}
 }
 
-void Recovery()
+void Recovery(LogRecoveryFunc recoveryFunc)
 {
 	CLRecoverier r;
-	r.DoRecovery();
+	r.DoRecovery(recoveryFunc);
 }

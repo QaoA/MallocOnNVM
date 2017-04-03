@@ -21,7 +21,7 @@ CLRecoverier::~CLRecoverier()
 
 void CLRecoverier::DoRecovery(LogRecoveryFunc recoveryFunc)
 {
-	CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->Recovery(*this,recoveryFunc);
+	CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->Recovery(recoveryFunc, *this);
 	CLGlobalBlockAreaManager::GetInstance()->Recovery(*this);
 	DispatchAllMemoryInfo();
 }

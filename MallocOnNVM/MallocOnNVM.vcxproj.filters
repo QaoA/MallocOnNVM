@@ -160,6 +160,9 @@
     <ClCompile Include="CLSemaphore.cpp">
       <Filter>Source files\Lock</Filter>
     </ClCompile>
+    <ClCompile Include="SLNVMLogAreaPointers.cpp">
+      <Filter>Source files\Log</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SizeDefine.h">
@@ -276,5 +279,12 @@
     <ClInclude Include="CLSemaphore.h">
       <Filter>Header files\Lock</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="debug.mak" />
+    <None Include="Makefile" />
+    <None Include="MallocOnNVM-Debug.vgdbsettings" />
+    <None Include="MallocOnNVM-Release.vgdbsettings" />
+    <None Include="release.mak" />
   </ItemGroup>
 </Project>

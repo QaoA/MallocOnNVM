@@ -12,9 +12,4 @@ public:
 	static int GetMaxAreaPointerCount();
 };
 
-int SLNVMLogAreaPointers::GetMaxAreaPointerCount()
-{
-	return LOG_AREA_ARRAY_SIZE;
-}
-
 #endif

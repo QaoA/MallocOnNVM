@@ -41,9 +41,13 @@ void * ThreadFunc(void *)
 	//}
 }
 
+void LogRecovery(CLLogArea &)
+{
+}
+
 int main(int argc, char *argv[])
 {
-	Recovery();
+	Recovery(LogRecovery);
 	pthread_t t1, t2;
 	pthread_create(&t1, NULL, ThreadFunc, NULL);
 	pthread_create(&t2, NULL, ThreadFunc, NULL);
