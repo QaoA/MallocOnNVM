@@ -86,6 +86,7 @@ unsigned long SLMemoryUseInfo::GetAddress()
 		pAddress = m_pBlockArea->GetNVMBaseAddress();
 		break;
 	case MEM_FREE:
+	case MEM_RESERVE:
 		pAddress = m_pFreePage->GetNVMAddress();
 		break;
 	default:
@@ -106,6 +107,7 @@ unsigned long SLMemoryUseInfo::GetEndAddress()
 		pAddress = m_pBlockArea->GetNVMEndAddress();
 		break;
 	case MEM_FREE:
+	case MEM_RESERVE:
 		pAddress = m_pFreePage->GetNVMEndAddress();
 		break;
 	default:
@@ -125,6 +127,7 @@ int SLMemoryUseInfo::GetArenaId()
 		return m_pBlockArea->GetArenaId();
 		break;
 	case MEM_FREE:
+	case MEM_RESERVE:
 		return m_pFreePage->GetArenaId();
 		break;
 	default:

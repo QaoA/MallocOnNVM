@@ -41,7 +41,7 @@ void CLLogAreaManager::Recovery(LogRecoveryFunc recoveryFunc, CLRecoverier & rec
 	}
 }
 
-void CLLogAreaManager::GetArea(CLLogArea & logArea)
+CLLogArea * CLLogAreaManager::GetArea()
 {
 	m_sem.Wait();
 	{
@@ -54,7 +54,8 @@ void CLLogAreaManager::GetArea(CLLogArea & logArea)
 			assert(pCurrentArea);
 			m_pNVMLogAreaPointers->m_logAreaArray[index] = pCurrentArea;
 		}
-		logArea.Init(index, pCurrentArea, LOG_AREA_SIZE);
+		m_freeLogAreaArray.pop_front();
+		return new CLLogArea(index, pCurrentArea, LOG_AREA_SIZE);
 	}
 }
 

@@ -13,6 +13,8 @@ public:
 
 public:
 	inline int GetIndex();
+	inline void * GetStartAddress();
+	inline unsigned int GetAreaSize();
 
 private:
 	int m_index;
@@ -23,6 +25,16 @@ private:
 inline int CLLogArea::GetIndex()
 {
 	return m_index;
+}
+
+inline void * CLLogArea::GetStartAddress()
+{
+	return m_pStartAddress;
+}
+
+inline unsigned int CLLogArea::GetAreaSize()
+{
+	return m_areaSize;
 }
 
 #endif

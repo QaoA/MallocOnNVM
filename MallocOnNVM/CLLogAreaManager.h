@@ -5,6 +5,7 @@
 #include "CLMutex.h"
 #include "SizeDefine.h"
 #include <list>
+#include <memory>
 
 #define LOG_AREA_SIZE PAGE_SIZE
 
@@ -24,7 +25,7 @@ public:
 	void Recovery(LogRecoveryFunc recoveryFunc, CLRecoverier & recoverier);
 
 public:
-	void GetArea(CLLogArea & logArea);
+	CLLogArea * GetArea();
 	void FreeArea(CLLogArea & logArea);
 
 private:

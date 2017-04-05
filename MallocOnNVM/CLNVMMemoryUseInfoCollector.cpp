@@ -47,7 +47,7 @@ void CLNVMMemoryUseInfoCollector::AppendAreaUseInfo(CLBlockArea * pArea)
 void CLNVMMemoryUseInfoCollector::AppendReservedAreaInfo(void * pReservedArea, unsigned int areaSize)
 {
 	assert(pReservedArea);
-	assert(areaSize&PAGE_SIZE_MASK == 0);
+	assert((areaSize&PAGE_SIZE_MASK) == 0);
 	m_set.insert(new SLMemoryUseInfo(pReservedArea, areaSize, true));
 }
 

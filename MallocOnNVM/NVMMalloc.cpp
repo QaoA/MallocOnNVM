@@ -3,7 +3,11 @@
 #include "CLArena.h"
 #include "CLExtent.h"
 #include "CLAllocatedExtentManager.h"
+#include "CLNVMMemoryMapManager.h"
+#include "CLBaseMetadata.h"
 #include "CLRecoverier.h"
+
+using namespace std;
 
 void * MallocOnNVM(size_t size)
 {
@@ -50,4 +54,15 @@ void Recovery(LogRecoveryFunc recoveryFunc)
 {
 	CLRecoverier r;
 	r.DoRecovery(recoveryFunc);
+}
+
+CLLogArea * AllocLogArea()
+{
+	return CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->GetLogAreaManager()->GetArea();
+}
+
+void FreeLogArea(CLLogArea * pArea)
+{
+	assert(pArea);
+	CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->GetLogAreaManager()->FreeArea(*pArea);
 }
