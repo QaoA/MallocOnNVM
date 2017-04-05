@@ -35,7 +35,7 @@ error:
 	$(error Invalid configuration, please check your inputs)
 endif
 
-SOURCEFILES := CLAllocatedExtentManager.cpp CLArena.cpp CLArenaManager.cpp CLBaseMetadata.cpp CLBlock.cpp CLBlockArea.cpp CLCriticalSection.cpp CLExtent.cpp CLExtentList.cpp CLGlobalBlockAreaManager.cpp CLHugeExtentManager.cpp CLLargeExtenttManager.cpp CLLogArea.cpp CLLogAreaManager.cpp CLMutex.cpp CLNVMMemoryMapManager.cpp CLNVMMemoryUseInfoCollector.cpp CLPageManager.cpp CLPerArenaBlockManager.cpp CLRadixTreeNode.cpp CLRecoverier.cpp CLSemaphore.cpp CLSmallExtentManager.cpp CLSpinLock.cpp CLSystemException.cpp main.cpp NVMMalloc.cpp SLList.cpp SLMemoryUseInfo.cpp SLNVMBaseMetadatacpp.cpp SLNVMBlockArea.cpp SLNVMLogAreaPointers.cpp
+SOURCEFILES := CLAllocatedExtentManager.cpp CLArena.cpp CLArenaManager.cpp CLBaseMetadata.cpp CLBlock.cpp CLBlockArea.cpp CLCriticalSection.cpp CLExtent.cpp CLExtentList.cpp CLGlobalBlockAreaManager.cpp CLHugeExtentManager.cpp CLLargeExtenttManager.cpp CLLogArea.cpp CLLogAreaManager.cpp CLMutex.cpp CLNameServer.cpp CLNVMMemoryMapManager.cpp CLNVMMemoryUseInfoCollector.cpp CLPageManager.cpp CLPerArenaBlockManager.cpp CLRadixTreeNode.cpp CLRecoverier.cpp CLSemaphore.cpp CLSmallExtentManager.cpp CLSpinLock.cpp CLSystemException.cpp main.cpp NVMMalloc.cpp SLList.cpp SLMemoryUseInfo.cpp SLNVMBaseMetadatacpp.cpp SLNVMBlockArea.cpp SLNVMLogAreaPointers.cpp
 EXTERNAL_LIBS := 
 EXTERNAL_LIBS_COPIED := $(foreach lib, $(EXTERNAL_LIBS),$(BINARYDIR)/$(notdir $(lib)))
 

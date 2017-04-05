@@ -25,14 +25,9 @@ void * ThreadFunc(void *)
 	}
 }
 
-void LogRecovery(CLLogArea &)
-{
-	cout << "recovery" << endl;
-}
-
 int main(int argc, char *argv[])
 {
-	Recovery(LogRecovery);
+	Recovery();
 	//pthread_t t1, t2;
 	//pthread_create(&t1, NULL, ThreadFunc, NULL);
 	//pthread_create(&t2, NULL, ThreadFunc, NULL);

@@ -50,10 +50,10 @@ void NotifyNVMMemoryRelease(void * pNVMAddress)
 	}
 }
 
-void Recovery(LogRecoveryFunc recoveryFunc)
+void Recovery()
 {
 	CLRecoverier r;
-	r.DoRecovery(recoveryFunc);
+	r.DoRecovery();
 }
 
 CLLogArea * AllocLogArea()
@@ -64,5 +64,10 @@ CLLogArea * AllocLogArea()
 void FreeLogArea(CLLogArea * pArea)
 {
 	assert(pArea);
-	CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->GetLogAreaManager()->FreeArea(*pArea);
+	CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->GetLogAreaManager()->FreeArea(pArea);
+}
+
+CLNameServer * GetNameServer()
+{
+	return CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->GetNameServer();
 }

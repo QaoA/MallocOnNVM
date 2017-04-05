@@ -2,7 +2,6 @@
 #define __RECOVERIER_H__
 
 #include "CLNVMMemoryUseInfoCollector.h"
-#include "CLLogAreaManager.h"
 #include <list>
 
 struct SLNVMBlock;
@@ -15,7 +14,7 @@ public:
 	~CLRecoverier();
 
 public:
-	void DoRecovery(LogRecoveryFunc recoveryFunc);
+	void DoRecovery();
 	void DispatchBlockArea(CLBlockArea * pBlockArea, int arenaId);
 
 public:

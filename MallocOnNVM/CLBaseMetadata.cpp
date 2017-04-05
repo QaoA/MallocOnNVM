@@ -4,7 +4,8 @@
 
 CLBaseMetadata::CLBaseMetadata(SLNVMBaseMetadata * pBaseData) :
 m_baseData(pBaseData),
-m_logAreaManager(&pBaseData->m_data.m_logAreaPointers)
+m_logAreaManager(&pBaseData->m_data.m_logAreaPointers),
+m_nameServer(&pBaseData->m_data.m_nameServer)
 {
 }
 
@@ -12,9 +13,9 @@ CLBaseMetadata::~CLBaseMetadata()
 {
 }
 
-void CLBaseMetadata::Recovery(LogRecoveryFunc recoveryFunc, CLRecoverier & recoverier)
+void CLBaseMetadata::Recovery(CLRecoverier & recoverier)
 {
-	m_logAreaManager.Recovery(recoveryFunc,recoverier);
+	m_logAreaManager.Recovery(recoverier);
 }
 
 SLNVMBlockArea * CLBaseMetadata::GetFirstBlockArea()
@@ -32,6 +33,11 @@ void CLBaseMetadata::SetFirstBlockArea(SLNVMBlockArea * pFirstArea)
 CLLogAreaManager * CLBaseMetadata::GetLogAreaManager()
 {
 	return &m_logAreaManager;
+}
+
+CLNameServer * CLBaseMetadata::GetNameServer()
+{
+	return &m_nameServer;
 }
 
 unsigned long CLBaseMetadata::GetMetadataSize()

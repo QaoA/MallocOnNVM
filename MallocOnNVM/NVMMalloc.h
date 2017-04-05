@@ -3,16 +3,17 @@
 
 #include <cstddef>
 #include <memory>
-#include "CLRecoverier.h"
 
 class CLLogArea;
+class CLNameServer;
 
 void * MallocOnNVM(size_t size);
 void FreeOnNVM(void * pNVMAddress);
 void NotifyNVMMemoryGet(void * pNVMAddress);
 void NotifyNVMMemoryRelease(void * pNVMAddress);
-void Recovery(LogRecoveryFunc recoveryFunc);
+void Recovery();
 CLLogArea * AllocLogArea();
 void FreeLogArea(CLLogArea * pArea);
+CLNameServer * GetNameServer();
 
 #endif

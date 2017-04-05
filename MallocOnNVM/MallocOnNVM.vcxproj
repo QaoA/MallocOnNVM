@@ -85,6 +85,7 @@
     <ClCompile Include="CLLogArea.cpp" />
     <ClCompile Include="CLLogAreaManager.cpp" />
     <ClCompile Include="CLMutex.cpp" />
+    <ClCompile Include="CLNameServer.cpp" />
     <ClCompile Include="CLNVMMemoryMapManager.cpp" />
     <ClCompile Include="CLNVMMemoryUseInfoCollector.cpp" />
     <ClCompile Include="CLPageManager.cpp" />
@@ -118,7 +119,9 @@
     <ClInclude Include="CLLargeExtentManager.h" />
     <ClInclude Include="CLLogArea.h" />
     <ClInclude Include="CLLogAreaManager.h" />
+    <ClInclude Include="CLLogItem.h" />
     <ClInclude Include="CLMutex.h" />
+    <ClInclude Include="CLNameServer.h" />
     <ClInclude Include="CLNVMMemoryMapManager.h" />
     <ClInclude Include="CLNVMMemoryUseInfoCollector.h" />
     <ClInclude Include="CLPageManager.h" />
@@ -137,6 +140,8 @@
     <ClInclude Include="SizeDefine.h" />
     <ClInclude Include="SLList.h" />
     <ClInclude Include="SLMemoryUseInfo.h" />
+    <ClInclude Include="SLNameAddressPair.h" />
+    <ClInclude Include="SLNVMNameServer.h" />
     <ClInclude Include="SLNVMBaseMetadata.h" />
     <ClInclude Include="SLNVMBlock.h" />
     <ClInclude Include="SLNVMBlockArea.h" />

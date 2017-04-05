@@ -2,6 +2,7 @@
 #define __BASE_METADATA_H__
 
 #include "CLLogAreaManager.h"
+#include "CLNameServer.h"
 
 struct SLNVMBaseMetadata;
 struct SLNVMBlockArea;
@@ -14,10 +15,11 @@ public:
 	~CLBaseMetadata();
 
 public:
-	void Recovery(LogRecoveryFunc recoveryFunc, CLRecoverier & recoverier);
+	void Recovery(CLRecoverier & recoverier);
 	SLNVMBlockArea * GetFirstBlockArea();
 	void SetFirstBlockArea(SLNVMBlockArea * pFirstArea);
 	CLLogAreaManager * GetLogAreaManager();
+	CLNameServer * GetNameServer();
 
 public:
 	static unsigned long GetMetadataSize();
@@ -25,6 +27,7 @@ public:
 private:
 	SLNVMBaseMetadata * m_baseData;
 	CLLogAreaManager m_logAreaManager;
+	CLNameServer m_nameServer;
 };
 
 #endif

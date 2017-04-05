@@ -65,6 +65,12 @@
     <Filter Include="Source files\Log">
       <UniqueIdentifier>{d60e4db9-94c8-41d2-a94b-fd0b6fbbb27b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header files\NameService">
+      <UniqueIdentifier>{a1879ffe-cc18-4d71-9468-87c216019583}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\NameService">
+      <UniqueIdentifier>{423d1498-65d2-4ece-982b-b132c281ad25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -163,11 +169,11 @@
     <ClCompile Include="SLNVMLogAreaPointers.cpp">
       <Filter>Source files\Log</Filter>
     </ClCompile>
+    <ClCompile Include="CLNameServer.cpp">
+      <Filter>Source files\NameService</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SizeDefine.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
     <ClInclude Include="CLCriticalSection.h">
       <Filter>Header files\Lock</Filter>
     </ClInclude>
@@ -279,12 +285,33 @@
     <ClInclude Include="CLSemaphore.h">
       <Filter>Header files\Lock</Filter>
     </ClInclude>
+    <ClInclude Include="SizeDefine.h">
+      <Filter>Header files\Allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="CLLogItem.h">
+      <Filter>Header files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="SLNVMNameServer.h">
+      <Filter>Header files\NameService</Filter>
+    </ClInclude>
+    <ClInclude Include="SLNameAddressPair.h">
+      <Filter>Header files\NameService</Filter>
+    </ClInclude>
+    <ClInclude Include="CLNameServer.h">
+      <Filter>Header files\NameService</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="debug.mak" />
-    <None Include="Makefile" />
     <None Include="MallocOnNVM-Debug.vgdbsettings" />
     <None Include="MallocOnNVM-Release.vgdbsettings" />
-    <None Include="release.mak" />
+    <None Include="Makefile">
+      <Filter>Make files</Filter>
+    </None>
+    <None Include="debug.mak">
+      <Filter>Make files</Filter>
+    </None>
+    <None Include="release.mak">
+      <Filter>Make files</Filter>
+    </None>
   </ItemGroup>
 </Project>

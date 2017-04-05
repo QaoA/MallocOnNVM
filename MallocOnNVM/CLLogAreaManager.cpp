@@ -25,9 +25,8 @@ CLLogAreaManager::~CLLogAreaManager()
 {
 }
 
-void CLLogAreaManager::Recovery(LogRecoveryFunc recoveryFunc, CLRecoverier & recoverier)
+void CLLogAreaManager::Recovery(CLRecoverier & recoverier)
 {
-	assert(recoveryFunc);
 	int maxPointerCount = SLNVMLogAreaPointers::GetMaxAreaPointerCount();
 	for (int i = 0; i < maxPointerCount; ++i)
 	{
@@ -35,7 +34,7 @@ void CLLogAreaManager::Recovery(LogRecoveryFunc recoveryFunc, CLRecoverier & rec
 		if (pCurrentArea != nullptr)
 		{
 			CLLogArea tmp(i, pCurrentArea, LOG_AREA_SIZE);
-			recoveryFunc(tmp);
+			CLLogArea::Recovery(pCurrentArea);
 			recoverier.AppendInfo(pCurrentArea, LOG_AREA_SIZE);
 		}
 	}
@@ -43,11 +42,13 @@ void CLLogAreaManager::Recovery(LogRecoveryFunc recoveryFunc, CLRecoverier & rec
 
 CLLogArea * CLLogAreaManager::GetArea()
 {
+	int index = 0;
+	void * pCurrentArea = nullptr;
 	m_sem.Wait();
 	{
 		CLCriticalSection cs(&m_lock);
-		int index = m_freeLogAreaArray.front();
-		void * pCurrentArea = m_pNVMLogAreaPointers->m_logAreaArray[index];
+		index = m_freeLogAreaArray.front();
+		pCurrentArea = m_pNVMLogAreaPointers->m_logAreaArray[index];
 		if (pCurrentArea == nullptr)
 		{
 			pCurrentArea = CLNVMMemoryMapManager::GetInstance()->MapMemory(LOG_AREA_SIZE);
@@ -55,15 +56,17 @@ CLLogArea * CLLogAreaManager::GetArea()
 			m_pNVMLogAreaPointers->m_logAreaArray[index] = pCurrentArea;
 		}
 		m_freeLogAreaArray.pop_front();
-		return new CLLogArea(index, pCurrentArea, LOG_AREA_SIZE);
 	}
+	return new CLLogArea(index, pCurrentArea, LOG_AREA_SIZE);
 }
 
-void CLLogAreaManager::FreeArea(CLLogArea & pLogArea)
+void CLLogAreaManager::FreeArea(CLLogArea * pLogArea)
 {
+	assert(pLogArea);
 	{
 		CLCriticalSection cs(&m_lock);
-		m_freeLogAreaArray.push_back(pLogArea.GetIndex());
+		m_freeLogAreaArray.push_back(pLogArea->GetIndex());
 	}
 	m_sem.Post();
+	delete pLogArea;
 }

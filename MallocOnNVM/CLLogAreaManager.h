@@ -7,13 +7,9 @@
 #include <list>
 #include <memory>
 
-#define LOG_AREA_SIZE PAGE_SIZE
-
 struct SLNVMLogAreaPointers;
 class CLLogArea;
 class CLRecoverier;
-
-typedef void(*LogRecoveryFunc)(CLLogArea & logAera);
 
 class CLLogAreaManager
 {
@@ -22,11 +18,11 @@ public:
 	~CLLogAreaManager();
 
 public:
-	void Recovery(LogRecoveryFunc recoveryFunc, CLRecoverier & recoverier);
+	void Recovery(CLRecoverier & recoverier);
 
 public:
 	CLLogArea * GetArea();
-	void FreeArea(CLLogArea & logArea);
+	void FreeArea(CLLogArea * logArea);
 
 private:
 	SLNVMLogAreaPointers * m_pNVMLogAreaPointers;
