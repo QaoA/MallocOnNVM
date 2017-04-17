@@ -3,6 +3,8 @@
 #include "CLNVMMemoryMapManager.h"
 #include <cassert>
 
+NS_BEGIN
+
 CLLargeExtentManager::CLLargeExtentManager()
 {
 }
@@ -85,3 +87,5 @@ size_t CLLargeExtentManager::AlignSize(size_t size)
 	}
 	return size;
 }
+
+NS_END

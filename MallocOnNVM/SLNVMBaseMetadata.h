@@ -4,7 +4,10 @@
 #include "SizeDefine.h"
 #include "SLNVMLogAreaPointers.h"
 #include "SLNVMNameServer.h"
+#include "NVMMallocNameSpace.h"
 #include <cstddef>
+
+NS_BEGIN
 
 struct SLNVMBlockArea;
 class CLBaseMetadata;
@@ -32,4 +35,5 @@ private:
 	};
 };
 
+NS_END
 #endif

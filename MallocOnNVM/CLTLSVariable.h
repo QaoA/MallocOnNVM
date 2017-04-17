@@ -1,7 +1,10 @@
 #ifndef __TLS_VARIABLE_H__
 #define  __TLS_VARIABLE_H__
 
+#include "NVMMallocNameSpace.h"
 #include <pthread.h>
+
+NS_BEGIN
 
 typedef void(*TLSDestructorFunc)(void*);
 
@@ -44,4 +47,6 @@ T* CLTLSVariable<T>::Get()
 	return static_cast<T*>(pthread_getspecific(m_key));
 }
 
+
+NS_END
 #endif

@@ -1,5 +1,7 @@
 #include "CLLogItem.h"
 
+NS_BEGIN
+
 CLLogItem::CLLogItem(void * pAddress, unsigned long size, void * value, bool deleteValue):
 m_address(pAddress),
 m_size(size),
@@ -18,3 +20,5 @@ CLLogItem::~CLLogItem()
 		delete[](char *)m_pValue;
 	}
 }
+
+NS_END

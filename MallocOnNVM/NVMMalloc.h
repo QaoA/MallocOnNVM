@@ -3,6 +3,9 @@
 
 #include <cstddef>
 #include <memory>
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 class CLLogArea;
 class CLNameServer;
@@ -17,4 +20,5 @@ CLLogArea * AllocLogArea();
 void FreeLogArea(CLLogArea * pArea);
 CLNameServer * GetNameServer();
 
+NS_END
 #endif

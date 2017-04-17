@@ -2,6 +2,9 @@
 #define __LIST_H__
 
 #include"MacroDefine.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 struct SLList
 {
@@ -19,4 +22,5 @@ public:
 	SLList * m_pNext;
 };
 
+NS_END
 #endif

@@ -1,6 +1,8 @@
 #include "CLPageManager.h"
 #include "SizeDefine.h"
 
+NS_BEGIN
+
 using namespace std;
 
 CLPageManager::CLPageManager()
@@ -95,3 +97,5 @@ bool CLPageManager::CanMerge(void * pBaseAddress, unsigned int pageCount, void *
 {
 	return (reinterpret_cast<unsigned long>(pBaseAddress)+pageCount*PAGE_SIZE) == reinterpret_cast<unsigned long>(pAnotherAddress);
 }
+
+NS_END

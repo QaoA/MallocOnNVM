@@ -1,5 +1,7 @@
 #include "SLList.h"
 
+NS_BEGIN
+
 SLList::SLList() :
 m_pPrevious(this),
 m_pNext(this)
@@ -23,3 +25,5 @@ void SLList::Remove()
 	m_pPrevious->m_pNext = m_pNext;
 	m_pNext->m_pPrevious = m_pPrevious;
 }
+
+NS_END

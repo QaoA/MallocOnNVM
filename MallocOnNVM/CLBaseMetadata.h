@@ -3,6 +3,9 @@
 
 #include "CLLogAreaManager.h"
 #include "CLNameServer.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 struct SLNVMBaseMetadata;
 struct SLNVMBlockArea;
@@ -29,5 +32,7 @@ private:
 	CLLogAreaManager m_logAreaManager;
 	CLNameServer m_nameServer;
 };
+
+NS_END
 
 #endif

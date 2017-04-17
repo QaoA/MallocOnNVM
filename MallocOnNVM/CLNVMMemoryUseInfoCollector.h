@@ -5,6 +5,9 @@
 #include <cstddef>
 #include <list>
 #include "SizeDefine.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 struct SLMemoryUseInfo;
 struct SLNVMBlock;
@@ -56,4 +59,5 @@ unsigned long CLNVMMemoryUseInfoCollector::GetEndBoundary(unsigned long pAddress
 	return pAddress;
 }
 
+NS_END
 #endif

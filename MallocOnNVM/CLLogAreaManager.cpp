@@ -9,6 +9,8 @@
 
 using namespace std;
 
+NS_BEGIN
+
 CLLogAreaManager::CLLogAreaManager(SLNVMLogAreaPointers * pNVMLogAreaPointers):
 m_pNVMLogAreaPointers(pNVMLogAreaPointers),
 m_sem(SLNVMLogAreaPointers::GetMaxAreaPointerCount())
@@ -70,3 +72,5 @@ void CLLogAreaManager::FreeArea(CLLogArea * pLogArea)
 	m_sem.Post();
 	delete pLogArea;
 }
+
+NS_END

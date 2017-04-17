@@ -1,6 +1,8 @@
 #include "CLSpinLock.h"
 #include <cassert>
 
+NS_BEGIN
+
 CLSpinLock::CLSpinLock():
 m_lock(false)
 {
@@ -25,3 +27,5 @@ void CLSpinLock::Unlock()
 	assert(m_lock);
 	__sync_bool_compare_and_swap(&m_lock, true, false);
 }
+
+NS_END

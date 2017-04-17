@@ -3,7 +3,10 @@
 
 #include "SizeDefine.h"
 #include "CLLogItem.h"
+#include "NVMMallocNameSpace.h"
 #include <cstring>
+
+NS_BEGIN
 
 #define LOG_AREA_SIZE PAGE_SIZE
 
@@ -67,4 +70,5 @@ inline bool CLLogArea::WriteLog(CLLogItem & item)
 	return WriteLog(item.GetAddress(), item.GetSize(), item.GetValueAddress());
 }
 
+NS_END
 #endif

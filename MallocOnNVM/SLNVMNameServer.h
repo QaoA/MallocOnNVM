@@ -3,6 +3,9 @@
 
 #include "SLList.h"
 #include "SLNameAddressPair.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 #define NAME_SERVER_SIZE 1024
 #define MAX_NAME_ADDRESS_PAIR_COUNT (NAME_SERVER_SIZE / sizeof(SLNameAddressPair))
@@ -12,5 +15,7 @@ struct SLNVMNameServer
 public:
 		SLNameAddressPair m_pairs[MAX_NAME_ADDRESS_PAIR_COUNT];
 };
+
+NS_END
 
 #endif

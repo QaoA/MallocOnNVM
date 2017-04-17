@@ -4,7 +4,10 @@
 #include <cstddef>
 #include "SLList.h"
 #include "CLBlock.h"
+#include "NVMMallocNameSpace.h"
 #include <cassert>
+
+NS_BEGIN
 
 class CLBlockArea;
 class CLPerArenaBlockManager;
@@ -111,4 +114,5 @@ inline unsigned int * CLExtent::GetNVMReferenceCountAddress()
 	return m_pBlock->GetNVMReferenceCountAddress();
 }
 
+NS_END
 #endif

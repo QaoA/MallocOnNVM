@@ -4,6 +4,9 @@
 #include "SizeDefine.h"
 #include "CLExtent.h"
 #include "CLBlockArea.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 enum MEM_INFO_TYPE
 {
@@ -135,4 +138,5 @@ int SLMemoryUseInfo::GetArenaId()
 	}
 }
 
+NS_END
 #endif

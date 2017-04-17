@@ -3,6 +3,8 @@
 #include <cassert>
 #include <cstring>
 
+NS_BEGIN
+
 using namespace std;
 
 CLNameServer::CLNameServer(SLNVMNameServer * pNameServer):
@@ -67,3 +69,5 @@ void CLNameServer::SetAbort(int index)
 	CLCriticalSection cs(&m_lock);
 	m_availableIndexArray.push_back(index);
 }
+
+NS_END

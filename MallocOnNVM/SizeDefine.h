@@ -1,6 +1,10 @@
 #ifndef __SIZE_DEFINE_H__
 #define __SIZE_DEFINE_H__
 
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
+
 static const unsigned long PAGE_SIZE = 4096;
 static const unsigned long PAGE_SIZE_BIT = 12;
 static const unsigned long PAGE_SIZE_MASK = 0xfff;
@@ -28,5 +32,7 @@ static const unsigned long HUGE_OBJECT_MIN_SIZE = LARGE_MAX_SIZE;
 
 static const unsigned long PAGES_ARRAY_SIZE = 8;
 static const unsigned long PAGES_MAX_PAGE_COUNT = 8;
+
+NS_END
 
 #endif

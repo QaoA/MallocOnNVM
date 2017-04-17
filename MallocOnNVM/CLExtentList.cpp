@@ -1,6 +1,7 @@
 #include "CLExtentList.h"
 #include <cassert>
 
+NS_BEGIN
 CLExtentList::CLExtentList():
 m_extentCount(0),
 m_extents()
@@ -40,3 +41,5 @@ void CLExtentList::RemoveExtent(CLExtent * pExtent)
 	m_extents.erase(pExtent);
 	m_extentCount--;
 }
+
+NS_END

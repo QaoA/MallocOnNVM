@@ -2,6 +2,8 @@
 #include "SLNVMBaseMetadata.h"
 #include <cassert>
 
+NS_BEGIN
+
 CLBaseMetadata::CLBaseMetadata(SLNVMBaseMetadata * pBaseData) :
 m_baseData(pBaseData),
 m_logAreaManager(&pBaseData->m_data.m_logAreaPointers),
@@ -44,3 +46,5 @@ unsigned long CLBaseMetadata::GetMetadataSize()
 {
 	return sizeof(SLNVMBaseMetadata);
 }
+
+NS_END

@@ -7,6 +7,8 @@
 #include "CLBaseMetadata.h"
 #include "CLRecoverier.h"
 
+NS_BEGIN
+
 using namespace std;
 
 void * MallocOnNVM(size_t size)
@@ -84,3 +86,5 @@ CLNameServer * GetNameServer()
 {
 	return CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->GetNameServer();
 }
+
+NS_END

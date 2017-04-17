@@ -1,5 +1,7 @@
 #include "CLSemaphore.h"
 
+NS_BEGIN
+
 CLSemaphore::CLSemaphore(unsigned int value)
 {
 	sem_init(&m_sem, 0, value);
@@ -19,3 +21,5 @@ void CLSemaphore::Post()
 {
 	sem_post(&m_sem);
 }
+
+NS_END

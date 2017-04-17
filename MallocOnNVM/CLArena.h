@@ -6,8 +6,10 @@
 #include "CLHugeExtentManager.h"
 #include "CLPerArenaBlockManager.h"
 #include "CLMutex.h"
+#include "NVMMallocNameSpace.h"
 #include <cstddef>
 
+NS_BEGIN
 class CLExtent;
 
 class CLArena
@@ -39,4 +41,5 @@ private:
 	unsigned int m_bindCount;
 };
 
+NS_END
 #endif

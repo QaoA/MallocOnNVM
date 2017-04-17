@@ -6,6 +6,8 @@
 #include "CLRecoverier.h"
 #include <cassert>
 
+NS_BEGIN
+
 using namespace std;
 
 CLGlobalBlockAreaManager::CLGlobalBlockAreaManager():
@@ -90,3 +92,5 @@ void CLGlobalBlockAreaManager::RecieveFreeBlockAreaRecovery(CLBlockArea * pBlock
 	assert(pBlockArea);
 	m_areaList.push_back(pBlockArea);
 }
+
+NS_END

@@ -2,7 +2,10 @@
 #define __RADIX_TREE_H__
 
 #include "CLRadixTreeNode.h"
+#include "NVMMallocNameSpace.h"
 #include <cassert>
+
+NS_BEGIN
 
 static const unsigned int TREE_HEIGHT = 7;
 
@@ -52,4 +55,5 @@ LeafType * CLRadixTree<LeafType>::GetAndRemove(void * key)
 	return static_cast<LeafType *>(m_root.Remove(reinterpret_cast<unsigned long>(key), SLOT_INIT_MASK));
 }
 
+NS_END
 #endif

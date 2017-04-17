@@ -2,7 +2,10 @@
 #define __RECOVERIER_H__
 
 #include "CLNVMMemoryUseInfoCollector.h"
+#include "NVMMallocNameSpace.h"
 #include <list>
+
+NS_BEGIN
 
 struct SLNVMBlock;
 class CLBlockArea;
@@ -47,4 +50,5 @@ void CLRecoverier::AppendInfo(void * pReserveredArea, unsigned int areaSize)
 	m_collector.AppendReservedAreaInfo(pReserveredArea, areaSize);
 }
 
+NS_END
 #endif

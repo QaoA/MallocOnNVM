@@ -3,6 +3,8 @@
 #include "CLCriticalSection.h"
 #include <cassert>
 
+NS_BEGIN
+
 CLArena::CLArena(unsigned int arenaId):
 m_arenaId(arenaId),
 m_smallManager(),
@@ -106,3 +108,5 @@ void CLArena::RecieveExtentRecovery(CLExtent * pExtent)
 		assert(pExtent->IsOccupied());
 	}
 }
+
+NS_END

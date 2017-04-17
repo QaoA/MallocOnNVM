@@ -3,6 +3,8 @@
 #include "CLNVMMemoryMapManager.h"
 #include <cassert>
 
+NS_BEGIN
+
 CLSmallExtentManager::CLSmallExtentManager():
 m_pCurrentExtent(nullptr),
 m_pLastExtent(nullptr)
@@ -244,3 +246,5 @@ size_t CLSmallExtentManager::AlignSize(size_t size)
 		return alginedSize + SMALL_OBJECT_ALIGN;
 	}
 }
+
+NS_END

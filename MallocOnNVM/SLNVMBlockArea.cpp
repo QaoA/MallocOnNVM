@@ -3,6 +3,8 @@
 #include <cstring>
 #include <cassert>
 
+NS_BEGIN
+
 unsigned int SLNVMBlockArea::GetBlockCount()
 {
 	return AREA_BLOCK_COUNT;
@@ -28,3 +30,5 @@ SLNVMBlockArea * SLNVMBlockArea::GetNextBlockAreaRecovery()
 {
 	return GetContainer(SLNVMBlockArea, m_data.m_list, m_data.m_list.GetNextRecovery());
 }
+
+NS_END

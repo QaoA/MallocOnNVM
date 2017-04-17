@@ -1,6 +1,10 @@
 #ifndef __LOCK_H__
 #define __LOCK_H__
 
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
+
 class ILLock
 {
 public:
@@ -9,4 +13,5 @@ public:
 	virtual bool TryLock() = 0;
 };
 
+NS_END
 #endif

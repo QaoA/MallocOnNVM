@@ -300,6 +300,9 @@
     <ClInclude Include="CLNameServer.h">
       <Filter>Header files\NameService</Filter>
     </ClInclude>
+    <ClInclude Include="NVMMallocNameSpace.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="MallocOnNVM-Debug.vgdbsettings" />

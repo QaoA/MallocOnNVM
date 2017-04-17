@@ -1,6 +1,8 @@
 #include "CLAllocatedExtentManager.h"
 #include "CLExtent.h"
 
+NS_BEGIN
+
 CLAllocatedExtentManager::CLAllocatedExtentManager()
 {
 }
@@ -29,3 +31,5 @@ CLExtent * CLAllocatedExtentManager::Remove(void * pNVMAddress)
 {
 	return m_extentTree.GetAndRemove(pNVMAddress);
 }
+
+NS_END

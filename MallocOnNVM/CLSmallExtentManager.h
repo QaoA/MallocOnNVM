@@ -3,7 +3,10 @@
 
 #include "CLExtentList.h"
 #include "SizeDefine.h"
+#include "NVMMallocNameSpace.h"
 #include <cstddef>
+
+NS_BEGIN
 
 class CLExtent;
 
@@ -37,4 +40,5 @@ private:
 	CLExtentList m_ExtentListArray[SMALL_OBJECT_ARRAY_SIZE];
 };
 
+NS_END
 #endif

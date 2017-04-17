@@ -3,6 +3,9 @@
 
 #include <cassert>
 #include "MacroDefine.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 struct SLNVMList
 {
@@ -64,4 +67,5 @@ SLNVMList * SLNVMList::GetNextRecovery()
 	return m_pNext;
 }
 
+NS_END
 #endif

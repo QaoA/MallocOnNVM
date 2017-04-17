@@ -3,6 +3,8 @@
 #include "CLPerArenaBlockManager.h"
 #include <cassert>
 
+NS_BEGIN
+
 CLExtent::CLExtent():
 m_adjacentList(),
 m_pNVMAddress(nullptr),
@@ -114,3 +116,5 @@ bool CLExtent::CanMerge(CLExtent * pAnotherExtent)
 //	m_size = m_pNVMBlock->GetSize();
 //	m_arenaId = m_pNVMBlock->GetArenaId();
 //}
+
+NS_END

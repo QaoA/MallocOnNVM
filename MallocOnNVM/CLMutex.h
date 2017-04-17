@@ -2,7 +2,10 @@
 #define __MUTEX_H__
 
 #include "ILLock.h"
+#include "NVMMallocNameSpace.h"
 #include <pthread.h>
+
+NS_BEGIN
 
 class CLMutex:public ILLock
 {
@@ -19,4 +22,5 @@ private:
 	pthread_mutex_t m_lock;
 };
 
+NS_END
 #endif

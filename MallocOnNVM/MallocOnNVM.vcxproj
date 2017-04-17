@@ -137,6 +137,7 @@
     <ClInclude Include="ILLock.h" />
     <ClInclude Include="MacroDefine.h" />
     <ClInclude Include="NVMMalloc.h" />
+    <ClInclude Include="NVMMallocNameSpace.h" />
     <ClInclude Include="SizeDefine.h" />
     <ClInclude Include="SLList.h" />
     <ClInclude Include="SLMemoryUseInfo.h" />

@@ -1,7 +1,10 @@
 #ifndef __EXTENT_LIST_H__
 #define __EXTENT_LIST_H__
 
+#include "NVMMallocNameSpace.h"
 #include <set>
+
+NS_BEGIN
 
 class CLExtent;
 
@@ -22,4 +25,5 @@ private:
 	std::set<CLExtent *> m_extents;
 };
 
+NS_END
 #endif

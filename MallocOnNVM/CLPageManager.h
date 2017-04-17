@@ -1,7 +1,10 @@
 #ifndef __PAGE_MANAGER_H__
 #define __PAGE_MANAGER_H__
 
+#include "NVMMallocNameSpace.h"
 #include <map>
+
+NS_BEGIN
 
 class CLPageManager
 {
@@ -21,4 +24,5 @@ private:
 	std::map<void *, unsigned int> m_pagesMap;
 };
 
+NS_END
 #endif

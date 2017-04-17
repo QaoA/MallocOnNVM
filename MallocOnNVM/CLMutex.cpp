@@ -1,5 +1,6 @@
 #include "CLMutex.h"
 
+NS_BEGIN
 CLMutex::CLMutex()
 {
 	pthread_mutex_init(&m_lock, NULL);
@@ -24,3 +25,5 @@ CLMutex::~CLMutex()
 {
 	pthread_mutex_destroy(&m_lock);
 }
+
+NS_END

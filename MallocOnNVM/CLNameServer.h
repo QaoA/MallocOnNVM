@@ -4,8 +4,11 @@
 #include "SLNVMNameServer.h"
 #include "CLLogItem.h"
 #include "CLSpinLock.h"
+#include "NVMMallocNameSpace.h"
 #include <memory>
 #include <list>
+
+NS_BEGIN
 
 class CLNameServer
 {
@@ -24,4 +27,5 @@ private:
 	std::list<int> m_availableIndexArray;
 };
 
+NS_END
 #endif

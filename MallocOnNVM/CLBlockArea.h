@@ -3,6 +3,9 @@
 
 #include <list>
 #include "SLNVMBlockArea.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 struct SLNVMBlock;
 class CLBlock;
@@ -70,4 +73,5 @@ int CLBlockArea::GetArenaId()
 	return m_arenaId;
 }
 
+NS_END
 #endif

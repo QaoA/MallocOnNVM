@@ -3,6 +3,9 @@
 
 #include "CLTLSVariable.h"
 #include "CLMutex.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 class CLArena;
 
@@ -36,4 +39,5 @@ private:
 	CLTLSVariable<CLArena> m_currentThreadArena;
 };
 
+NS_END
 #endif

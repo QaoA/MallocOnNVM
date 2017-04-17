@@ -7,6 +7,9 @@
 #include "CLPageManager.h"
 #include "CLMutex.h"
 #include "SizeDefine.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 class CLExtentList;
 class CLExtent;
@@ -57,4 +60,5 @@ void CLNVMMemoryMapManager::RecieveLastMapAddressRecovery(void * pAddress)
 	m_pLastAcquiredAddress = pAddress;
 }
 
+NS_END
 #endif

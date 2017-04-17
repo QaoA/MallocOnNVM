@@ -2,7 +2,10 @@
 #define __BLOCK_H__
 
 #include "SLNVMBlock.h"
+#include "NVMMallocNameSpace.h"
 #include <cassert>
+
+NS_BEGIN
 
 class CLBlockArea;
 class CLExtent;
@@ -62,4 +65,5 @@ inline unsigned int * CLBlock::GetNVMReferenceCountAddress()
 	return m_pNVMBlock->GetNVMReferenceCountAddress();
 }
 
+NS_END
 #endif

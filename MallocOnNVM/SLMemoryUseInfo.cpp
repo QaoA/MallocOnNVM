@@ -1,5 +1,7 @@
 #include "SLMemoryUseInfo.h"
 
+NS_BEGIN
+
 SLFreeInfo::SLFreeInfo(void * pAddress, unsigned int size):
 m_pAddress(pAddress),
 m_size(size)
@@ -29,3 +31,5 @@ m_pFreePage(new SLReservedArea(pReservedArea,areaSize)),
 m_type(MEM_RESERVE)
 {
 }
+
+NS_END

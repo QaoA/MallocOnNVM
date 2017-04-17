@@ -1,7 +1,10 @@
 #ifndef __PER_ARENA_BLOCK_AREA_MANAGER_H__
 #define __PER_ARENA_BLOCK_AREA_MANAGER_H__
 
+#include "NVMMallocNameSpace.h"
 #include <list>
+
+NS_BEGIN
 
 class CLBlockArea;
 class CLBlock;
@@ -29,4 +32,5 @@ private:
 	unsigned int m_emptyAreaCount;
 };
 
+NS_END
 #endif

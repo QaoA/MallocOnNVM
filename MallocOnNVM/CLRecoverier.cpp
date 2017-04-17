@@ -9,6 +9,8 @@
 #include "CLBaseMetadata.h"
 #include <cassert>
 
+NS_BEGIN
+
 using namespace std;
 
 CLRecoverier::CLRecoverier()
@@ -99,3 +101,5 @@ void CLRecoverier::DispatchFreeInfo(SLMemoryUseInfo * pInfo)
 	CLNVMMemoryMapManager::GetInstance()->RecieveFreePages(pInfo->m_pFreePage->m_pAddress, pInfo->m_pFreePage->m_size);
 	delete pInfo->m_pFreePage;
 }
+
+NS_END

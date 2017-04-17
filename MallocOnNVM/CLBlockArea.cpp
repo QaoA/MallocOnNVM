@@ -4,6 +4,8 @@
 #include "CLBlock.h"
 #include <cassert>
 
+NS_BEGIN
+
 CLBlockArea::CLBlockArea(SLNVMBlockArea * pNVMBlockArea) :
 m_pNVMBlockArea(pNVMBlockArea),
 m_freeBlockList(),
@@ -81,3 +83,5 @@ void CLBlockArea::Recovery(CLRecoverier & recoverier)
 		}
 	}
 }
+
+NS_END

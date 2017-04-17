@@ -1,5 +1,7 @@
 #include "CLLogArea.h"
 
+NS_BEGIN
+
 CLLogArea::CLLogArea(int index, void * pNVMAddress, unsigned int size):
 m_index(index),
 m_writeFlag(false),
@@ -51,3 +53,5 @@ void CLLogArea::Recovery(void * pLogArea)
 	}
 	*(unsigned long *)(logStartAddress) = 0;
 }
+
+NS_END

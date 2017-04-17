@@ -2,6 +2,9 @@
 #define __ALLOCATED_EXTENT_MANAGER_H__
 
 #include "CLRadixTree.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 class CLExtent;
 
@@ -23,4 +26,5 @@ private:
 	CLRadixTree<CLExtent> m_extentTree;
 };
 
+NS_END
 #endif

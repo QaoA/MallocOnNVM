@@ -9,6 +9,8 @@
 #include "CLExtent.h"
 #include "CLExtentList.h"
 
+NS_BEGIN
+
 CLNVMMemoryMapManager::CLNVMMemoryMapManager() :
 m_fd(0),
 m_pRecoveryBaseAddress(nullptr),
@@ -101,3 +103,5 @@ void CLNVMMemoryMapManager::RecieveFreePages(void * pAddress, size_t size)
 	assert(!(size&PAGE_SIZE_MASK));
 	m_pagesManager.PutPages(pAddress, size / PAGE_SIZE);
 }
+
+NS_END

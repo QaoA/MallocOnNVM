@@ -4,6 +4,9 @@
 #include "SLNVMList.h"
 #include "SizeDefine.h"
 #include "SLNVMBlock.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 #define NVM_BLOCK_AREA_SIZE PAGE_SIZE
 
@@ -31,4 +34,5 @@ public:
 
 const unsigned int AREA_BLOCK_COUNT = (sizeof(SLNVMBlockArea) - sizeof(SLNVMBlockArea::SLData) + sizeof(SLNVMBlock)) / sizeof(SLNVMBlock);
 
+NS_END
 #endif

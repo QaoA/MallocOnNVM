@@ -6,6 +6,7 @@
 #include <cassert>
 #include <limits.h>
 
+NS_BEGIN
 CLArenaManager::CLArenaManager():
 m_arenaArray(nullptr),
 m_arenaCurrentCount(0),
@@ -127,3 +128,5 @@ CLArena * CLArenaManager::TryNewAArena()
 	}
 	return pReturnArena;
 }
+
+NS_END

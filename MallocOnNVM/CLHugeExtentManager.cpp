@@ -2,7 +2,10 @@
 #include "SizeDefine.h"
 #include "CLNVMMemoryMapManager.h"
 #include "CLExtent.h"
+#include "NVMMallocNameSpace.h"
 #include <cassert>
+
+NS_BEGIN
 
 CLHugeExtentManager::CLHugeExtentManager()
 {
@@ -42,3 +45,5 @@ size_t CLHugeExtentManager::AlignSize(size_t size)
 	}
 	return size;
 }
+
+NS_END

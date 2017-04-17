@@ -2,6 +2,9 @@
 #define __CRITICAL_SECTION_H__
 
 #include "ILLock.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 class CLCriticalSection
 {
@@ -13,4 +16,5 @@ private:
 	ILLock * m_pLock;
 };
 
+NS_END
 #endif

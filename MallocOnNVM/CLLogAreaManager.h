@@ -4,8 +4,11 @@
 #include "CLSemaphore.h"
 #include "CLMutex.h"
 #include "SizeDefine.h"
+#include "NVMMallocNameSpace.h"
 #include <list>
 #include <memory>
+
+NS_BEGIN
 
 struct SLNVMLogAreaPointers;
 class CLLogArea;
@@ -31,4 +34,5 @@ private:
 	CLMutex m_lock;
 };
 
+NS_END
 #endif

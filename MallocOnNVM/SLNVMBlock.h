@@ -1,7 +1,10 @@
 #ifndef __NVM_BLOCK_H__
 #define __NVM_BLOCK_H__
 
+#include "NVMMallocNameSpace.h"
 #include <cstddef>
+
+NS_BEGIN
 
 struct SLNVMBlock
 {
@@ -58,4 +61,5 @@ int SLNVMBlock::GetArenaId()
 	return m_arenaId;
 }
 
+NS_END
 #endif

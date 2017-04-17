@@ -3,6 +3,9 @@
 
 #include <vector>
 #include "CLSpinLock.h"
+#include "NVMMallocNameSpace.h"
+
+NS_BEGIN
 
 #define SLOT_COUNT_BIT 6
 #define SLOT_COUNT (1<<SLOT_COUNT_BIT)
@@ -33,4 +36,5 @@ private:
 	CLSpinLock m_lock;
 };
 
+NS_END
 #endif

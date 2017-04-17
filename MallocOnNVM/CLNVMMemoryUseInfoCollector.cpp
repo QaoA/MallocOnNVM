@@ -6,6 +6,8 @@
 #include "CLNVMMemoryMapManager.h"
 #include <cassert>
 
+NS_BEGIN
+
 using namespace std;
 
 bool CLNVMMemoryUseInfoCollector::SLComparer::operator()(SLMemoryUseInfo * pFirst, SLMemoryUseInfo * pSecond)
@@ -131,3 +133,5 @@ SLMemoryUseInfo * CLNVMMemoryUseInfoCollector::GetUseInfoOneByOne()
 		return new SLMemoryUseInfo(pExtent);
 	}
 }
+
+NS_END

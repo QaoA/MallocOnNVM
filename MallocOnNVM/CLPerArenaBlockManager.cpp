@@ -5,6 +5,8 @@
 #include <cassert>
 #include <algorithm>
 
+NS_BEGIN
+
 using namespace std;
 
 CLPerArenaBlockManager::CLPerArenaBlockManager():
@@ -86,3 +88,5 @@ void CLPerArenaBlockManager::RecieveBlockAreaRecovery(CLBlockArea * pBlockArea)
 		m_nonFullAreaList.push_back(pBlockArea);
 	}
 }
+
+NS_END

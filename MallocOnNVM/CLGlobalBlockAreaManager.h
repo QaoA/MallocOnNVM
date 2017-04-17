@@ -2,7 +2,10 @@
 #define __GLOBAL_BLOCK_AREA_MANAGER_H__
 
 #include "CLMutex.h"
+#include "NVMMallocNameSpace.h"
 #include <list>
+
+NS_BEGIN
 
 class CLBlockArea;
 class CLRecoverier;
@@ -35,4 +38,5 @@ private:
 	CLMutex m_lock;
 };
 
+NS_END
 #endif

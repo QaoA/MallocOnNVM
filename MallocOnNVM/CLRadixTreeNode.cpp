@@ -2,6 +2,8 @@
 #include "CLCriticalSection.h"
 #include <cassert>
 
+NS_BEGIN
+
 CLRadixTreeNode::CLRadixTreeNode(const unsigned int height) :
 m_slots(SLOT_COUNT),
 m_height(height),
@@ -83,3 +85,5 @@ void * CLRadixTreeNode::Get(unsigned long key, unsigned long mask)
 		return m_slots[index].m_leaf;
 	}
 }
+
+NS_END

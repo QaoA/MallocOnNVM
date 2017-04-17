@@ -1,7 +1,10 @@
 #ifndef __LOG_ITEM_H__
 #define __LOG_ITEM_H__
 
+#include "NVMMallocNameSpace.h"
 #include <cstring>
+
+NS_BEGIN
 
 class CLLogArea;
 
@@ -37,4 +40,5 @@ inline void * CLLogItem::GetValueAddress()
 	return m_pValue;
 }
 
+NS_END
 #endif
