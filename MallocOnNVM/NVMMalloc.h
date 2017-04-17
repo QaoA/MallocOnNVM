@@ -11,6 +11,7 @@ void * MallocOnNVM(size_t size);
 void FreeOnNVM(void * pNVMAddress);
 void NotifyNVMMemoryGet(void * pNVMAddress);
 void NotifyNVMMemoryRelease(void * pNVMAddress);
+unsigned int * GetReferenceCountAddress(void * pNVMAddress);
 void Recovery();
 CLLogArea * AllocLogArea();
 void FreeLogArea(CLLogArea * pArea);

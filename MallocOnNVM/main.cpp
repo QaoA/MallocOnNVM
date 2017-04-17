@@ -16,7 +16,7 @@ void * ThreadFunc(void *)
 	for (int i = 0; i < 100; ++i)
 	{
 		addr[i] = MallocOnNVM(Random(4096));
-		NotifyNVMMemoryGet(addr[i]);
+//		NotifyNVMMemoryGet(addr[i]);
 	}
 	CLLogArea * pLogArea[3];
 	for (int i = 0; i < 3; ++i)
@@ -27,11 +27,11 @@ void * ThreadFunc(void *)
 
 int main(int argc, char *argv[])
 {
-	Recovery();
+	//Recovery();
 	//pthread_t t1, t2;
 	//pthread_create(&t1, NULL, ThreadFunc, NULL);
 	//pthread_create(&t2, NULL, ThreadFunc, NULL);
 	//pthread_join(t1, NULL);
-	//pthread_join(t2, NULL);
-	return 0;
+	////pthread_join(t2, NULL);
+	//return 0;
 } 

@@ -11,6 +11,7 @@ public:
 	inline void Format();
 	inline void IncreaseReferenceCount();
 	inline void DecreaseReferenceCount();
+	inline unsigned int * GetNVMReferenceCountAddress();
 	inline int GetArenaId();
 
 public:
@@ -45,6 +46,11 @@ void SLNVMBlock::IncreaseReferenceCount()
 void SLNVMBlock::DecreaseReferenceCount()
 {
 	--m_referenceCount;
+}
+
+inline unsigned int * SLNVMBlock::GetNVMReferenceCountAddress()
+{
+	return &m_referenceCount;
 }
 
 int SLNVMBlock::GetArenaId()

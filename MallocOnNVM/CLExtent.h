@@ -32,7 +32,7 @@ public:
 	inline unsigned int GetArenaId();
 	inline void IncreaseReferenceCount();
 	inline void DecreaseReferenceCount();
-
+	inline unsigned int * GetNVMReferenceCountAddress();
 
 public:
 	void Recovery(SLNVMBlock * pNVMBlock, CLBlockArea * pBlockArea);
@@ -104,6 +104,11 @@ void CLExtent::DecreaseReferenceCount()
 {
 	assert(m_pBlock);
 	m_pBlock->DecreaseReferenceCount();
+}
+
+inline unsigned int * CLExtent::GetNVMReferenceCountAddress()
+{
+	return m_pBlock->GetNVMReferenceCountAddress();
 }
 
 #endif

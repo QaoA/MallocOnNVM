@@ -73,9 +73,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="CLMutex.cpp">
       <Filter>Source files\Lock</Filter>
     </ClCompile>
@@ -171,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="CLNameServer.cpp">
       <Filter>Source files\NameService</Filter>
+    </ClCompile>
+    <ClCompile Include="CLLogItem.cpp">
+      <Filter>Source files\Log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

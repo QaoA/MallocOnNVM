@@ -44,8 +44,10 @@ void CLRecoverier::DispatchAllMemoryInfo()
 	SLMemoryUseInfo * pInfo = nullptr;
 	m_collector.MakeUseInfoReady();
 	CLNVMMemoryMapManager::GetInstance()->RecieveLastMapAddressRecovery(reinterpret_cast<void *>(m_collector.GetLastBoundary()));
+	int i = 0;
 	while ((pInfo = m_collector.GetUseInfoOneByOne()) != nullptr)
 	{
+		i++;
 		switch (pInfo->GetType())
 		{
 		case MEM_BLOCK:
@@ -64,6 +66,7 @@ void CLRecoverier::DispatchAllMemoryInfo()
 		}
 		delete pInfo;
 	}
+	i = 0;
 }
 
 void CLRecoverier::DispacthBlockInfo(SLMemoryUseInfo * pInfo)

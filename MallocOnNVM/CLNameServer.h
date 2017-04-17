@@ -14,7 +14,7 @@ public:
 	~CLNameServer();
 
 public:
-	std::shared_ptr<CLLogItem<sizeof(SLNameAddressPair)> > Set(SLNameAddressPair & pair, int & nameServerIndex);
+	std::shared_ptr<CLLogItem> Set(SLNameAddressPair & pair, int & nameServerIndex);
 	void * Get(char * name);
 	void SetAbort(int index);
 

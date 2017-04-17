@@ -2,12 +2,10 @@
 #define __LOG_AREA_H__
 
 #include "SizeDefine.h"
+#include "CLLogItem.h"
 #include <cstring>
 
 #define LOG_AREA_SIZE PAGE_SIZE
-
-template<int N>
-class CLLogItem;
 
 class CLLogArea
 {
@@ -21,8 +19,7 @@ public:
 	inline void SetLogAreaDataValid();
 
 public:
-	template<int N>
-	bool WriteLog(CLLogItem<N> & item);
+	bool WriteLog(CLLogItem & item);
 	bool WriteLog(void * pAddress, unsigned int size, void * value);
 
 public:
@@ -65,10 +62,9 @@ inline bool CLLogArea::CanWrite(unsigned int valueSize)
 	return true;
 }
 
-template<int N>
-inline bool CLLogArea::WriteLog(CLLogItem<N> & item)
+inline bool CLLogArea::WriteLog(CLLogItem & item)
 {
-	return this->WriteLog(item.m_address, N, item.m_values);
+	return WriteLog(item.GetAddress(), item.GetSize(), item.GetValueAddress());
 }
 
 #endif

@@ -20,6 +20,7 @@ public:
 	inline CLBlockArea * GetOwner();
 	inline void IncreaseReferenceCount();
 	inline void DecreaseReferenceCount();
+	inline unsigned int * GetNVMReferenceCountAddress();
 
 private:
 	SLNVMBlock * m_pNVMBlock;
@@ -54,6 +55,11 @@ void CLBlock::IncreaseReferenceCount()
 void CLBlock::DecreaseReferenceCount()
 {
 	m_pNVMBlock->DecreaseReferenceCount();
+}
+
+inline unsigned int * CLBlock::GetNVMReferenceCountAddress()
+{
+	return m_pNVMBlock->GetNVMReferenceCountAddress();
 }
 
 #endif

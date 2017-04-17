@@ -5,29 +5,36 @@
 
 class CLLogArea;
 
-template<int N>
 class CLLogItem
 {
-	friend class CLLogArea;
 public:
-	CLLogItem(void * pAddress, void * value);
+	CLLogItem(void * pAddress, unsigned long size, void * value, bool deleteValue = false);
 	~CLLogItem();
+
+public:
+	inline void * GetAddress();
+	inline unsigned long GetSize();
+	inline void * GetValueAddress();
 
 private:
 	void * m_address;
-	char m_values[N];
+	unsigned long m_size;
+	void * m_pValue;
 };
 
-template<int N>
-CLLogItem<N>::CLLogItem(void * pAddress, void * value) :
-	m_address(pAddress)
+inline void * CLLogItem::GetAddress()
 {
-	memcpy(&m_values, value, N);
+	return (void *)((unsigned long)m_address & 0x1);
 }
 
-template<int N>
-CLLogItem<N>::~CLLogItem()
+inline unsigned long CLLogItem::GetSize()
 {
+	return m_size;
+}
+
+inline void * CLLogItem::GetValueAddress()
+{
+	return m_pValue;
 }
 
 #endif

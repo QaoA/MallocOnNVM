@@ -84,6 +84,7 @@
     <ClCompile Include="CLLargeExtenttManager.cpp" />
     <ClCompile Include="CLLogArea.cpp" />
     <ClCompile Include="CLLogAreaManager.cpp" />
+    <ClCompile Include="CLLogItem.cpp" />
     <ClCompile Include="CLMutex.cpp" />
     <ClCompile Include="CLNameServer.cpp" />
     <ClCompile Include="CLNVMMemoryMapManager.cpp" />
@@ -96,7 +97,6 @@
     <ClCompile Include="CLSmallExtentManager.cpp" />
     <ClCompile Include="CLSpinLock.cpp" />
     <ClCompile Include="CLSystemException.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="NVMMalloc.cpp" />
     <ClCompile Include="SLList.cpp" />
     <ClCompile Include="SLMemoryUseInfo.cpp" />

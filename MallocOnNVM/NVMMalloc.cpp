@@ -50,6 +50,19 @@ void NotifyNVMMemoryRelease(void * pNVMAddress)
 	}
 }
 
+unsigned int * GetReferenceCountAddress(void * pNVMAddress)
+{
+	CLExtent * pExtent = CLAllocatedExtentManager::GetInstance()->Get(pNVMAddress);
+	if (pExtent)
+	{
+		return pExtent->GetNVMReferenceCountAddress();
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
 void Recovery()
 {
 	CLRecoverier r;

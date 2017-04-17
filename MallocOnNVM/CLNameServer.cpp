@@ -22,7 +22,7 @@ CLNameServer::~CLNameServer()
 {
 }
 
-std::shared_ptr<CLLogItem<sizeof(SLNameAddressPair)>> CLNameServer::Set(SLNameAddressPair & pair, int & nameServerIndex)
+std::shared_ptr<CLLogItem> CLNameServer::Set(SLNameAddressPair & pair, int & nameServerIndex)
 {
 	CLCriticalSection cs(&m_lock);
 	int index = -1;
@@ -38,13 +38,15 @@ std::shared_ptr<CLLogItem<sizeof(SLNameAddressPair)>> CLNameServer::Set(SLNameAd
 	{
 		if (m_availableIndexArray.empty())
 		{
-			return shared_ptr<CLLogItem<sizeof(SLNameAddressPair)> >();
+			return shared_ptr<CLLogItem>();
 		}
 		index = m_availableIndexArray.front();
 		m_availableIndexArray.pop_front();
 		nameServerIndex = index;
 	}
-	return shared_ptr<CLLogItem<sizeof(SLNameAddressPair)> >(new CLLogItem<sizeof(SLNameAddressPair)>(&m_pNameServer->m_pairs[index], &pair));
+	char * newPair = new char[sizeof(SLNameAddressPair)];
+	memcpy(newPair, &pair, sizeof(SLNameAddressPair));
+	return shared_ptr<CLLogItem>(new CLLogItem(&m_pNameServer->m_pairs[index], sizeof(SLNameAddressPair), newPair,true));
 }
 
 void * CLNameServer::Get(char * name)
