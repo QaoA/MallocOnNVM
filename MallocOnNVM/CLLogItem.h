@@ -27,7 +27,7 @@ private:
 
 inline void * CLLogItem::GetAddress()
 {
-	return (void *)((unsigned long)m_address & 0x1);
+	return (void *)((unsigned long)m_address & (~0x1));
 }
 
 inline unsigned long CLLogItem::GetSize()

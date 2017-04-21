@@ -19,9 +19,9 @@ public:
 
 public:
 	unsigned int m_referenceCount;
+	unsigned int m_arenaId;
 	size_t m_size;
 	void * m_pAddress;
-	unsigned int m_arenaId;
 };
 
 void SLNVMBlock::SetData(void * pAddress, size_t size, unsigned int arenaId)
