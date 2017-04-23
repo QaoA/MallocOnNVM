@@ -18,22 +18,19 @@ public:
 
 public:
 	inline int GetIndex();
-	inline void SetLogAreaDataInvalid();
-	inline void SetLogAreaDataValid();
+	inline void WriteLogStart();
+	inline void WriteLog(CLLogItem & logItem);
+	inline void WriteLog(void * pAddress, unsigned long size, void * pValue);
+	inline void WriteLogEnd();
 
 public:
-	bool WriteLog(CLLogItem & item);
-	bool WriteLog(void * pAddress, unsigned int size, void * value);
+	unsigned long TryGetAndIncreaseCurrentWriteAddress(unsigned long writeLogSize);
 
 public:
 	static void Recovery(void * pLogArea);
 
 private:
-	inline bool CanWrite(unsigned int valueSize);
-
-private:
 	int m_index;
-	bool m_writeFlag;
 	void * m_pStartAddress;
 	unsigned long m_pCurrentWriteAddress;
 };
@@ -43,31 +40,26 @@ inline int CLLogArea::GetIndex()
 	return m_index;
 }
 
-inline void CLLogArea::SetLogAreaDataInvalid()
+inline void CLLogArea::WriteLogStart()
 {
-	*(unsigned long *)(m_pStartAddress) = 0;
-	m_writeFlag = true;
+	*(unsigned long *)m_pStartAddress = 0;
 }
 
-inline void CLLogArea::SetLogAreaDataValid()
+inline void CLLogArea::WriteLog(CLLogItem & logItem)
 {
-	*(unsigned long *)(m_pStartAddress) = (~0);
-	m_writeFlag = false;
+	logItem.WriteLog(this);
 }
 
-inline bool CLLogArea::CanWrite(unsigned int valueSize)
+inline void CLLogArea::WriteLog(void * pAddress, unsigned long size, void * pValue)
 {
-	unsigned int writtedSize = reinterpret_cast<unsigned long>(m_pCurrentWriteAddress) - reinterpret_cast<unsigned long>(m_pStartAddress);
-	if ((valueSize + writtedSize) > LOG_AREA_SIZE)
-	{
-		return false;
-	}
-	return true;
+	CLLogItem item(pAddress, size, pValue);
+	item.WriteLog(this);
 }
 
-inline bool CLLogArea::WriteLog(CLLogItem & item)
+inline void CLLogArea::WriteLogEnd()
 {
-	return WriteLog(item.GetAddress(), item.GetSize(), item.GetValueAddress());
+	*(unsigned long *)m_pCurrentWriteAddress = 0;
+	*(unsigned long *)m_pStartAddress = (~0);
 }
 
 NS_END

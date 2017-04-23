@@ -1,10 +1,10 @@
 #include "CLLogArea.h"
+#include <cassert>
 
 NS_BEGIN
 
 CLLogArea::CLLogArea(int index, void * pNVMAddress, unsigned int size):
 m_index(index),
-m_writeFlag(false),
 m_pStartAddress(pNVMAddress),
 m_pCurrentWriteAddress(((unsigned long)m_pStartAddress) + sizeof(unsigned long))
 {
@@ -14,44 +14,27 @@ CLLogArea::~CLLogArea()
 {
 }
 
-bool CLLogArea::WriteLog(void * pAddress, unsigned int size, void * value)
+unsigned long CLLogArea::TryGetAndIncreaseCurrentWriteAddress(unsigned long writeLogSize)
 {
-	if (!m_writeFlag)
+	unsigned long writtenSize = m_pCurrentWriteAddress - (unsigned long)(m_pStartAddress);
+	if ((writtenSize + writeLogSize) >= (LOG_AREA_SIZE - sizeof(unsigned long)))
 	{
-		return false;
+		return 0;
 	}
-	if (CanWrite(size + sizeof(void *) + sizeof(unsigned int)))
-	{
-		*(void **)(m_pCurrentWriteAddress) = pAddress;
-		m_pCurrentWriteAddress += sizeof(void *);
-		*(unsigned int *)(m_pCurrentWriteAddress) = size;
-		m_pCurrentWriteAddress += sizeof(unsigned int);
-		memcpy((void *)(m_pCurrentWriteAddress), value, size);
-		m_pCurrentWriteAddress += size;
-		*(void **)(m_pCurrentWriteAddress) = nullptr;
-		return true;
-	}
-	return false;
+	unsigned long oldCurrentWriteAddress = m_pCurrentWriteAddress;
+	m_pCurrentWriteAddress += writeLogSize;
+	return oldCurrentWriteAddress;
 }
 
 void CLLogArea::Recovery(void * pLogArea)
 {
-	unsigned long logStartAddress = (unsigned long)(pLogArea)+sizeof(unsigned long);
-	unsigned long validFlag = *(unsigned long *)(logStartAddress);
+	assert(pLogArea);
+	unsigned long validFlag = *(unsigned long *)pLogArea;
 	if (validFlag == 0)
 	{
 		return;
 	}
-	while (*(void **)(logStartAddress) != nullptr)
-	{
-		void * pAddress = *(void **)(logStartAddress);
-		logStartAddress += sizeof(void *);
-		unsigned int size = *(unsigned int *)(logStartAddress);
-		logStartAddress += sizeof(unsigned int);
-		memcpy((void *)pAddress, (void *)logStartAddress, size);
-		logStartAddress += size;
-	}
-	*(unsigned long *)(logStartAddress) = 0;
+	CLLogItem::Recovery((unsigned long)pLogArea + sizeof(unsigned long));
 }
 
 NS_END

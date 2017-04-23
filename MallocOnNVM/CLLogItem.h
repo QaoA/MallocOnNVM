@@ -12,32 +12,30 @@ class CLLogItem
 {
 public:
 	CLLogItem(void * pAddress, unsigned long size, void * value, bool deleteValue = false);
+	CLLogItem(void * pAddress, unsigned long size, char * pValue);
 	~CLLogItem();
 
 public:
+	bool WriteLog(CLLogArea * pLogArea);
+	void SetValues();
+	static void Recovery(unsigned long logStartAddress);
+
+private:
 	inline void * GetAddress();
-	inline unsigned long GetSize();
-	inline void * GetValueAddress();
 
 private:
 	void * m_address;
 	unsigned long m_size;
-	void * m_pValue;
+	union
+	{
+		void * m_pValue;
+		char m_value[sizeof(void *)];
+	};
 };
 
 inline void * CLLogItem::GetAddress()
 {
 	return (void *)((unsigned long)m_address & (~0x1));
-}
-
-inline unsigned long CLLogItem::GetSize()
-{
-	return m_size;
-}
-
-inline void * CLLogItem::GetValueAddress()
-{
-	return m_pValue;
 }
 
 NS_END
