@@ -15,12 +15,32 @@ m_pValue(value)
 	}
 }
 
-CLLogItem::CLLogItem(void * pAddress, unsigned long size, char * value):
+CLLogItem::CLLogItem(void * pAddress, uint64_t value):
 m_address(pAddress),
-m_size(size)
+m_size(sizeof(value)),
+m_u64Value(value)
 {
-	assert(size <= sizeof(unsigned long));
-	memcpy(m_address, value, size);
+}
+
+CLLogItem::CLLogItem(void * pAddress, uint32_t value):
+m_address(pAddress),
+m_size(sizeof(value)),
+m_u32Value(value)
+{
+}
+
+CLLogItem::CLLogItem(void * pAddress, uint16_t value):
+m_address(pAddress),
+m_size(sizeof(value)),
+m_u16Value(value)
+{
+}
+
+CLLogItem::CLLogItem(void * pAddress, uint8_t value):
+m_address(pAddress),
+m_size(sizeof(value)),
+m_u8Value(value)
+{
 }
 
 CLLogItem::~CLLogItem()
@@ -47,7 +67,23 @@ bool CLLogItem::WriteLog(CLLogArea * pLogArea)
 	pLogWriteStartAddress += sizeof(unsigned long);
 	if (m_size <= sizeof(void *))
 	{
-		memcpy((void *)pLogWriteStartAddress, m_value, m_size);
+		switch (m_size)
+		{
+		case sizeof(uint64_t) :
+			*(uint64_t *)pLogWriteStartAddress = m_u64Value;
+			break;
+		case sizeof(uint32_t) :
+			*(uint32_t *)pLogWriteStartAddress = m_u32Value;
+			break;
+		case sizeof(uint16_t) :
+			*(uint16_t *)pLogWriteStartAddress = m_u16Value;
+			break;
+		case sizeof(uint8_t) :
+			*(uint8_t *)pLogWriteStartAddress = m_u8Value;
+			break;
+		default:
+			break;
+		}
 	}
 	else
 	{
@@ -60,7 +96,23 @@ void CLLogItem::SetValues()
 {
 	if (m_size <= sizeof(void *))
 	{
-		memcpy((void *)m_address, m_value, m_size);
+		switch (m_size)
+		{
+		case sizeof(uint64_t) :
+			*(uint64_t *)m_address = m_u64Value;
+			break;
+		case sizeof(uint32_t) :
+			*(uint32_t *)m_address = m_u32Value;
+			break;
+		case sizeof(uint16_t) :
+			*(uint16_t *)m_address = m_u16Value;
+			break;
+		case sizeof(uint8_t) :
+			*(uint8_t *)m_address = m_u8Value;
+			break;
+		default:
+			break;
+		}
 	}
 	else
 	{

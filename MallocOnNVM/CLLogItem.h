@@ -2,6 +2,7 @@
 #define __LOG_ITEM_H__
 
 #include "NVMMallocNameSpace.h"
+#include <stdint.h>
 #include <cstring>
 
 NS_BEGIN
@@ -12,7 +13,10 @@ class CLLogItem
 {
 public:
 	CLLogItem(void * pAddress, unsigned long size, void * value, bool deleteValue = false);
-	CLLogItem(void * pAddress, unsigned long size, char * pValue);
+	CLLogItem(void * pAddress, uint64_t value);
+	CLLogItem(void * pAddress, uint32_t value);
+	CLLogItem(void * pAddress, uint16_t value);
+	CLLogItem(void * pAddress, uint8_t value);
 	~CLLogItem();
 
 public:
@@ -29,7 +33,10 @@ private:
 	union
 	{
 		void * m_pValue;
-		char m_value[sizeof(void *)];
+		uint64_t m_u64Value;
+		uint32_t m_u32Value;
+		uint16_t m_u16Value;
+		uint8_t m_u8Value;
 	};
 };
 
