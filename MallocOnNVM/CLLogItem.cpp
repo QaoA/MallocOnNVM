@@ -81,6 +81,7 @@ void CLLogItem::Recovery(unsigned long logStartAddress)
 		unsigned long size = *(unsigned long *)(logStartAddress);
 		logStartAddress += sizeof(unsigned long);
 		memcpy(pAddress, (void *)logStartAddress, size);
+		logStartAddress += size;
 	} while (true);
 }
 
