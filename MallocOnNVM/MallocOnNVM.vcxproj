@@ -86,7 +86,7 @@
     <ClCompile Include="CLLogAreaManager.cpp" />
     <ClCompile Include="CLLogItem.cpp" />
     <ClCompile Include="CLMutex.cpp" />
-    <ClCompile Include="CLNameServer.cpp" />
+    <ClCompile Include="CLNameServerArea.cpp" />
     <ClCompile Include="CLNVMMemoryMapManager.cpp" />
     <ClCompile Include="CLNVMMemoryUseInfoCollector.cpp" />
     <ClCompile Include="CLPageManager.cpp" />
@@ -94,6 +94,7 @@
     <ClCompile Include="CLRadixTreeNode.cpp" />
     <ClCompile Include="CLRecoverier.cpp" />
     <ClCompile Include="CLSemaphore.cpp" />
+    <ClCompile Include="CLSharedMemory.cpp" />
     <ClCompile Include="CLSmallExtentManager.cpp" />
     <ClCompile Include="CLSpinLock.cpp" />
     <ClCompile Include="CLSystemException.cpp" />
@@ -121,7 +122,7 @@
     <ClInclude Include="CLLogAreaManager.h" />
     <ClInclude Include="CLLogItem.h" />
     <ClInclude Include="CLMutex.h" />
-    <ClInclude Include="CLNameServer.h" />
+    <ClInclude Include="CLNameServerArea.h" />
     <ClInclude Include="CLNVMMemoryMapManager.h" />
     <ClInclude Include="CLNVMMemoryUseInfoCollector.h" />
     <ClInclude Include="CLPageManager.h" />
@@ -130,6 +131,7 @@
     <ClInclude Include="CLRadixTreeNode.h" />
     <ClInclude Include="CLRecoverier.h" />
     <ClInclude Include="CLSemaphore.h" />
+    <ClInclude Include="CLSharedMemory.h" />
     <ClInclude Include="CLSmallExtentManager.h" />
     <ClInclude Include="CLSpinLock.h" />
     <ClInclude Include="CLSystemException.h" />
@@ -141,13 +143,12 @@
     <ClInclude Include="SizeDefine.h" />
     <ClInclude Include="SLList.h" />
     <ClInclude Include="SLMemoryUseInfo.h" />
-    <ClInclude Include="SLNameAddressPair.h" />
-    <ClInclude Include="SLNVMNameServer.h" />
     <ClInclude Include="SLNVMBaseMetadata.h" />
     <ClInclude Include="SLNVMBlock.h" />
     <ClInclude Include="SLNVMBlockArea.h" />
     <ClInclude Include="SLNVMList.h" />
     <ClInclude Include="SLNVMLogAreaPointers.h" />
+    <ClInclude Include="SLNVMNameServerArea.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

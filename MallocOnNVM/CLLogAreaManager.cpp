@@ -35,9 +35,8 @@ void CLLogAreaManager::Recovery(CLRecoverier & recoverier)
 		void * pCurrentArea = m_pNVMLogAreaPointers->m_logAreaArray[i];
 		if (pCurrentArea != nullptr)
 		{
-			CLLogArea tmp(i, pCurrentArea, LOG_AREA_SIZE);
 			CLLogArea::Recovery(pCurrentArea);
-			recoverier.AppendInfo(pCurrentArea, LOG_AREA_SIZE);
+			recoverier.AppendInfo(pCurrentArea, CLLogArea::GetLogAreaSize());
 		}
 	}
 }
@@ -53,13 +52,13 @@ CLLogArea * CLLogAreaManager::GetArea()
 		pCurrentArea = m_pNVMLogAreaPointers->m_logAreaArray[index];
 		if (pCurrentArea == nullptr)
 		{
-			pCurrentArea = CLNVMMemoryMapManager::GetInstance()->MapMemory(LOG_AREA_SIZE);
+			pCurrentArea = CLNVMMemoryMapManager::GetInstance()->MapMemory(CLLogArea::GetLogAreaSize());
 			assert(pCurrentArea);
 			m_pNVMLogAreaPointers->m_logAreaArray[index] = pCurrentArea;
 		}
 		m_freeLogAreaArray.pop_front();
 	}
-	return new CLLogArea(index, pCurrentArea, LOG_AREA_SIZE);
+	return new CLLogArea(index, pCurrentArea, CLLogArea::GetLogAreaSize());
 }
 
 void CLLogAreaManager::FreeArea(CLLogArea * pLogArea)

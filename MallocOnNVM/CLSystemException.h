@@ -8,6 +8,8 @@ NS_BEGIN
 #define FILE_OPEN_ERROR 0
 #define FILE_MAP_ERROR 1
 #define FILE_MAP_ADDRESS_ERROR 2
+#define SHM_OPEN_ERROR 3
+#define SHM_TRUNCATE_ERROR 4
 
 class CLSystemException
 {

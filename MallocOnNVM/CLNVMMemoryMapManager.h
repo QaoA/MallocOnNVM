@@ -3,9 +3,9 @@
 
 #include <cstddef>
 #include <set>
-#include <sys/mman.h>
 #include "CLPageManager.h"
 #include "CLMutex.h"
+#include "CLSharedMemory.h"
 #include "SizeDefine.h"
 #include "NVMMallocNameSpace.h"
 
@@ -36,13 +36,13 @@ public:
 	inline void RecieveLastMapAddressRecovery(void * pAddress);
 
 private:
-	int m_fd;
 	void * m_pRecoveryBaseAddress;
 	void * m_pBaseAddress;
 	void * m_pLastAcquiredAddress;
 	CLBaseMetadata * m_pBaseMetadata;
 	CLPageManager m_pagesManager;
 	CLMutex m_mutex;
+	CLSharedMemory m_NVMEmulator;
 };
 
 CLBaseMetadata * CLNVMMemoryMapManager::GetBaseMetadata()

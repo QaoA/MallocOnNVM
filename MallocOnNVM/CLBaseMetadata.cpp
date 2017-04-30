@@ -7,7 +7,7 @@ NS_BEGIN
 CLBaseMetadata::CLBaseMetadata(SLNVMBaseMetadata * pBaseData) :
 m_baseData(pBaseData),
 m_logAreaManager(&pBaseData->m_data.m_logAreaPointers),
-m_nameServer(&pBaseData->m_data.m_nameServer)
+m_nameServerArea(&pBaseData->m_data.m_nameServer)
 {
 }
 
@@ -37,9 +37,9 @@ CLLogAreaManager * CLBaseMetadata::GetLogAreaManager()
 	return &m_logAreaManager;
 }
 
-CLNameServer * CLBaseMetadata::GetNameServer()
+CLNameServerArea * CLBaseMetadata::GetNameServer()
 {
-	return &m_nameServer;
+	return &m_nameServerArea;
 }
 
 unsigned long CLBaseMetadata::GetMetadataSize()

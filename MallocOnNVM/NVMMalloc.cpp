@@ -82,7 +82,7 @@ void FreeLogArea(CLLogArea * pArea)
 	CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->GetLogAreaManager()->FreeArea(pArea);
 }
 
-CLNameServer * GetNameServer()
+CLNameServerArea * GetNameServer()
 {
 	return CLNVMMemoryMapManager::GetInstance()->GetBaseMetadata()->GetNameServer();
 }

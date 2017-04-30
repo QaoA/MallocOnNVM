@@ -166,11 +166,14 @@
     <ClCompile Include="SLNVMLogAreaPointers.cpp">
       <Filter>Source files\Log</Filter>
     </ClCompile>
-    <ClCompile Include="CLNameServer.cpp">
-      <Filter>Source files\NameService</Filter>
-    </ClCompile>
     <ClCompile Include="CLLogItem.cpp">
       <Filter>Source files\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="CLSharedMemory.cpp">
+      <Filter>Source files\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="CLNameServerArea.cpp">
+      <Filter>Source files\NameService</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,17 +294,17 @@
     <ClInclude Include="CLLogItem.h">
       <Filter>Header files\Log</Filter>
     </ClInclude>
-    <ClInclude Include="SLNVMNameServer.h">
-      <Filter>Header files\NameService</Filter>
-    </ClInclude>
-    <ClInclude Include="SLNameAddressPair.h">
-      <Filter>Header files\NameService</Filter>
-    </ClInclude>
-    <ClInclude Include="CLNameServer.h">
-      <Filter>Header files\NameService</Filter>
-    </ClInclude>
     <ClInclude Include="NVMMallocNameSpace.h">
       <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLSharedMemory.h">
+      <Filter>Header files\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="CLNameServerArea.h">
+      <Filter>Header files\NameService</Filter>
+    </ClInclude>
+    <ClInclude Include="SLNVMNameServerArea.h">
+      <Filter>Header files\NameService</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

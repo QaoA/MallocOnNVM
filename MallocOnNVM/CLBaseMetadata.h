@@ -2,7 +2,7 @@
 #define __BASE_METADATA_H__
 
 #include "CLLogAreaManager.h"
-#include "CLNameServer.h"
+#include "CLNameServerArea.h"
 #include "NVMMallocNameSpace.h"
 
 NS_BEGIN
@@ -22,7 +22,7 @@ public:
 	SLNVMBlockArea * GetFirstBlockArea();
 	void SetFirstBlockArea(SLNVMBlockArea * pFirstArea);
 	CLLogAreaManager * GetLogAreaManager();
-	CLNameServer * GetNameServer();
+	CLNameServerArea * GetNameServer();
 
 public:
 	static unsigned long GetMetadataSize();
@@ -30,7 +30,7 @@ public:
 private:
 	SLNVMBaseMetadata * m_baseData;
 	CLLogAreaManager m_logAreaManager;
-	CLNameServer m_nameServer;
+	CLNameServerArea m_nameServerArea;
 };
 
 NS_END

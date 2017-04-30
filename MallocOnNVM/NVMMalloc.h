@@ -8,7 +8,7 @@
 NS_BEGIN
 
 class CLLogArea;
-class CLNameServer;
+class CLNameServerArea;
 
 void * MallocOnNVM(size_t size);
 void FreeOnNVM(void * pNVMAddress);
@@ -18,7 +18,7 @@ unsigned int * GetReferenceCountAddress(void * pNVMAddress);
 void Recovery();
 CLLogArea * AllocLogArea();
 void FreeLogArea(CLLogArea * pArea);
-CLNameServer * GetNameServer();
+CLNameServerArea * GetNameServer();
 
 NS_END
 #endif

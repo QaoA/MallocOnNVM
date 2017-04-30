@@ -1,7 +1,10 @@
 #include "CLLogArea.h"
+#include "SizeDefine.h"
 #include <cassert>
 
 NS_BEGIN
+
+#define LOG_AREA_SIZE PAGE_SIZE
 
 CLLogArea::CLLogArea(int index, void * pNVMAddress, unsigned int size):
 m_index(index),
@@ -35,6 +38,11 @@ void CLLogArea::Recovery(void * pLogArea)
 		return;
 	}
 	CLLogItem::Recovery((unsigned long)pLogArea + sizeof(unsigned long));
+}
+
+unsigned int CLLogArea::GetLogAreaSize()
+{
+	return LOG_AREA_SIZE;
 }
 
 NS_END

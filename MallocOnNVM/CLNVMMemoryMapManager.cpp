@@ -1,38 +1,24 @@
 #include "CLNVMMemoryMapManager.h"
-#include <cstdlib>
-#include <cassert>
-#include <fcntl.h>
-#include <unistd.h>
-#include "CLSystemException.h"
 #include "CLCriticalSection.h"
 #include "CLBaseMetadata.h"
 #include "CLExtent.h"
 #include "CLExtentList.h"
+#include <cstdlib>
+#include <cassert>
+#include <string>
 
 NS_BEGIN
 
 CLNVMMemoryMapManager::CLNVMMemoryMapManager() :
-m_fd(0),
 m_pRecoveryBaseAddress(nullptr),
 m_pBaseAddress(nullptr),
 m_pLastAcquiredAddress(nullptr),
 m_pBaseMetadata(nullptr),
 m_pagesManager(),
-m_mutex()
+m_mutex(),
+m_NVMEmulator(std::string("NVMTEST"),1<<23,MMAP_BASE_ADDRESS)
 {
-	m_fd = open("/home/mq/forNVMmalloc.txt", O_RDWR);
-	if (m_fd == -1)
-	{
-		throw CLSystemException(FILE_OPEN_ERROR);
-	}
-	if ((m_pBaseAddress = mmap(const_cast<void *>(MMAP_BASE_ADDRESS), MMAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, m_fd, 0)) == MAP_FAILED)
-	{
-		throw CLSystemException(FILE_MAP_ERROR);
-	}
-	if (m_pBaseAddress != MMAP_BASE_ADDRESS)
-	{
-		throw CLSystemException(FILE_MAP_ADDRESS_ERROR);
-	}
+	m_pBaseAddress = m_NVMEmulator.GetMappedAddress();
 	m_pBaseMetadata = new CLBaseMetadata(static_cast<SLNVMBaseMetadata*>(m_pBaseAddress));
 	m_pRecoveryBaseAddress = reinterpret_cast<void *>(reinterpret_cast<unsigned long>(m_pBaseAddress)+CLBaseMetadata::GetMetadataSize());
 	m_pLastAcquiredAddress = m_pRecoveryBaseAddress;
@@ -41,8 +27,6 @@ m_mutex()
 CLNVMMemoryMapManager::~CLNVMMemoryMapManager()
 {
 	delete m_pBaseMetadata;
-	munmap(m_pBaseAddress, MMAP_SIZE);
-	close(m_fd);
 }
 
 CLNVMMemoryMapManager * CLNVMMemoryMapManager::GetInstance()

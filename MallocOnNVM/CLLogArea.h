@@ -1,14 +1,11 @@
 #ifndef __LOG_AREA_H__
 #define __LOG_AREA_H__
 
-#include "SizeDefine.h"
 #include "CLLogItem.h"
 #include "NVMMallocNameSpace.h"
 #include <cstring>
 
 NS_BEGIN
-
-#define LOG_AREA_SIZE PAGE_SIZE
 
 class CLLogArea
 {
@@ -19,8 +16,7 @@ public:
 public:
 	inline int GetIndex();
 	inline void WriteLogStart();
-	inline void WriteLog(CLLogItem & logItem);
-	inline void WriteLog(void * pAddress, unsigned long size, void * pValue);
+	inline void WriteLog(CLLogItem & item);
 	inline void WriteLogEnd();
 
 public:
@@ -28,6 +24,7 @@ public:
 
 public:
 	static void Recovery(void * pLogArea);
+	static unsigned int GetLogAreaSize();
 
 private:
 	int m_index;
@@ -45,14 +42,8 @@ inline void CLLogArea::WriteLogStart()
 	*(unsigned long *)m_pStartAddress = 0;
 }
 
-inline void CLLogArea::WriteLog(CLLogItem & logItem)
+inline void CLLogArea::WriteLog(CLLogItem & item)
 {
-	logItem.WriteLog(this);
-}
-
-inline void CLLogArea::WriteLog(void * pAddress, unsigned long size, void * pValue)
-{
-	CLLogItem item(pAddress, size, pValue);
 	item.WriteLog(this);
 }
 

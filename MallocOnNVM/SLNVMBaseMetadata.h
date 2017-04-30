@@ -3,7 +3,7 @@
 
 #include "SizeDefine.h"
 #include "SLNVMLogAreaPointers.h"
-#include "SLNVMNameServer.h"
+#include "SLNVMNameServerArea.h"
 #include "NVMMallocNameSpace.h"
 #include <cstddef>
 
@@ -26,7 +26,7 @@ private:
 	{
 		SLNVMBlockArea * m_pFirstArea;
 		SLNVMLogAreaPointers m_logAreaPointers;
-		SLNVMNameServer m_nameServer;
+		SLNVMNameServerArea m_nameServer;
 	};
 	union
 	{

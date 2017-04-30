@@ -23,7 +23,7 @@ LINUX_PACKAGES :=
 CFLAGS := -ggdb -ffunction-sections -O0
 CXXFLAGS := -std=gnu++11 -ggdb -ffunction-sections -O0
 ASFLAGS := 
-LDFLAGS := -Wl,-gc-sections -pthread
+LDFLAGS := -Wl,-gc-sections -pthread -lrt
 COMMONFLAGS := 
 LINKER_SCRIPT := 
 
