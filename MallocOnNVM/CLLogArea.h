@@ -18,6 +18,7 @@ public:
 	inline void WriteLogStart();
 	inline void WriteLog(CLLogItem & item);
 	inline void WriteLogEnd();
+	inline void SetValueEnd();
 
 public:
 	unsigned long TryGetAndIncreaseCurrentWriteAddress(unsigned long writeLogSize);
@@ -51,6 +52,11 @@ inline void CLLogArea::WriteLogEnd()
 {
 	*(unsigned long *)m_pCurrentWriteAddress = 0;
 	*(unsigned long *)m_pStartAddress = (~0);
+}
+
+inline void CLLogArea::SetValueEnd()
+{
+	*(unsigned long *)m_pStartAddress = 0;
 }
 
 NS_END

@@ -13,7 +13,7 @@ m_sharedMemorySize(sharedMemorySize),
 m_mmapStartAddress(nullptr),
 m_fd(-1)
 {
-	m_fd = shm_open(m_sharedMemoryName.c_str(), O_RDWR, 00777);
+	m_fd = shm_open(m_sharedMemoryName.c_str(), O_RDWR|O_CREAT, 00777);
 	if (m_fd == -1)
 	{
 		throw CLSystemException(SHM_OPEN_ERROR);
@@ -39,6 +39,7 @@ m_fd(-1)
 CLSharedMemory::~CLSharedMemory()
 {
 	munmap(m_mmapStartAddress, m_sharedMemorySize);
+	shm_unlink(m_sharedMemoryName.c_str());
 }
 
 NS_END
